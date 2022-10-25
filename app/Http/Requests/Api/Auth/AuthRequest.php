@@ -3,9 +3,9 @@
 namespace App\Http\Requests\Api\Auth;
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\BaseFormRequest;
 
-class AuthRequest extends FormRequest
+class AuthRequest extends BaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,9 +29,10 @@ class AuthRequest extends FormRequest
         if ($methodName == 'register') {
 
             return [
-                'name' => 'required|string|max:255',
+                'first_name' => 'required|string|max:255',
+                'last_name' => 'required|string|max:255',
                 'email' => 'required|email|max:255|unique:users,email',
-                'username' => 'required|string|max:255|unique:users,username|alpha_dash',
+                'username' => 'required|string|alpha_dash|max:255|unique:users,username|alpha_dash',
                 'password' => 'required|string|max:255',
                 'device_name' => 'string|max:255',
             ];

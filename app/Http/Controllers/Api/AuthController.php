@@ -7,9 +7,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Requests\Api\Auth\AuthRequest;
 use PhpParser\Node\Expr\BinaryOp\Equal;
+use App\Http\Resources\Api\UserResource;
 use PhpParser\Node\Expr\BinaryOp\NotEqual;
+use App\Http\Requests\Api\Auth\AuthRequest;
 
 class AuthController extends Controller
 {
@@ -23,12 +24,16 @@ class AuthController extends Controller
     {
         $user = User::create($request->validated());
 
+        $user->profile()->create($request->only('first_name', 'last_name'));
+
+        $userResource = new UserResource($user);
+
         $token = $user->createToken($request->post('device_name', $request->userAgent()))->plainTextToken;
 
         $message = 'User Created Successfully';
 
         $data = [
-            'user' => $user,
+            'user' => $userResource,
             'token' => $token
         ];
 
@@ -47,12 +52,14 @@ class AuthController extends Controller
             return jsonResponse(false, $message);
         }
 
+        $userResource = new UserResource($user);
+
         $token = $user->createToken($request->post('device_name', $request->userAgent()))->plainTextToken;
 
         $message = 'User Login Successfully';
 
         $data = [
-            'user' => $user,
+            'user' => $userResource,
             'token' => $token
         ];
 

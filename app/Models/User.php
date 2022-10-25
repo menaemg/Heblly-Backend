@@ -6,14 +6,15 @@ namespace App\Models;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Notifications\Notifiable;
+use Overtrue\LaravelFollow\Traits\Follower;
+use Overtrue\LaravelFollow\Traits\Followable;
 use App\Notifications\ResetPasswordNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Support\Facades\Request;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, Follower, Followable;
 
     /**
      * The attributes that are mass assignable.
@@ -21,7 +22,6 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
         'username',
         'email',
         'password',
@@ -56,5 +56,52 @@ class User extends Authenticatable
         $url = config('client.url') . '/password/reset/' . Hash::make($token);
 
         $this->notify(new ResetPasswordNotification($url));
+    }
+
+    public function getFullNameAttribute()
+    {
+        return $this->profile->first_name . ' ' . $this->profile->last_name;
+    }
+
+    public function needsToApproveFollowRequests()
+    {
+        return (bool) true;
+    }
+
+    public function profile()
+    {
+        return $this->hasOne(Profile::class)
+            ->withDefault([
+                'name' => $this->name,
+                'username' => $this->username,
+                'email' => $this->email,
+                'first_name' => '',
+                'last_name' => '',
+                'bio' => '',
+                'phone' => '',
+                'image' => '',
+                'address' => '',
+                'city' => '',
+                'state' => '',
+                'country' => '',
+                'zip' => '',
+                'local' => '',
+                'privacy' => 'public',
+            ]);
+    }
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+
+    public function gifts()
+    {
+        return $this->hasMany(Gift::class);
+    }
+
+    public function gratitudes()
+    {
+        return $this->hasMany(Gratitude::class);
     }
 }
