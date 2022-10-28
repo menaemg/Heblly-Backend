@@ -42,8 +42,8 @@ class AuthController extends Controller
 
     public function login(AuthRequest $request)
     {
-        $user = User::where('email', $request->post('username'))
-                    ->orWhere('username', $request->post('username'))
+        $user = User::where('email', $request->post('email'))
+                    ->orWhere('username', $request->post('email'))
                     ->first();
 
         if (!$user || !Hash::check($request->post('password'), $user->password)) {

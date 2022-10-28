@@ -42,7 +42,7 @@ class AuthRequest extends BaseFormRequest
         if ($methodName == 'login') {
 
             return [
-                'username' => 'required|string|max:255',
+                'email' => 'required|string|max:255',
                 'password' => 'required|string|max:255',
                 'device_name' => 'string|max:255',
             ];
