@@ -24,7 +24,9 @@ class AuthController extends Controller
     {
         $user = User::create($request->validated());
 
-        $user->profile()->create($request->only('first_name', 'last_name'));
+        if ($request->has('first_name', 'last_name')) {
+            $user->profile()->create($request->only('first_name', 'last_name'));
+        }
 
         $userResource = new UserResource($user);
 

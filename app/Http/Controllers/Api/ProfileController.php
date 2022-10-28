@@ -12,8 +12,8 @@ class ProfileController extends Controller
 {
     public function authProfile()
     {
-        $profile = auth()->user()->withCount(['followings', 'followables'])
-                            ->with(['profile'])->first();
+        $profile = User::withCount(['followings', 'followables'])
+                            ->with(['profile'])->where('id', auth()->id())->first();
 
         $profileResource = new ProfileResource($profile);
 
