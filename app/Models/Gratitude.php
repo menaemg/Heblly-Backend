@@ -35,7 +35,8 @@ class Gratitude extends Model
         'user_id',
         'access_list',
         'tags',
-        'gift_id'
+        'gift_id',
+        'post_id',
     ];
 
     public function getSlugOptions() : SlugOptions
@@ -53,6 +54,11 @@ class Gratitude extends Model
     public function gift()
     {
         return $this->belongsTo(Gift::class);
+    }
+
+    public function wishlist()
+    {
+        return $this->hasOne(Wishlist::class);
     }
 
     public function getRouteKeyName()

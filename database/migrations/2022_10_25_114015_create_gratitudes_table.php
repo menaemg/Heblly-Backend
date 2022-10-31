@@ -20,8 +20,9 @@ return new class extends Migration
             $table->text('body');
             $table->string('main_image')->nullable();
             $table->json('images')->nullable();
-            $table->foreignId('gift_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('gift_id')->nullable()->constrained()->onDelete('cascade')->nullable();
+            $table->foreignId('post_id')->nullable()->constrained('posts')->onDelete('cascade');
             $table->boolean('show_avatar')->default(1);
             $table->enum('privacy', ['private', 'public', 'friends'])->default('public');
             $table->json('access_list')->nullable();

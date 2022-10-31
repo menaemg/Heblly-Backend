@@ -104,4 +104,19 @@ class User extends Authenticatable
     {
         return $this->hasMany(Gratitude::class);
     }
+
+    public function wishlist()
+    {
+        return $this->hasMany(Wishlist::class);
+    }
+
+    public function wishboard()
+    {
+        return $this->hasMany(Wishboard::class);
+    }
+
+    public function blocklist()
+    {
+        return $this->hasMany(Block::class);
+    }
 }

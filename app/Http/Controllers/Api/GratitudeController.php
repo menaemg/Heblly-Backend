@@ -34,10 +34,14 @@ class GratitudeController extends Controller
     {
         $user = auth()->user();
 
-        $gratitude = Gratitude::create(
-            $request->validated()
-            + [ 'user_id' => $user->id ]
-        );
+        $gratitude = $user->gratitudes()->where('gift_id', $request->gift_id)->first();
+
+        if( $gratitude ) {
+            return jsonResponse(false, 'Gratitude already exists');
+        }
+
+        $gratitude = $user->gratitudes()->create($request->validated());
+
 
         $gratitude->attachTags($request->tags);
 

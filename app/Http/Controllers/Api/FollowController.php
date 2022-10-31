@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Termwind\Components\Dd;
 
 class FollowController extends Controller
 {
@@ -117,6 +118,11 @@ class FollowController extends Controller
     public function acceptFollowRequest(User $user)
     {
         try {
+            $followRequest = Auth::user()->notApprovedFollowers->where('id', $user->id)->first();
+
+            if (!$followRequest) {
+                return jsonResponse(false, "Follow request not found");
+            }
             Auth::user()->acceptFollowRequestFrom($user);
             return jsonResponse(true, "Follow Request Accepted");
         } catch (\Exception $e) {

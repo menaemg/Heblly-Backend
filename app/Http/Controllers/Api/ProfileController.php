@@ -38,7 +38,7 @@ class ProfileController extends Controller
         $userRequest = $request->safe()->only(['username', 'email']);
         $profileRequest = $request->safe()->except(['username', 'email']);
 
-        $user = auth()->user()->first();
+        $user = auth()->user();
 
         if (!empty($userRequest)) {
             $user->update($userRequest);

@@ -5,9 +5,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\GiftController;
 use App\Http\Controllers\Api\PostController;
+use App\Http\Controllers\Api\BlockController;
 use App\Http\Controllers\Api\FollowController;
 use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\Api\WishlistController;
 use App\Http\Controllers\Api\GratitudeController;
+use App\Http\Controllers\Api\WishboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -87,3 +90,39 @@ Route::apiResource('gifts', GiftController::class)->middleware('auth:sanctum');
 
 // Gratitude CRUD routes
 Route::apiResource('gratitudes', GratitudeController::class)->middleware('auth:sanctum');
+
+// Wishlist routes
+Route::group([
+    'middleware' => 'auth:sanctum',
+    'prefix' => 'wishlist'
+    ],
+    function () {
+        Route::get('/', [WishlistController::class, 'index']);
+        Route::get('/gratitude', [WishlistController::class, 'indexGratituded']);
+        Route::post('/{post}', [WishlistController::class, 'store']);
+        Route::delete('/{wish}', [WishlistController::class, 'destroy']);
+        Route::put('/{wish}', [WishlistController::class, 'gratitude']);
+});
+
+// Wishlist routes
+Route::group([
+    'middleware' => 'auth:sanctum',
+    'prefix' => 'wishboard'
+    ],
+    function () {
+        Route::get('/', [WishboardController::class, 'index']);
+        Route::post('/add-to-friend/{post}', [WishboardController::class, 'addWishToFriend']);
+        Route::post('/add-to-wishlist/{wish}', [WishboardController::class, 'addToWishList']);
+        Route::delete('/remove/{wish}', [WishboardController::class, 'destroy']);
+});
+
+// Wishlist routes
+Route::group([
+    'middleware' => 'auth:sanctum',
+    'prefix' => 'blocklist'
+    ],
+    function () {
+        Route::get('/', [BlockController::class, 'index']);
+        Route::post('/block/{user}', [BlockController::class, 'block']);
+        Route::delete('/unblock/{user}', [BlockController::class, 'unblock']);
+});
