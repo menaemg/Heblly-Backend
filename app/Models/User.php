@@ -58,11 +58,6 @@ class User extends Authenticatable
         $this->notify(new ResetPasswordNotification($url));
     }
 
-    public function getFullNameAttribute()
-    {
-        return $this->profile->first_name . ' ' . $this->profile->last_name;
-    }
-
     public function needsToApproveFollowRequests()
     {
         return (bool) true;
@@ -70,24 +65,7 @@ class User extends Authenticatable
 
     public function profile()
     {
-        return $this->hasOne(Profile::class)
-            ->withDefault([
-                'name' => $this->name,
-                'username' => $this->username,
-                'email' => $this->email,
-                'first_name' => '',
-                'last_name' => '',
-                'bio' => '',
-                'phone' => '',
-                'image' => '',
-                'address' => '',
-                'city' => '',
-                'state' => '',
-                'country' => '',
-                'zip' => '',
-                'local' => '',
-                'privacy' => 'public',
-            ]);
+        return $this->hasOne(Profile::class);
     }
 
     public function posts()

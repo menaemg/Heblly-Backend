@@ -80,7 +80,7 @@ Route::group([
 });
 
 // Post CRUD routes
-Route::get('posts/landing', [PostController::class, 'landingPosts']);
+Route::get('posts/landing', [PostController::class, 'landingPosts'])->middleware('api');
 Route::get('posts/friends', [PostController::class, 'friendsPosts'])->middleware('auth:sanctum');
 Route::apiResource('posts', PostController::class)->middleware('auth:sanctum');
 

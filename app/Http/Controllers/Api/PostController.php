@@ -20,7 +20,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Auth::user()->posts()->with('tags')->latest()->paginate(10);
+        $posts = Auth::user()->posts()->with('tags' , 'user.profile')->latest()->paginate(10);
 
         return jsonResponse(true, 'Posts retrieved successfully', PostResource::collection($posts));
     }
@@ -53,7 +53,7 @@ class PostController extends Controller
      */
     public function show($post)
     {
-        $post = Post::where('id', $post)->orWhere('slug', $post)->firstOrFail();
+        $post = Post::where('id', $post)->orWhere('slug', $post)->with('user.profile')->firstOrFail();
 
         return jsonResponse('Post retrieved successfully', new PostResource($post));
     }
@@ -93,9 +93,13 @@ class PostController extends Controller
         return jsonResponse(true, 'Post deleted successfully', null);
     }
 
-    public  function landingPosts()
+    public  function landingPosts(Request $request)
     {
-        $posts = Post::where('privacy', 'public')->whereNot('user_id', Auth::id())->with('tags')->latest()->paginate(10);
+        $user = $request->user('sanctum');
+
+        $posts = Post::where('privacy', 'public')->when($user, function($q, $user) {
+            $q->whereNot('user_id', $user->id);
+        })->with('tags')->latest()->paginate(10);
 
         return jsonResponse(true, 'Posts retrieved successfully', PostResource::collection($posts));
     }
@@ -103,7 +107,7 @@ class PostController extends Controller
     public  function friendsPosts()
     {
         $friends = Auth::user()->approvedFollowers()->pluck('user_id');
-        $friends = Auth::user()->approvedFollowers()->pluck('user_id')->merge($friends);
+        $friends = Auth::user()->approvedFollowings()->pluck('user_id')->merge($friends);
 
         $posts = Post::whereIn('user_id', $friends)->with('tags')->latest()->paginate(10);
         // $posts = Post::where('privacy', 'public')->whereNot('user_id', Auth::id())->with('tags')->latest()->paginate(10);

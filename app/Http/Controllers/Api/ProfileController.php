@@ -34,17 +34,19 @@ class ProfileController extends Controller
 
     public function updateProfile(ProfileRequest $request)
     {
-
         $userRequest = $request->safe()->only(['username', 'email']);
         $profileRequest = $request->safe()->except(['username', 'email']);
 
-        $user = auth()->user();
+        $user = User::where('id', auth()->user()->id)->withCount('followings', 'followables')->first();
+
+        // $user->profile
 
         if (!empty($userRequest)) {
             $user->update($userRequest);
         }
 
         if (!empty($profileRequest)) {
+
 
             if(\is_file($request->file('avatar'))){
                 $profileRequest['avatar'] = $this->uploadImage($request->file('avatar') , 'avatars');
@@ -62,14 +64,21 @@ class ProfileController extends Controller
                 }
             }
 
+            if($user->profile){
+                $user->profile()->update($profileRequest);
+            }else{
+                $user->profile()->create($profileRequest);
+            }
 
-            $user->profile()->update($profileRequest);
         }
 
-        $profile = $user->withCount(['followings', 'followables'])
-                            ->with(['profile'])->first();
+        // $user = $user->withCount('followings', 'followables')
+        //                     ->with('profile')->first();
 
-        $profileResource = new ProfileResource($profile);
+        // dd($user->profile);
+
+
+        $profileResource = new ProfileResource($user);
 
         return jsonResponse(true, 'Profile', $profileResource);
     }
