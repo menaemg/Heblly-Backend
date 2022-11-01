@@ -39,7 +39,6 @@ class ProfileController extends Controller
 
         $user = User::where('id', auth()->user()->id)->withCount('followings', 'followables')->first();
 
-        // $user->profile
 
         if (!empty($userRequest)) {
             $user->update($userRequest);
@@ -49,11 +48,15 @@ class ProfileController extends Controller
 
 
             if(\is_file($request->file('avatar'))){
+
+
+
                 $profileRequest['avatar'] = $this->uploadImage($request->file('avatar') , 'avatars');
 
-                if($user->profile->avatar && $profileRequest['avatar']){
+                if($user->profile && $user->profile->avatar && $profileRequest['avatar']){
                     $this->deleteImage($user->profile->avatar , 'avatars');
                 }
+
             }
 
             if(\is_file($request->file('cover'))){
@@ -72,10 +75,7 @@ class ProfileController extends Controller
 
         }
 
-        // $user = $user->withCount('followings', 'followables')
-        //                     ->with('profile')->first();
-
-        // dd($user->profile);
+        $user = User::where('id', auth()->user()->id)->withCount('followings', 'followables')->first();
 
 
         $profileResource = new ProfileResource($user);
