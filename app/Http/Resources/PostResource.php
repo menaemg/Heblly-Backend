@@ -25,7 +25,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
             'user' => [
                 'id' => $this->user->id,
                 'username' => $this->user->username,
-                'name' => $this->user->profile->full_name,
+                'name' => $this->user->profile->full_name ?? $this->user->username,
                 'avatar' => $this->user->profile->avatar_url ?? null,
                 'bio' => $this->user->profile->bio ?? null,
                 'location' => $this->user->profile->location ?? null,
