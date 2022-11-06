@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Traits\DiffForHumans;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Wishboard extends Model
 {
-    use HasFactory;
+    use HasFactory, DiffForHumans;
     protected $table = 'wishboard';
     protected $fillable = [
         'user_id',

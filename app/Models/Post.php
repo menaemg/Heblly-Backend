@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-use App\Traits\ImageFile;
+use Carbon\Carbon;
 use Spatie\Tags\HasTags;
+use App\Traits\ImageFile;
+use App\Traits\DiffForHumans;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Illuminate\Database\Eloquent\Model;
@@ -11,7 +13,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Post extends Model
 {
-    use HasFactory, HasTags, HasSlug, ImageFile;
+    use HasFactory, HasTags, HasSlug, ImageFile, DiffForHumans;
 
         /**
      * Get the options for generating the slug.
@@ -20,6 +22,11 @@ class Post extends Model
     public $casts = [
         'images' => 'array',
         'access_list' => 'array',
+    ];
+
+    protected $dates = [
+        'created_at',
+        'updated_at',
     ];
 
     protected    $fillable = [

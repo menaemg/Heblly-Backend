@@ -7,9 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use PhpParser\Node\Expr\BinaryOp\Equal;
 use App\Http\Resources\Api\UserResource;
-use PhpParser\Node\Expr\BinaryOp\NotEqual;
 use App\Http\Requests\Api\Auth\AuthRequest;
 
 class AuthController extends Controller
@@ -20,7 +18,7 @@ class AuthController extends Controller
         return jsonResponse(true, "User data", $user);
     }
 
-    public function register(AuthRequest $request)
+    public function register(AuthRequest $request): \Illuminate\Http\JsonResponse
     {
         $user = User::create($request->validated());
 
@@ -68,7 +66,7 @@ class AuthController extends Controller
         return jsonResponse(true, $message, $data);
     }
 
-    public function logout()
+    public function logout(): \Illuminate\Http\JsonResponse
     {
         $user = Auth::guard('sanctum')->user();
 

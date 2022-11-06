@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Scopes\NotBlockedScope;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Notifications\Notifiable;
@@ -96,5 +97,25 @@ class User extends Authenticatable
     public function blocklist()
     {
         return $this->hasMany(Block::class);
+    }
+
+    public function isBlocked($user)
+    {
+        $blockedIds = Auth()->user()->blocklist()->pluck('block_user_id')->toArray();
+
+        $userBlocked = $user->blocklist()->pluck('block_user_id')->toArray();
+
+        if (in_array($user->id, $blockedIds) || in_array(Auth()->id(), $userBlocked)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new NotBlockedScope);
     }
 }

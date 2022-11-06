@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use App\Traits\ImageFile;
 use Spatie\Tags\HasTags;
+use App\Traits\ImageFile;
+use App\Traits\DiffForHumans;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Illuminate\Database\Eloquent\Model;
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Gift extends Model
 {
-    use HasFactory, HasTags, HasSlug, ImageFile;
+    use HasFactory, HasTags, HasSlug, ImageFile, DiffForHumans;
 
         /**
      * Get the options for generating the slug.

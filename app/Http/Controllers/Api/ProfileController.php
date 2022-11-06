@@ -20,12 +20,14 @@ class ProfileController extends Controller
         return jsonResponse(true, 'Profile', $profileResource);
     }
 
-    public function profile($user)
+    public function profile(User $user)
     {
-        $profile = User::where('id' , $user)
-                    ->orWhere('username', $user)
-                    ->withCount(['followings', 'followables'])
-                    ->with(['profile'])->first();
+        if($user->isBlocked($user)) {
+            return jsonResponse(false, 'User is blocked', null, 403);
+        }
+
+        $profile = User::withCount(['followings', 'followables'])
+                            ->with(['profile'])->where('id', $user->id)->first();
 
         $profileResource = new ProfileResource($profile);
 
@@ -48,8 +50,6 @@ class ProfileController extends Controller
 
 
             if(\is_file($request->file('avatar'))){
-
-
 
                 $profileRequest['avatar'] = $this->uploadImage($request->file('avatar') , 'avatars');
 
@@ -76,7 +76,6 @@ class ProfileController extends Controller
         }
 
         $user = User::where('id', auth()->user()->id)->withCount('followings', 'followables')->first();
-
 
         $profileResource = new ProfileResource($user);
 
