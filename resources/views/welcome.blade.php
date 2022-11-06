@@ -28,7 +28,7 @@
 
                         <div>
                             <div class="flex items-center">
-                                <h1>Heblly_API CI/CD AWS</h1>
+                                <h1>Heblly_API System CI/CD AWS</h1>
                             </div>
 
                         </div>
