@@ -24,7 +24,7 @@ class GiftResource extends JsonResource
                 'privacy' => $this->privacy,
                 'main_image' => $this->main_image,
                 'user' => $this->user,
-                'images' => $this->image,
+                'images' => $this->images,
                 'tags' => $this->tags,
                 'created_at' => $this->created_at,
                 'updated_at' => $this->updated_at,

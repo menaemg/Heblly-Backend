@@ -31,7 +31,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
                 'location' => $this->user->profile->location ?? null,
                 'email' => $this->user->email,
             ],
-            'images' => $this->image,
+            'images' => $this->images,
             'tags' => $this->tags,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

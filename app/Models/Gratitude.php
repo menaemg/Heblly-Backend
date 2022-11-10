@@ -9,6 +9,7 @@ use App\Traits\DiffForHumans;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Gratitude extends Model
@@ -69,14 +70,21 @@ class Gratitude extends Model
 
     public function setMainImageAttribute($value)
     {
+
         if (is_file($value)) {
-            $this->attributes['main_image'] = $this->uploadImage($value , 'posts');
+            $image = $this->uploadImage($value , 'gratitude');
+            if ($image) {
+                if ($this->main_image) {
+                    $this->deleteImage($this->getRawOriginal('main_image'));
+                }
+                $this->attributes['main_image'] = $image;
+            }
         }
     }
 
-    public function getMainImageAttribute($image)
+    public function getMainImageAttribute($value)
     {
-        return $image ? asset('storage/' . $image) : asset('storage/posts/default.png');
+        return $value ? Storage::disk('s3')->url($value) : null;
     }
 
     public function setImagesAttribute($value)
@@ -84,7 +92,7 @@ class Gratitude extends Model
         if (is_array($value)) {
             foreach ($value as $image) {
                 if (is_file($image)) {
-                    $images[] = $this->uploadImage($image, 'posts');
+                    $images[] = $this->uploadImage($image, 'gratitude');
                 }
             }
             $this->attributes['images'] = json_encode($images);
@@ -96,7 +104,7 @@ class Gratitude extends Model
         $value = json_decode($value);
         if ($value && is_array($value) && !empty($value)) {
             foreach ($value as $image) {
-                $images[] = asset('storage/' . $image);
+                $images[] = Storage::disk('s3')->url($image);
             }
             return $images ?? [];
         }

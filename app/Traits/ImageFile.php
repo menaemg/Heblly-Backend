@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Storage;
 
 trait ImageFile
 {
@@ -19,10 +20,12 @@ trait ImageFile
             return false;
         }
 
-        $filename = $path . '/' . date('Y-m-d-') . uniqid() . '.' . $image->getClientOriginalExtension();
-        $storeImage = Image::make($image)->save(storage_path("app/public/$filename"));
+        $filename =  date('Y-m-d-') . uniqid() . '.' . $image->getClientOriginalExtension();
 
-        if (!$storeImage) {
+
+        $filename = $image->storeAs($path , $filename, 's3');
+
+        if (!$filename) {
             return false;
         }
 
@@ -35,7 +38,7 @@ trait ImageFile
             return false;
         }
 
-        $deleteImage = \file_exists(storage_path("app/public/$image")) ? File::delete(storage_path("app/public/$image")) : false;
+        $deleteImage = Storage::disk('s3')->delete($image);
 
         if ((!$deleteImage)) {
             return false;

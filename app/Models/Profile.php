@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Profile extends Model
 {
@@ -31,13 +32,13 @@ class Profile extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function getAvatarUrlAttribute($value)
+    public function getAvatarUrlAttribute()
     {
-        return $this->avatar ? asset('storage/' . $this->avatar) : asset('storage/avatars/default.png');
+        return $this->avatar ? Storage::disk('s3')->url($this->avatar) : null;
     }
-    public function getCoverUrlAttribute($value)
+    public function getCoverUrlAttribute()
     {
-        return $this->cover ? asset('storage/' . $this->cover) : asset('storage/covers/default.png');
+        return $this->cover ? Storage::disk('s3')->url($this->cover) : null;
     }
 
     public function getFullNameAttribute($value)
