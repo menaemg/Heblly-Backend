@@ -2,6 +2,9 @@
 /public/build
 /public/hot
 /public/storage
+/storage/app/public/posts/
+/storage/app/public/covers/
+/storage/app/public/avatars/
 /storage/*.key
 /vendor
 .env
