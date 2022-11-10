@@ -23,6 +23,7 @@ class ProfileResource extends JsonResource
             'followers_count' => $this->followables_count ?? null,
             'bio' => $this->profile->bio ?? null,
             'phone' => $this->profile->phone ?? null,
+            'gender' => $this->profile->gender ?? null,
             'avatar' => $this->profile->avatar_url ?? null,
             'cover' => $this->profile->cover_url ?? null,
             'address' => $this->profile->address ?? null,

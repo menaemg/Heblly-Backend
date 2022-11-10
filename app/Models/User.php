@@ -3,10 +3,14 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Termwind\Components\Dd;
 use App\Scopes\NotBlockedScope;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Routing\Events\RouteMatched;
 use Overtrue\LaravelFollow\Traits\Follower;
 use Overtrue\LaravelFollow\Traits\Followable;
 use App\Notifications\ResetPasswordNotification;
@@ -112,10 +116,12 @@ class User extends Authenticatable
         return false;
     }
 
-    protected static function boot()
-    {
-        parent::boot();
+    // protected static function booted()
+    // {
+    //     parent::boot();
 
-        static::addGlobalScope(new NotBlockedScope);
-    }
+    //     // $authUser = auth('sanctum')->check() ? auth('sanctum')->user() : null;
+
+    //     static::addGlobalScope(new NotBlockedScope());
+    // }
 }

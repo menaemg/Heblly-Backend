@@ -29,6 +29,7 @@ class ProfileRequest extends BaseFormRequest
             'first_name' => 'string|max:255',
             'last_name' => 'string|max:255',
             'bio' => 'string|max:255',
+            'gender' => 'in:male,female',
             'phone' => 'string|max:255',
             'avatar' => 'image|max:2000',
             'cover' => 'image|max:2000',

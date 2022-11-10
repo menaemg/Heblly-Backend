@@ -13,6 +13,7 @@ class Profile extends Model
         'first_name',
         'last_name',
         'bio',
+        'gender',
         'phone',
         'avatar',
         'cover',
@@ -32,11 +33,11 @@ class Profile extends Model
 
     public function getAvatarUrlAttribute($value)
     {
-        return $this->avatar ? asset('storage/avatars/' . $this->avatar) : asset('storage/avatars/default.png');
+        return $this->avatar ? asset('storage/' . $this->avatar) : asset('storage/avatars/default.png');
     }
     public function getCoverUrlAttribute($value)
     {
-        return $this->cover ? asset('storage/covers/' . $this->cover) : asset('storage/covers/default.png');
+        return $this->cover ? asset('storage/' . $this->cover) : asset('storage/covers/default.png');
     }
 
     public function getFullNameAttribute($value)
