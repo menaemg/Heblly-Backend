@@ -48,8 +48,7 @@ class ProfileController extends Controller
 
         if (!empty($profileRequest)) {
 
-
-            if(\is_file($request->file('avatar'))){
+            if($request->has('avatar') && \is_file($request->file('avatar'))){
 
                 $profileRequest['avatar'] = $this->uploadImage($request->file('avatar') , 'avatars');
 
@@ -59,7 +58,7 @@ class ProfileController extends Controller
 
             }
 
-            if(\is_file($request->file('cover'))){
+            if($request->has('cover') && \is_file($request->file('cover'))){
                 $profileRequest['cover'] = $this->uploadImage($request->file('cover'), 'covers');
 
                 if($user->profile->cover && $profileRequest['cover']){

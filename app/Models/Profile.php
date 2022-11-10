@@ -49,4 +49,16 @@ class Profile extends Model
             return $this->user->username;
         }
     }
+
+    public function getGenderAttribute($value)
+    {
+        if ($value === 1){
+            return 'male';
+        }
+
+        if ($value === 0){
+            return 'female';
+        }
+        return null;
+    }
 }
