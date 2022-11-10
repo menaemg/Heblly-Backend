@@ -140,4 +140,13 @@ class FollowController extends Controller
         }
     }
 
+    public function friends()
+    {
+        $followings = Auth::user()->approvedFollowings->load('followable:id,username')->pluck('followable');
+
+        $followers = Auth::user()->approvedFollowers->load('followable:id,username')->pluck('followable');
+
+
+    }
+
 }

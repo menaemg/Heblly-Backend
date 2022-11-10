@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\WishlistController;
 use App\Http\Controllers\Api\GratitudeController;
 use App\Http\Controllers\Api\WishboardController;
+use App\Http\Controllers\HelpController;
 
 /*
 |--------------------------------------------------------------------------
@@ -126,3 +127,7 @@ Route::group([
         Route::post('/block/{user}', [BlockController::class, 'block']);
         Route::delete('/unblock/{user}', [BlockController::class, 'unblock']);
 });
+
+Route::post('help/request', [HelpController::class, 'storeRequest'])->middleware('auth:sanctum');
+Route::post('help/report', [HelpController::class, 'storeRequest'])->middleware('auth:sanctum');
+

@@ -116,6 +116,11 @@ class User extends Authenticatable
         return false;
     }
 
+    public function helps()
+    {
+        return $this->hasMany(Help::class);
+    }
+
     // protected static function booted()
     // {
     //     parent::boot();
