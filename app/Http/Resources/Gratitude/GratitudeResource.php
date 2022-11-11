@@ -25,6 +25,8 @@ class GratitudeResource extends JsonResource
                 return $tag->name;
             }),
             'more_images' => $this->images,
+            'privacy' => $this->privacy,
+            'access_list' => $this->access_list,
         ];
     }
 }
