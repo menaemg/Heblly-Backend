@@ -33,6 +33,9 @@ class UpdateGratitudeRequest extends BaseFormRequest
             'body' => 'string',
             'images' => 'array',
             'images.*' => 'image',
+            'privacy' => 'string|in:public,private',
+            'access_list' => 'array',
+            'access_list.*' => 'exists:users,id',
         ];
     }
 }

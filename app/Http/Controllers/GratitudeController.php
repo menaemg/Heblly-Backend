@@ -20,7 +20,7 @@ class GratitudeController extends Controller
         $gratitudes = Auth::user()->posts()->where('type', 'gratitude')->with('tags', 'from_friend')->get();
 
 
-        return jsonResponse(true, "User Gratitudes SS", GratitudeResource::collection($gratitudes));
+        return jsonResponse(true, "User Gratitudes", GratitudeResource::collection($gratitudes));
     }
 
     /**
@@ -34,7 +34,7 @@ class GratitudeController extends Controller
         $gratitude = Auth::user()->posts()->create($request->validated() + ['type' => 'gratitude']);
 
 
-        return jsonResponse(true, "Gratitude Created", ['test' =>'test']);
+        return jsonResponse(true, "Gratitude Created", new GratitudeResource($gratitude));
     }
 
     /**
