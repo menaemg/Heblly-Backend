@@ -8,10 +8,11 @@ use App\Http\Controllers\Api\HelpController;
 use App\Http\Controllers\Api\PickController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\BlockController;
+use App\Http\Controllers\GratitudeController;
 use App\Http\Controllers\Api\FollowController;
 use App\Http\Controllers\Api\ProfileController;
+// use App\Http\Controllers\Api\GratitudeController;
 use App\Http\Controllers\Api\WishlistController;
-use App\Http\Controllers\Api\GratitudeController;
 use App\Http\Controllers\Api\WishboardController;
 
 /*
@@ -136,7 +137,7 @@ Route::post('help/report', [HelpController::class, 'storeRequest'])->middleware(
 Route::apiResource('picks', PickController::class)->middleware('auth:sanctum');
 
 // Gratitude
-Route::apiResource('gratitudes', App\Http\Controllers\GratitudeController::class)->middleware('auth:sanctum');
+Route::apiResource('gratitudes', GratitudeController::class)->middleware('auth:sanctum');
 
 // Friends
 Route::get('friends', [FollowController::class, 'friends'])->middleware('auth:sanctum');
