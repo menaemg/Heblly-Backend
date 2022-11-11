@@ -33,6 +33,8 @@ class GratitudeController extends Controller
     {
         $gratitude = Auth::user()->posts()->create($request->validated() + ['type' => 'gratitude']);
 
+        dd($gratitude);
+
         return jsonResponse(true, "Gratitude Created", new GratitudeResource($gratitude));
     }
 
