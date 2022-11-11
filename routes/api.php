@@ -8,11 +8,10 @@ use App\Http\Controllers\Api\HelpController;
 use App\Http\Controllers\Api\PickController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\BlockController;
-use App\Http\Controllers\GratitudeController;
 use App\Http\Controllers\Api\FollowController;
 use App\Http\Controllers\Api\ProfileController;
-// use App\Http\Controllers\Api\GratitudeController;
 use App\Http\Controllers\Api\WishlistController;
+use App\Http\Controllers\Api\GratitudeController;
 use App\Http\Controllers\Api\WishboardController;
 
 /*
@@ -137,7 +136,10 @@ Route::post('help/report', [HelpController::class, 'storeRequest'])->middleware(
 Route::apiResource('picks', PickController::class)->middleware('auth:sanctum');
 
 // Gratitude
-Route::apiResource('gratitudes', GratitudeController::class)->middleware('auth:sanctum');
+Route::get('gratitudes', [App\Http\Controllers\GratitudeController::class, 'index'])->middleware('auth:sanctum');
+Route::post('gratitudes', [App\Http\Controllers\GratitudeController::class, 'store'])->middleware('auth:sanctum');
+Route::put('gratitudes/{gratitudes}', [App\Http\Controllers\GratitudeController::class, 'update'])->middleware('auth:sanctum');
+Route::delete('gratitudes/{gratitudes}', [App\Http\Controllers\GratitudeController::class, 'delete'])->middleware('auth:sanctum');
 
 // Friends
 Route::get('friends', [FollowController::class, 'friends'])->middleware('auth:sanctum');
