@@ -18,8 +18,9 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        dd('here');
         $posts = Auth::user()->posts()->with('tags' , 'user.profile')->latest()->paginate(10);
 
         return jsonResponse(true, 'Posts retrieved successfully', PostResource::collection($posts));
@@ -99,7 +100,11 @@ class PostController extends Controller
 
         $posts = Post::where('privacy', 'public')->when($user, function($q, $user) {
             $q->whereNot('user_id', $user->id);
-        })->with('tags')->latest()->paginate(10);
+        })
+        ->when($request->has('search') && $request->search, function ($q) use($request) {
+            $q->where('title', 'like', '%' . $request->search . '%');
+        })
+        ->with('tags')->latest()->paginate(10);
 
         return jsonResponse(true, 'Posts retrieved successfully', PostResource::collection($posts));
     }

@@ -129,4 +129,6 @@ class User extends Authenticatable
 
     //     static::addGlobalScope(new NotBlockedScope());
     // }
+
+
 }

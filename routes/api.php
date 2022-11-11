@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\GiftController;
+use App\Http\Controllers\Api\HelpController;
+use App\Http\Controllers\Api\PickController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\BlockController;
 use App\Http\Controllers\Api\FollowController;
@@ -11,7 +13,6 @@ use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\WishlistController;
 use App\Http\Controllers\Api\GratitudeController;
 use App\Http\Controllers\Api\WishboardController;
-use App\Http\Controllers\HelpController;
 
 /*
 |--------------------------------------------------------------------------
@@ -131,3 +132,12 @@ Route::group([
 Route::post('help/request', [HelpController::class, 'storeRequest'])->middleware('auth:sanctum');
 Route::post('help/report', [HelpController::class, 'storeRequest'])->middleware('auth:sanctum');
 
+// Picks
+Route::apiResource('picks', PickController::class)->middleware('auth:sanctum');
+
+// Gratitude
+Route::apiResource('gratitudes', App\Http\Controllers\GratitudeController::class)->middleware('auth:sanctum');
+
+// Friends
+Route::get('friends', [FollowController::class, 'friends'])->middleware('auth:sanctum');
+Route::get('users', [FollowController::class, 'users'])->middleware('auth:sanctum');

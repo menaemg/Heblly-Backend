@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\User;
+use Termwind\Components\Dd;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Termwind\Components\Dd;
 
 class FollowController extends Controller
 {
@@ -37,9 +38,9 @@ class FollowController extends Controller
         $followers = $followers->map(function ($follower) {
             return [
                 'id' => $follower->id,
-                'name' => $follower->profile->first_name . ' ' . $follower->profile->last_name,
+                'name' => $follower->profile->name ?? null,
                 'username' => $follower->username,
-                'email' => $follower->email,
+                'email' => $follower->email ?? null,
                 'is_approved' => $follower->pivot->accepted_at ? true : false,
             ];
         });
@@ -59,9 +60,9 @@ class FollowController extends Controller
         $followers = $followers->map(function ($follower) {
             return [
                 'id' => $follower->id,
-                'name' => $follower->profile->first_name . ' ' . $follower->profile->last_name,
+                'name' => $follower->profile->name ?? null,
                 'username' => $follower->username,
-                'email' => $follower->email,
+                'email' => $follower->email ?? null,
             ];
         });
 
@@ -81,9 +82,9 @@ class FollowController extends Controller
         $followers = $followers->map(function ($follower) {
             return [
                 'id' => $follower->id,
-                'name' => $follower->profile->first_name . ' ' . $follower->profile->last_name,
+                'name' => $follower->profile->name ?? null,
                 'username' => $follower->username,
-                'email' => $follower->email,
+                'email' => $follower->email ?? null,
             ];
         });
 
@@ -140,13 +141,54 @@ class FollowController extends Controller
         }
     }
 
-    public function friends()
+    public function friends(Request $request)
     {
         $followings = Auth::user()->approvedFollowings->load('followable:id,username')->pluck('followable');
 
-        $followers = Auth::user()->approvedFollowers->load('followable:id,username')->pluck('followable');
+        $followings = $followings->map(function ($following) {
+            return [
+                'id' => $following->id,
+                'username' => $following->username,
+                'avatar'   => $following->profile->avatar_url ?? null,
+            ];
+        });
+
+        $followers = Auth::user()->approvedFollowers;
+
+        $followers = $followers->map(function ($follower) {
+            return [
+                'id' => $follower->id,
+                'username' => $follower->username,
+                'avatar'   => $follower->profile->avatar_url ?? null,
+            ];
+        });
 
 
+
+        $friends = $followings->concat($followers)->filter(function ($friend) use ($request) {
+            return false != stristr($friend['username'], $request->search);
+        })->unique('id');
+
+        return jsonResponse(true, "Friends List", $friends);
     }
 
+    public function users(Request $request)
+    {
+        // dd($request->has('search'), $request->search);
+        $users = User::where('id', '!=', Auth::id())->when($request->has('search') && $request->search, function ($q) use($request) {
+            $q->where('username', 'like', '%' . $request->search . '%');
+        })->doesntHave('profile')->OrWhereHas('profile', function ($q) {
+            $q->where('privacy', 'public');
+        })->get();
+
+        $users = $users->map(function ($user) {
+            return [
+                'id' => $user->id,
+                'username' => $user->username,
+                'avatar'   => $user->profile->avatar_url ?? null,
+            ];
+        });
+
+        return jsonResponse(true, "Users List", $users);
+    }
 }
