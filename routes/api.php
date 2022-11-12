@@ -2,8 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GiftController;
 use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\GiftController;
 use App\Http\Controllers\Api\HelpController;
 use App\Http\Controllers\Api\PickController;
 use App\Http\Controllers\Api\PostController;
@@ -150,6 +150,12 @@ Route::get('wishlist/{wish}', [PostWishController::class, 'show'])->middleware('
 Route::put('wishlist/{wish}', [PostWishController::class, 'update'])->middleware('auth:sanctum');
 Route::delete('wishlist/{wish}', [PostWishController::class, 'destroy'])->middleware('auth:sanctum');
 
+// Gift
+Route::post('gifts', [GiftController::class, 'store'])->middleware('auth:sanctum');
+Route::get('gifts', [GiftController::class, 'index'])->middleware('auth:sanctum');
+Route::get('gifts/{gift}', [GiftController::class, 'show'])->middleware('auth:sanctum');
+Route::put('gifts/{gift}', [GiftController::class, 'update'])->middleware('auth:sanctum');
+Route::delete('gifts/{gift}', [GiftController::class, 'destroy'])->middleware('auth:sanctum');
 
 
 // Friends

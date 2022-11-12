@@ -27,7 +27,7 @@ class GiftUpdateRequest extends BaseFormRequest
         return [
             'title' => 'string',
             'for_id' => 'exists:users,id',
-            'main_image' => 'required|image',
+            'main_image' => 'image',
             'location' => 'string',
             'tags' => 'array',
             'tags.*' => 'string',
