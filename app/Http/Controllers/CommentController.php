@@ -37,12 +37,13 @@ class CommentController extends Controller
             return jsonResponse(false, "Comment Not Found", null, 404);
         }
 
-        if ($comment->user_id != auth()->id() || $post->user_id != auth()->id()) {
-            return jsonResponse(false, "You Are Not Allowed To Delete This Comment", null, 403);
+
+
+        if ($comment->user_id == auth()->id() || $post->user_id == auth()->id()) {
+            $comment->delete();
+            return jsonResponse(true, "Comment Deleted");
         }
 
-        $comment->delete();
-
-        return jsonResponse(true, "Comment Deleted");
+        return jsonResponse(false, "You Are Not Allowed To Delete This Comment", null, 403);
     }
 }
