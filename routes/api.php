@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\GiftController;
 use App\Http\Controllers\Api\HelpController;
 use App\Http\Controllers\Api\PickController;
 use App\Http\Controllers\Api\PostController;
+use App\Http\Controllers\PostWishController;
 use App\Http\Controllers\Api\BlockController;
 use App\Http\Controllers\Api\FollowController;
 use App\Http\Controllers\Api\ProfileController;
@@ -96,7 +97,7 @@ Route::apiResource('gratitudes', GratitudeController::class)->middleware('auth:s
 // Wishlist routes
 Route::group([
     'middleware' => 'auth:sanctum',
-    'prefix' => 'wishlist'
+    'prefix' => 'wish-list'
     ],
     function () {
         Route::get('/', [WishlistController::class, 'index']);
@@ -140,6 +141,16 @@ Route::get('gratitudes', [App\Http\Controllers\GratitudeController::class, 'inde
 Route::post('gratitudes', [App\Http\Controllers\GratitudeController::class, 'store'])->middleware('auth:sanctum');
 Route::put('gratitudes/{gratitudes}', [App\Http\Controllers\GratitudeController::class, 'update'])->middleware('auth:sanctum');
 Route::delete('gratitudes/{gratitudes}', [App\Http\Controllers\GratitudeController::class, 'delete'])->middleware('auth:sanctum');
+
+
+// Wish List
+Route::get('wishlist', [PostWishController::class, 'index'])->middleware('auth:sanctum');
+Route::get('wishlist/{wish}', [PostWishController::class, 'show'])->middleware('auth:sanctum');
+Route::post('wishlist', [PostWishController::class, 'store'])->middleware('auth:sanctum');
+Route::put('wishlist/{wish}', [PostWishController::class, 'update'])->middleware('auth:sanctum');
+Route::delete('wishlist/{wish}', [PostWishController::class, 'destroy'])->middleware('auth:sanctum');
+
+
 
 // Friends
 Route::get('friends', [FollowController::class, 'friends'])->middleware('auth:sanctum');

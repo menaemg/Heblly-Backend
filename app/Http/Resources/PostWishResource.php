@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources\Gratitude;
+namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class GratitudeResource extends JsonResource
+class PostWishResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,7 +18,6 @@ class GratitudeResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'body' => $this->body,
-            'from' => $this->from_friend,
             'location' => $this->location,
             'main_image' => $this->main_image,
             'tags' => $this->tags ? $this->tags->map(function ($tag) {
