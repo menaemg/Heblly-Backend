@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GiftController;
+use App\Http\Controllers\BoardController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\HelpController;
 use App\Http\Controllers\Api\PickController;
@@ -157,6 +158,12 @@ Route::get('gifts/{gift}', [GiftController::class, 'show'])->middleware('auth:sa
 Route::put('gifts/{gift}', [GiftController::class, 'update'])->middleware('auth:sanctum');
 Route::delete('gifts/{gift}', [GiftController::class, 'destroy'])->middleware('auth:sanctum');
 
+// Board
+Route::post('board', [BoardController::class, 'store'])->middleware('auth:sanctum');
+Route::get('board', [BoardController::class, 'index'])->middleware('auth:sanctum');
+Route::get('board/{board}', [BoardController::class, 'show'])->middleware('auth:sanctum');
+Route::put('board/{board}', [BoardController::class, 'update'])->middleware('auth:sanctum');
+Route::delete('board/{board}', [BoardController::class, 'destroy'])->middleware('auth:sanctum');
 
 // Friends
 Route::get('friends', [FollowController::class, 'friends'])->middleware('auth:sanctum');
