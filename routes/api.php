@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GiftController;
 use App\Http\Controllers\BoardController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\HelpController;
 use App\Http\Controllers\Api\PickController;
@@ -168,3 +169,13 @@ Route::delete('board/{board}', [BoardController::class, 'destroy'])->middleware(
 // Friends
 Route::get('friends', [FollowController::class, 'friends'])->middleware('auth:sanctum');
 Route::get('users', [FollowController::class, 'users'])->middleware('auth:sanctum');
+
+// Settings
+
+Route::get('settings/notification-status', [SettingController::class, 'notificationStatus'])->middleware('auth:sanctum');
+Route::put('settings/notification-status', [SettingController::class, 'updateNotification'])->middleware('auth:sanctum');
+
+Route::get('settings/privacy-status', [SettingController::class, 'privacyStatus'])->middleware('auth:sanctum');
+Route::put('settings/privacy-status', [SettingController::class, 'updatePrivacy'])->middleware('auth:sanctum');
+
+Route::delete('settings/delete-account', [SettingController::class, 'deleteAccount'])->middleware('auth:sanctum');
