@@ -164,7 +164,8 @@ class FollowController extends Controller
 
 
 
-        $friends = $followings->concat($followers)->filter(function ($friend) use ($request) {
+        $friends = $followings->concat($followers);
+        $friends = $friends->filter(function ($friend) use ($request) {
             return false != stristr($friend['username'], $request->search);
         })->unique('id');
 
@@ -174,11 +175,16 @@ class FollowController extends Controller
     public function users(Request $request)
     {
         // dd($request->has('search'), $request->search);
-        $users = User::where('id', '!=', Auth::id())->when($request->has('search') && $request->search, function ($q) use($request) {
+        $users = User::when($request->has('search') && $request->search, function ($q) use($request) {
             $q->where('username', 'like', '%' . $request->search . '%');
-        })->doesntHave('profile')->OrWhereHas('profile', function ($q) {
+        })->where('id', '!=', Auth::id())
+        ->doesntHave('profile')->OrWhereHas('profile', function ($q) {
             $q->where('privacy', 'public');
-        })->get();
+        })
+        ->when($request->has('search') && $request->search, function ($q) use($request) {
+            $q->where('username', 'like', '%' . $request->search . '%');
+        })
+        ->get();
 
         $users = $users->map(function ($user) {
             return [
