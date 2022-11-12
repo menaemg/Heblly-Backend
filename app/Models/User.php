@@ -6,20 +6,28 @@ namespace App\Models;
 use Termwind\Components\Dd;
 use App\Scopes\NotBlockedScope;
 use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Routing\Events\RouteMatched;
 use Overtrue\LaravelFollow\Traits\Follower;
 use Overtrue\LaravelFollow\Traits\Followable;
+use BeyondCode\Comments\Contracts\Commentator;
 use App\Notifications\ResetPasswordNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements Commentator
 {
     use HasApiTokens, HasFactory, Notifiable, Follower, Followable;
+
+        /**
+     * Check if a comment for a specific model needs to be approved.
+     * @param mixed $model
+     * @return bool
+     */
+    public function needsCommentApproval($model): bool
+    {
+        return false;
+    }
 
     /**
      * The attributes that are mass assignable.

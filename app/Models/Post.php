@@ -2,19 +2,19 @@
 
 namespace App\Models;
 
-use App\Traits\DiffForHumans;
+use Spatie\Tags\HasTags;
 use App\Traits\ImageFile;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
+use App\Traits\DiffForHumans;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
-use Spatie\Tags\HasTags;
-
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Builder;
+use BeyondCode\Comments\Traits\HasComments;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Post extends Model
 {
-    use HasFactory, HasTags, HasSlug, ImageFile, DiffForHumans;
+    use HasFactory, HasTags, HasSlug, ImageFile, DiffForHumans, HasComments;
 
     /**
      * Get the options for generating the slug.

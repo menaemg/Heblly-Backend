@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GiftController;
 use App\Http\Controllers\BoardController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\HelpController;
@@ -179,3 +180,9 @@ Route::get('settings/privacy-status', [SettingController::class, 'privacyStatus'
 Route::put('settings/privacy-status', [SettingController::class, 'updatePrivacy'])->middleware('auth:sanctum');
 
 Route::delete('settings/delete-account', [SettingController::class, 'deleteAccount'])->middleware('auth:sanctum');
+
+// comments
+
+Route::get('post/{post}/comment', [CommentController::class, 'index'])->middleware('auth:sanctum');
+Route::post('post/{post}/comment', [CommentController::class, 'store'])->middleware('auth:sanctum');
+Route::delete('post/{post}/comment/{commentId}', [CommentController::class, 'destroy'])->middleware('auth:sanctum');
