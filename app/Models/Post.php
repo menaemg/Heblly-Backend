@@ -110,6 +110,11 @@ class Post extends Model
         return $this->belongsTo(User::class, 'from_id')->select('id', 'username');
     }
 
+    public function for_friend()
+    {
+        return $this->belongsTo(User::class, 'for_id')->select('id', 'username');
+    }
+
     public function scopeFilter(Builder $builder, $request)
     {
         $filter = $request->query('filter');
