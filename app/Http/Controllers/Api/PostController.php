@@ -90,7 +90,7 @@ class PostController extends Controller
 
         $post->delete();
 
-        return jsonResponse(true, 'Post deleted successfully', null);
+        return jsonResponse(true, 'Post deleted successfully', $post);
     }
 
     public  function landingPosts(Request $request)
