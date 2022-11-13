@@ -19,7 +19,7 @@ class PickController extends Controller
      */
     public function index()
     {
-        $picks = Auth::user()->posts()->where('type', 'post')->with('tags')->get();
+        $picks = Auth::user()->posts->where('type', 'pick');
 
 
         return jsonResponse(true, "User Picks", PickResource::collection($picks));
