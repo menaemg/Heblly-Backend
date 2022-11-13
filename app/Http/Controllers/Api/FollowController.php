@@ -15,7 +15,23 @@ class FollowController extends Controller
     {
         $followings = Auth::user()->followings->load('followable:id,username')->pluck('followable');
 
-        return jsonResponse(true, "Followings List", $followings);
+        $followings = $followings->map(function ($user) {
+            return [
+                'id' => $user->id,
+                'username' => $user->username,
+                'name' => $user->profile ? $user->profile->name : null,
+                'avatar'   => $user->profile->avatar_url ?? null,
+                'cover'   => $user->profile->cover_url ?? null,
+                'follower_count' => $user->followers->count(),
+            ];
+        });
+
+        $data = [
+            'followings_count' => $followings->count(),
+            'followings' => $followings,
+        ];
+
+        return jsonResponse(true, "Followings List", $data);
     }
 
     public function approvedFollowings()
@@ -36,13 +52,15 @@ class FollowController extends Controller
     {
         $followers = Auth::user()->followers;
 
-        $followers = $followers->map(function ($follower) {
+        $followers = $followers->map(function ($user) {
             return [
-                'id' => $follower->id,
-                'name' => $follower->profile->name ?? null,
-                'username' => $follower->username,
-                'email' => $follower->email ?? null,
-                'is_approved' => $follower->pivot->accepted_at ? true : false,
+                'id' => $user->id,
+                'username' => $user->username,
+                'name' => $user->profile ? $user->profile->name : null,
+                'avatar'   => $user->profile->avatar_url ?? null,
+                'cover'   => $user->profile->cover_url ?? null,
+                'is_approved' => $user->pivot->accepted_at ? true : false,
+                'follower_count' => $user->followers->count(),
             ];
         });
 
