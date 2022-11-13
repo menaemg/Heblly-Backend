@@ -6,6 +6,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\FollowAcceptNotification;
+use App\Notifications\FollowRequestNotification;
 
 class FollowController extends Controller
 {
@@ -99,6 +101,9 @@ class FollowController extends Controller
     {
         try {
             Auth::user()->follow($user);
+
+            $user->notify(new FollowRequestNotification(Auth::user()));
+
             return jsonResponse(true, "Follow Request Sent");
         } catch (\Exception $e) {
             return jsonResponse(false, "Unable to send follow request (" . $e->getMessage() .")");
@@ -124,6 +129,9 @@ class FollowController extends Controller
                 return jsonResponse(false, "Follow request not found");
             }
             Auth::user()->acceptFollowRequestFrom($user);
+
+            $user->notify(new FollowAcceptNotification(Auth::user()));
+
             return jsonResponse(true, "Follow Request Accepted");
         } catch (\Exception $e) {
             return jsonResponse(false, "Unable to accept follow request (" . $e->getMessage() .")");

@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\BoardNotification;
 use App\Http\Resources\Gift\GiftResource;
 use App\Http\Requests\Gift\GiftStoreRequest;
 use App\Http\Requests\Gift\GiftUpdateRequest;
@@ -37,13 +38,15 @@ class BoardController extends Controller
         $user = auth()->user();
         $friend = User::findOrFail($request->for_id);
 
-        if ($friend->isFollowing($user) || $friend->isFollowedBy($user)) {
-            $board = $friend->posts()->create($request->validated() + ['type' => 'board'] + ['from_id' => $user->id]);
-            return jsonResponse(true, "Added to board friend", new GiftResource($board));
+        if (!$friend->isFollowing($user) && !$friend->isFollowedBy($user)) {
+            return jsonResponse(false, "you are not friend with this user", null, 403);
         }
 
+        $board = $friend->posts()->create($request->validated() + ['type' => 'board'] + ['from_id' => $user->id]);
 
-        return jsonResponse(False, "Can't Add to Friend Board", null, 403);
+        $friend->notify(new BoardNotification($user, $board));
+
+        return jsonResponse(true, "Added to board friend", new GiftResource($board));
     }
 
     /**

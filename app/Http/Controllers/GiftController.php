@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\GiftNotification;
 use App\Http\Resources\Gift\GiftResource;
 use App\Http\Requests\Gift\GiftStoreRequest;
 use App\Http\Requests\Gift\GiftUpdateRequest;
@@ -35,6 +37,7 @@ class GiftController extends Controller
     {
         $gift = Auth::user()->posts()->create($request->validated() + ['type' => 'gift']);
 
+        User::find($request->for_id)->notify(new GiftNotification(Auth::user(), $gift));
 
         return jsonResponse(true, "Gift Created", new GiftResource($gift));
     }

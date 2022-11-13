@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\BlockController;
 use App\Http\Controllers\Api\FollowController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\WishlistController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Api\GratitudeController;
 use App\Http\Controllers\Api\WishboardController;
 
@@ -95,7 +96,7 @@ Route::apiResource('posts', PostController::class)->middleware('auth:sanctum');
 Route::apiResource('gifts', GiftController::class)->middleware('auth:sanctum');
 
 // Gratitude CRUD routes
-Route::apiResource('gratitudes', GratitudeController::class)->middleware('auth:sanctum');
+// Route::apiResource('gratitudes', GratitudeController::class)->middleware('auth:sanctum');
 
 // Wishlist routes
 Route::group([
@@ -142,8 +143,9 @@ Route::apiResource('picks', PickController::class)->middleware('auth:sanctum');
 // Gratitude
 Route::get('gratitudes', [App\Http\Controllers\GratitudeController::class, 'index'])->middleware('auth:sanctum');
 Route::post('gratitudes', [App\Http\Controllers\GratitudeController::class, 'store'])->middleware('auth:sanctum');
-Route::put('gratitudes/{gratitudes}', [App\Http\Controllers\GratitudeController::class, 'update'])->middleware('auth:sanctum');
-Route::delete('gratitudes/{gratitudes}', [App\Http\Controllers\GratitudeController::class, 'delete'])->middleware('auth:sanctum');
+Route::put('gratitudes/{gratitude}', [App\Http\Controllers\GratitudeController::class, 'update'])->middleware('auth:sanctum');
+Route::get('gratitudes/{gratitude}', [App\Http\Controllers\GratitudeController::class, 'show'])->middleware('auth:sanctum');
+Route::delete('gratitudes/{gratitude}', [App\Http\Controllers\GratitudeController::class, 'destroy'])->middleware('auth:sanctum');
 
 
 // Wish List
@@ -186,3 +188,11 @@ Route::delete('settings/delete-account', [SettingController::class, 'deleteAccou
 Route::get('post/{post}/comment', [CommentController::class, 'index'])->middleware('auth:sanctum');
 Route::post('post/{post}/comment', [CommentController::class, 'store'])->middleware('auth:sanctum');
 Route::delete('post/{post}/comment/{commentId}', [CommentController::class, 'destroy'])->middleware('auth:sanctum');
+
+
+// Notifications
+Route::get('notifications', [NotificationController::class, 'index'])->middleware('auth:sanctum');
+Route::patch('notifications/read/{id}', [NotificationController::class, 'read'])->middleware('auth:sanctum');
+Route::patch('notifications/read-all', [NotificationController::class, 'readAll'])->middleware('auth:sanctum');
+Route::patch('notifications/unread/{id}', [NotificationController::class, 'unRead'])->middleware('auth:sanctum');
+Route::delete('notifications/delete/{id}', [NotificationController::class, 'destroy'])->middleware('auth:sanctum');

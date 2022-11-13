@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreGratitudeRequest;
+use App\Notifications\GratitudeNotification;
 use App\Http\Requests\UpdateGratitudeRequest;
 use App\Http\Resources\Gratitude\GratitudeResource;
 
@@ -33,6 +35,7 @@ class GratitudeController extends Controller
     {
         $gratitude = Auth::user()->posts()->create($request->validated() + ['type' => 'gratitude']);
 
+        User::find($request->from_id)->notify(new GratitudeNotification(Auth::user(), $gratitude));
 
         return jsonResponse(true, "Gratitude Created", new GratitudeResource($gratitude));
     }
@@ -45,7 +48,7 @@ class GratitudeController extends Controller
      */
     public function show(Post $gratitude)
     {
-        if ((Auth::user()->id == $gratitude->user_id  || $gratitude->privacy == 'public') && ($gratitude->type == 'gratitude' )) {
+        if (( Auth::user()->id == $gratitude->user_id || Auth::user()->id == $gratitude->from_id  || $gratitude->privacy == 'public') && ($gratitude->type == 'gratitude' )) {
             return jsonResponse(true, "User Gratitude", new GratitudeResource($gratitude));
         }
 
