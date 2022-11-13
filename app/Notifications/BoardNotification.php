@@ -49,6 +49,7 @@ class BoardNotification extends Notification
         return [
             'message' => $this->fromUser->username . ' share in your board "' . $this->board->title . '"',
             'image' =>   $this->fromUser->profile ? $this->fromUser->profile->avatar_url : null,
+            'username' => $this->fromUser->username,
             'action' => [
                 'url' => url('/api/boards/' . $this->board->id),
                 'text' => 'Show Wish Board'

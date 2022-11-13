@@ -49,6 +49,7 @@ class CommentNotification extends Notification
         return [
             'message' => $this->fromUser->username . ' share in your comment "' . $this->comment->title . '"',
             'image' =>   $this->fromUser->profile ? $this->fromUser->profile->avatar_url : null,
+            'username' => $this->fromUser->username,
             'action' => [
                 'url' => url('/api/posts/' . $this->post->id),
                 'text' => 'Show Wish Comment'

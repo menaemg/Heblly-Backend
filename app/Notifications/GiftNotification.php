@@ -47,6 +47,7 @@ class GiftNotification extends Notification
         return [
             'message' => $this->fromUser->username . ' sent you a gift "' . $this->gift->title . '"',
             'image' =>   $this->fromUser->profile ? $this->fromUser->profile->avatar_url : null,
+            'username' => $this->fromUser->username,
             'action' => [
                 'url' => url('/api/gifts/' . $this->gift->id),
                 'text' => 'Show Gift'

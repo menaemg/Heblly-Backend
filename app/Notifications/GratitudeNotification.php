@@ -47,6 +47,7 @@ class GratitudeNotification extends Notification
         return [
             'message' => $this->fromUser->username . ' gratitude you',
             'image' =>   $this->fromUser->profile ? $this->fromUser->profile->avatar_url : null,
+            'username' => $this->fromUser->username,
             'action' => [
                 'url' => url('/api/gratitudes/' . $this->gratitude->id),
                 'text' => 'Show Gratitude'

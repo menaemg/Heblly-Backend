@@ -31,12 +31,12 @@ class WishlistController extends Controller
         $user = auth()->user();
         $wishlist = $user->wishlist()->where('post_id', $post->id)->first();
         if ($wishlist) {
-            return \jsonResponse(false, 'Post already in wishlist');
+            return \jsonResponse(false, 'Post already in wishlist' , $post, 400);
         }
         $user->wishlist()->create([
             'post_id' => $post->id
         ]);
-        return \jsonResponse(true, 'Post added to wishlist');
+        return \jsonResponse(true, 'Post added to wishlist', $post);
     }
 
     public function gratitude(Wishlist $wish, StoreGratitudeRequest $request)

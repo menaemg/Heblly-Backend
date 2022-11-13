@@ -30,6 +30,11 @@ class Post extends Model
         'updated_at',
     ];
 
+    protected $hidden = [
+        'for_id',
+        'from_id'
+    ];
+
     protected $fillable = [
         'title',
         'body',
