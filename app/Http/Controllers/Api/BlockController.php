@@ -5,13 +5,15 @@ namespace App\Http\Controllers\Api;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\BlockResource;
 
 class BlockController extends Controller
 {
     public function index()
     {
         $user = auth()->user();
-        $block = $user->blocklist()->with('blockUser')->get();
+        $block = BlockResource::collection($user->blocklist);
+
         return jsonResponse(true, 'Block retrieved successfully', $block);
     }
 
