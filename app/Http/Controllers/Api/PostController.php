@@ -20,7 +20,6 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
-        dd('here');
         $posts = Auth::user()->posts()->with('tags' , 'user.profile')->latest()->paginate(10);
 
         return jsonResponse(true, 'Posts retrieved successfully', PostResource::collection($posts));
