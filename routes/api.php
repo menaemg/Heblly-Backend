@@ -117,7 +117,7 @@ Route::group([
     'prefix' => 'wishboard'
     ],
     function () {
-        Route::get('/', [WishboardController::class, 'index']);
+        // Route::get('/', [WishboardController::class, 'index']);
         Route::post('/add-to-friend/{post}', [WishboardController::class, 'addWishToFriend']);
         Route::post('/add-to-wishlist/{wish}', [WishboardController::class, 'addToWishList']);
         Route::delete('/remove/{wish}', [WishboardController::class, 'destroy']);
@@ -163,8 +163,8 @@ Route::put('gifts/{gift}', [GiftController::class, 'update'])->middleware('auth:
 Route::delete('gifts/{gift}', [GiftController::class, 'destroy'])->middleware('auth:sanctum');
 
 // Board
+Route::get('wishboard', [BoardController::class, 'index'])->middleware('auth:sanctum');
 Route::post('board', [BoardController::class, 'store'])->middleware('auth:sanctum');
-Route::get('board', [BoardController::class, 'index'])->middleware('auth:sanctum');
 Route::get('board/{board}', [BoardController::class, 'show'])->middleware('auth:sanctum');
 Route::put('board/{board}', [BoardController::class, 'update'])->middleware('auth:sanctum');
 Route::delete('board/{board}', [BoardController::class, 'destroy'])->middleware('auth:sanctum');
@@ -192,7 +192,9 @@ Route::delete('post/{post}/comment/{commentId}', [CommentController::class, 'des
 
 // Notifications
 Route::get('notifications', [NotificationController::class, 'index'])->middleware('auth:sanctum');
+Route::get('notifications/gift', [NotificationController::class, 'indexGift'])->middleware('auth:sanctum');
 Route::patch('notifications/read/{id}', [NotificationController::class, 'read'])->middleware('auth:sanctum');
 Route::patch('notifications/read-all', [NotificationController::class, 'readAll'])->middleware('auth:sanctum');
+Route::patch('notifications/read-all/gift', [NotificationController::class, 'readAllGift'])->middleware('auth:sanctum');
 Route::patch('notifications/unread/{id}', [NotificationController::class, 'unRead'])->middleware('auth:sanctum');
 Route::delete('notifications/delete/{id}', [NotificationController::class, 'destroy'])->middleware('auth:sanctum');

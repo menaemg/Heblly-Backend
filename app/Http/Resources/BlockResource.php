@@ -19,6 +19,7 @@ class BlockResource extends JsonResource
             'username' => $this->blockUser->username,
             'name' => $this->blockUser->profile ? $this->blockUser->profile->name : null,
             'avatar' => $this->blockUser->profile ? $this->blockUser->profile->avatar_url : null,
+            'type' => $this->type
         ];
     }
 }

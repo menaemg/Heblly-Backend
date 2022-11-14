@@ -47,7 +47,7 @@ class BoardNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'message' => $this->fromUser->username . ' share in your board "' . $this->board->title . '"',
+            'message' => $this->fromUser->username . ' share in your board',
             'image' =>   $this->fromUser->profile ? $this->fromUser->profile->avatar_url : null,
             'username' => $this->fromUser->username,
             'action' => [
