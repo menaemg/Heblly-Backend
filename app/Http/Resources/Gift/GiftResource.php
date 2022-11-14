@@ -28,6 +28,8 @@ class GiftResource extends JsonResource
             'more_images' => $this->images,
             'privacy' => $this->privacy,
             'access_list' => $this->access_list,
+            'created_at'  => $this->created_at,
+            'updated_at'  => $this->updated_at
         ];
     }
 }

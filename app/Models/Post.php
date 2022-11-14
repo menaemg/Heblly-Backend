@@ -49,6 +49,8 @@ class Post extends Model
         'tags',
         'from_id',
         'type',
+        'created_at',
+        'updated_at',
     ];
 
     public function getSlugOptions(): SlugOptions
