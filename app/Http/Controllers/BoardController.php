@@ -24,7 +24,7 @@ class BoardController extends Controller
 
         $gift = $user->posts()->where('type', 'board')->with('tags')->get();
 
-        return jsonResponse(true, "board list retrieved successfully", GiftResource::collection($gift));
+        return jsonResponse(true, "Board list retrieved successfully", GiftResource::collection($gift));
     }
 
     /**
