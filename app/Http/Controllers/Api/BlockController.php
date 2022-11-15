@@ -6,13 +6,19 @@ use App\Models\User;
 use App\Http\Requests\BlockRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BlockResource;
+use App\Scopes\NotBlockedScope;
+use Termwind\Components\Dd;
 
 class BlockController extends Controller
 {
     public function index()
     {
-        $user = auth()->user();
-        $block = BlockResource::collection($user->blocklist);
+        $user = User::withoutGlobalScope(NotBlockedScope::class)->where('id', Auth()->id())->first();
+
+        $block = BlockResource::collection($user->blocklist->map(function ($block) {
+            $block->blockUser = User::withoutGlobalScope(NotBlockedScope::class)->where('id', $block->block_user_id)->first();
+            return $block;
+        }));
 
         return jsonResponse(true, 'Block retrieved successfully', $block);
     }
@@ -30,6 +36,13 @@ class BlockController extends Controller
         $block = $auth_user->blocklist()->where('block_user_id', $user->id)->where('type', $type)->first();
         if ($block) {
             return jsonResponse(false, 'User already Blocked');
+        }
+
+        if ($type == 'all') {
+            $auth_user->unfollow($user);
+            $user->unfollow($auth_user);
+            $auth_user->rejectFollowRequestFrom($user);
+            $user->rejectFollowRequestFrom($auth_user);
         }
 
         $auth_user->blocklist()->create([

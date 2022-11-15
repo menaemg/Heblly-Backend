@@ -111,6 +111,28 @@ class User extends Authenticatable implements Commentator
         return $this->hasMany(Block::class);
     }
 
+    public function blockedBy()
+    {
+        return $this->hasMany(Block::class, 'block_user_id');
+    }
+
+    // public function scopeNotBlocked($query)
+    // {
+    //     return $query->whereDoesntHave('blocklist', function ($query) {
+    //         $query->where('block_user_id', auth('sanctum')->user()->id);
+    //     })->whereDoesntHave('blockedBy', function ($query) {
+    //         $query->where('user_id', auth('sanctum')->user()->id);
+    //     });
+    // }
+
+    public function getBlockIdsAttribute()
+    {
+        return $this->blocklist()->where('type', 'all')->pluck('block_user_id')->unique('block_user_id')
+                            ->concat($this->blockedBy()->where('type', 'all')->pluck('user_id')->unique('block_user_id'));
+    }
+
+
+
     public function isBlocked($user)
     {
         $blockedIds = Auth()->user()->blocklist()->pluck('block_user_id')->toArray();
@@ -124,19 +146,33 @@ class User extends Authenticatable implements Commentator
         return false;
     }
 
+
+
     public function helps()
     {
         return $this->hasMany(Help::class);
     }
 
-    // protected static function booted()
-    // {
-    //     parent::boot();
-
-    //     // $authUser = auth('sanctum')->check() ? auth('sanctum')->user() : null;
-
-    //     static::addGlobalScope(new NotBlockedScope());
+    // public function blockAccess() {
+    //     if (in_array($this->id, Auth()->user()->blockIds->toArray())) {
+    //         return jsonResponse(false, 'You Can\'t Access This User', 403);
+    //     }
     // }
+
+
+    protected static function booted()
+    {
+        parent::boot();
+
+
+        $authUser = auth('sanctum')->check() ? auth('sanctum')->user() : null;
+
+        // dd(auth('sanctum')->user()->blockIds);
+
+        // \dd($authUser->blocklist()->pluck('block_user_id')->toArray());
+
+        static::addGlobalScope(new NotBlockedScope($authUser));
+    }
 
 
 }

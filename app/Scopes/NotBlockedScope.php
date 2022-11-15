@@ -6,9 +6,17 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope;
 use Illuminate\Database\Eloquent\Builder;
+use Termwind\Components\Dd;
 
 class NotBlockedScope implements Scope
 {
+    public $authUser;
+
+
+    public function __construct($authUser)
+    {
+        $this->authUser = $authUser;
+    }
 
     /* @param  \Illuminate\Database\Eloquent\Builder  $builder
     * @param  \Illuminate\Database\Eloquent\Model  $model
@@ -16,10 +24,12 @@ class NotBlockedScope implements Scope
     */
     public function apply(Builder $builder, Model $model)
     {
+        // dd('yes');
         // dd(auth('sanctum')->user());
         if (auth('sanctum')->check()) {
-            // dd(auth('sanctum')->user()->id);
-            $builder->where('id', '!=', auth('sanctum')->user()->id);
+            // \dd($this->authUser->blockIds->toArray());
+
+            $builder->whereNotIn('users.id', $this->authUser->blockIds->toArray());
         }
         // dump(Auth()->user()->id);
         // dd($model->find(Auth()->id())->blocklist()->get());
