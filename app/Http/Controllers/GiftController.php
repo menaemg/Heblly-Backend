@@ -40,7 +40,7 @@ class GiftController extends Controller
 
         // dd($forUser);
 
-        dd($forUser->notify(new GiftNotification(Auth::user(), $gift)));
+        $forUser->notify(new GiftNotification(Auth::user(), $gift));
 
         return jsonResponse(true, "Gift Created", new GiftResource($gift));
     }
