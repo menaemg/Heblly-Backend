@@ -35,6 +35,7 @@ class GiftStoreRequest extends BaseFormRequest
             'privacy' => 'string|in:public,private',
             'access_list' => 'array',
             'access_list.*' => 'exists:users,id',
+            'for_id' => 'required|exists:users,id',
         ];
     }
 }

@@ -157,7 +157,7 @@ Route::delete('wishlist/{wish}', [PostWishController::class, 'destroy'])->middle
 
 // Gift
 Route::post('gifts', [GiftController::class, 'store'])->middleware('auth:sanctum');
-Route::get('gifts', [GiftController::class, 'index'])->middleware('auth:sanctum');
+Route::get('giftlist', [GiftController::class, 'index'])->middleware('auth:sanctum');
 Route::get('gifts/{gift}', [GiftController::class, 'show'])->middleware('auth:sanctum');
 Route::put('gifts/{gift}', [GiftController::class, 'update'])->middleware('auth:sanctum');
 Route::delete('gifts/{gift}', [GiftController::class, 'destroy'])->middleware('auth:sanctum');

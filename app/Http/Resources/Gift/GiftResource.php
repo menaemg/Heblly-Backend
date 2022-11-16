@@ -20,11 +20,11 @@ class GiftResource extends JsonResource
             'title' => $this->title,
             'for' => $this->for_friend,
             'body' => $this->body,
-            'from' => [
+            'from' => $this->from_friend ? [
                 'id' => $this->from_friend->id,
                 'name' => $this->from_friend->name,
                 'avatar' => $this->from_friend->profile ? $this->from_friend->profile->avatar_url : null,
-            ],
+            ] : null,
             'location' => $this->location,
             'main_image' => $this->main_image,
             'tags' => $this->tags ? $this->tags->map(function ($tag) {

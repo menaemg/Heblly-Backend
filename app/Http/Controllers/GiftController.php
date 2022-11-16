@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\GiftNotification;
 use App\Http\Resources\Gift\GiftResource;
@@ -35,9 +34,13 @@ class GiftController extends Controller
      */
     public function store(GiftStoreRequest $request)
     {
-        $gift = Auth::user()->posts()->create($request->validated() + ['type' => 'gift']);
+        $forUser = User::findOrFail($request->for_id);
 
-        User::find($request->for_id)->notify(new GiftNotification(Auth::user(), $gift));
+        $gift = $forUser->posts()->create($request->validated() + ['type' => 'gift']);
+
+        // dd($forUser);
+
+        dd($forUser->notify(new GiftNotification(Auth::user(), $gift)));
 
         return jsonResponse(true, "Gift Created", new GiftResource($gift));
     }
