@@ -59,7 +59,7 @@ class LikeController extends Controller
 
     public function userLikesCount()
     {
-        $count = Auth()->user()->likers()->count();
+        $count = Auth()->user()->likes()->count();
         return jsonResponse(true, 'User Likes Count', [
             'count' => $count
         ], 200);
