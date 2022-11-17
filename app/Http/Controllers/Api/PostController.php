@@ -10,6 +10,7 @@ use App\Http\Resources\PostResource;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Post\StorePostRequest;
 use App\Http\Requests\Post\UpdatePostRequest;
+use Termwind\Components\Dd;
 
 class PostController extends Controller
 {
@@ -20,7 +21,7 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
-        $posts = Auth::user()->posts()->with('tags' , 'user.profile')->latest()->paginate(10);
+        $posts = Auth::user()->posts()->with('tags' , 'user.profile')->latest()->get();
 
         return jsonResponse(true, 'Posts retrieved successfully', PostResource::collection($posts));
     }
@@ -103,7 +104,7 @@ class PostController extends Controller
         ->when($request->has('search') && $request->search, function ($q) use($request) {
             $q->where('title', 'like', '%' . $request->search . '%');
         })
-        ->with('tags')->latest()->paginate(10);
+        ->with('tags')->latest()->get();
 
         return jsonResponse(true, 'Posts retrieved successfully', PostResource::collection($posts));
     }
@@ -113,8 +114,7 @@ class PostController extends Controller
         $friends = Auth::user()->approvedFollowers()->pluck('user_id');
         $friends = Auth::user()->approvedFollowings()->pluck('user_id')->merge($friends);
 
-        $posts = Post::whereIn('user_id', $friends)->with('tags')->latest()->paginate(10);
-        // $posts = Post::where('privacy', 'public')->whereNot('user_id', Auth::id())->with('tags')->latest()->paginate(10);
+        $posts = Post::whereIn('user_id', $friends)->with('tags')->latest()->get();
 
         return jsonResponse(true, 'Posts retrieved successfully', PostResource::collection($posts));
     }

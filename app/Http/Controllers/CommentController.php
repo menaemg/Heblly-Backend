@@ -28,7 +28,9 @@ class CommentController extends Controller
 
         $comment = $post->commentAsUser($user, $request->comment);
 
-        User::find($post->user_id)->notify(new CommentNotification($user, $post));
+        if ($post->user_id != $user->id) {
+            User::find($post->user_id)->notify(new CommentNotification($user, $post));
+        }
 
         return jsonResponse(true, "Comment Added", $comment);
     }

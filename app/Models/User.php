@@ -3,10 +3,10 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Termwind\Components\Dd;
 use App\Scopes\NotBlockedScope;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Hash;
+use Overtrue\LaravelLike\Traits\Liker;
 use Illuminate\Notifications\Notifiable;
 use Overtrue\LaravelFollow\Traits\Follower;
 use Overtrue\LaravelFollow\Traits\Followable;
@@ -17,7 +17,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements Commentator
 {
-    use HasApiTokens, HasFactory, Notifiable, Follower, Followable;
+    use HasApiTokens, HasFactory, Notifiable, Follower, Followable, Liker;
 
         /**
      * Check if a comment for a specific model needs to be approved.
@@ -164,12 +164,7 @@ class User extends Authenticatable implements Commentator
     {
         parent::boot();
 
-
         $authUser = auth('sanctum')->check() ? auth('sanctum')->user() : null;
-
-        // dd(auth('sanctum')->user()->blockIds);
-
-        // \dd($authUser->blocklist()->pluck('block_user_id')->toArray());
 
         static::addGlobalScope(new NotBlockedScope($authUser));
     }

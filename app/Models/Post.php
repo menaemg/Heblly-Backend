@@ -10,11 +10,13 @@ use Spatie\Sluggable\SlugOptions;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Builder;
+use Overtrue\LaravelLike\Traits\Likeable;
 use BeyondCode\Comments\Traits\HasComments;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 class Post extends Model
 {
-    use HasFactory, HasTags, HasSlug, ImageFile, DiffForHumans, HasComments;
+    use HasFactory, HasTags, HasSlug, ImageFile, DiffForHumans, HasComments, Likeable;
 
     /**
      * Get the options for generating the slug.

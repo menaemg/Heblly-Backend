@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GiftController;
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\BoardController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\SettingController;
@@ -198,3 +199,13 @@ Route::patch('notifications/read-all', [NotificationController::class, 'readAll'
 Route::patch('notifications/read-all/gift', [NotificationController::class, 'readAllGift'])->middleware('auth:sanctum');
 Route::patch('notifications/unread/{id}', [NotificationController::class, 'unRead'])->middleware('auth:sanctum');
 Route::delete('notifications/delete/{id}', [NotificationController::class, 'destroy'])->middleware('auth:sanctum');
+
+// Likes
+Route::post('post/{post}/like', [LikeController::class, 'like'])->middleware('auth:sanctum');
+Route::delete('post/{post}/unlike', [LikeController::class, 'unlike'])->middleware('auth:sanctum');
+Route::post('post/{post}/toggle-like/', [LikeController::class, 'toggleLike'])->middleware('auth:sanctum');
+Route::get('post/{post}/likes-count', [LikeController::class, 'postLikesCount'])->middleware('auth:sanctum');
+Route::get('post/{post}/is-liked', [LikeController::class, 'hasLiked'])->middleware('auth:sanctum');
+Route::get('user/likes-count', [LikeController::class, 'userLikesCount'])->middleware('auth:sanctum');
+
+
