@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use App\Http\Resources\LikeResource;
+use App\Http\Resources\BlockResource;
+use App\Http\Resources\Api\ProfileResource;
 use App\Notifications\PostLikeNotification;
 
 class LikeController extends Controller
@@ -63,5 +66,19 @@ class LikeController extends Controller
         return jsonResponse(true, 'User Likes Count', [
             'count' => $count
         ], 200);
+    }
+
+    public function postLikers(Post $post, Request $request)
+    {
+        $likers = $post->likers()->with('profile')->get();
+
+
+        $likers = LikeResource::collection($likers);
+
+        $likers = $likers->filter(function ($friend) use ($request) {
+            return false != stristr($friend['username'], $request->search);
+        })->unique('id');
+
+        return jsonResponse(true, 'Post Likers', $likers, 200);
     }
 }

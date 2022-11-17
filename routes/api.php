@@ -206,6 +206,7 @@ Route::delete('post/{post}/unlike', [LikeController::class, 'unlike'])->middlewa
 Route::post('post/{post}/toggle-like/', [LikeController::class, 'toggleLike'])->middleware('auth:sanctum');
 Route::get('post/{post}/likes-count', [LikeController::class, 'postLikesCount'])->middleware('auth:sanctum');
 Route::get('post/{post}/is-liked', [LikeController::class, 'hasLiked'])->middleware('auth:sanctum');
+Route::get('post/{post}/likers', [LikeController::class, 'postLikers'])->middleware('auth:sanctum');
 Route::get('user/likes-count', [LikeController::class, 'userLikesCount'])->middleware('auth:sanctum');
 
 
