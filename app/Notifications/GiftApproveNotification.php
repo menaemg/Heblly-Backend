@@ -3,27 +3,25 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class BoardNotification extends Notification
+class GiftApproveNotification extends Notification
 {
     use Queueable;
 
 
     public $fromUser;
-    public $board;
+    public $gift;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($fromUser, $board)
+    public function __construct($fromUser, $gift)
     {
         $this->fromUser = $fromUser;
-        $this->board = $board;
+        $this->gift = $gift;
     }
 
 
@@ -47,15 +45,19 @@ class BoardNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'message' => $this->fromUser->username . ' is requesting to post this in your board',
+            'message' => $this->fromUser->username . ' has been informed that you received a gift',
             'image' =>   $this->fromUser->profile ? $this->fromUser->profile->avatar_url : null,
-            'post_id' => $this->board->id,
-            'post_image' => $this->board->main_image,
+            'user_id' => $this->fromUser->id,
             'username' => $this->fromUser->username,
+            'post_image' => $this->gift->main_image,
             'action' => [
-                'url' => url('/api/boards/' . $this->board->id . '/allow'),
-                'text' => 'Allow'
-            ]
+                'gratitude' => [
+                'url' => url('/api/gratitudes'),
+                'text' => 'Say Thank you'
+                ]
+            ],
+            'show' => url('/api/gifts/' . $this->gift->id),
+            'type' => 'gift approved',
         ];
     }
 }

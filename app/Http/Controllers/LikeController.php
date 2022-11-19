@@ -72,12 +72,11 @@ class LikeController extends Controller
     {
         $likers = $post->likers()->with('profile')->get();
 
-
-        $likers = LikeResource::collection($likers);
-
         $likers = $likers->filter(function ($friend) use ($request) {
             return false != stristr($friend['username'], $request->search);
         })->unique('id');
+
+        $likers = LikeResource::collection($likers);
 
         return jsonResponse(true, 'Post Likers', $likers, 200);
     }

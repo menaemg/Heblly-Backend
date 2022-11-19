@@ -20,12 +20,20 @@ trait ImageFile
             return false;
         }
 
-        if (File::size($image) > 2000000) {
-            return \jsonResponse(false, 'Image size is too large (max 2 m)', null, 400);
-        }
-
         $filename =  date('Y-m-d-') . uniqid() . '.' . $image->getClientOriginalExtension();
 
+        // $image = Image::make($image);
+
+        // $image->resize(800, null, function ($constraint) {
+        //     $constraint->aspectRatio();
+        // });
+
+        // $resource = $image->stream()->detach();
+
+        // $store = Storage::disk('s3')->put(
+        //     $path . '/' . $filename,
+        //     $resource
+        // );
 
         $filename = $image->storeAs($path , $filename, 's3');
 

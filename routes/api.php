@@ -159,7 +159,11 @@ Route::delete('wishlist/{wish}', [PostWishController::class, 'destroy'])->middle
 // Gift
 Route::post('gifts', [GiftController::class, 'store'])->middleware('auth:sanctum');
 Route::get('giftlist', [GiftController::class, 'index'])->middleware('auth:sanctum');
-Route::get('gifts/{gift}', [GiftController::class, 'show'])->middleware('auth:sanctum');
+Route::get('giftlist/pending', [GiftController::class, 'pending'])->middleware('auth:sanctum');
+Route::get('giftlist/rejected', [GiftController::class, 'rejected'])->middleware('auth:sanctum');
+Route::post('gifts/{post}/approve', [GiftController::class, 'approveGift'])->middleware('auth:sanctum');
+Route::post('gifts/{post}/reject', [GiftController::class, 'rejectGift'])->middleware('auth:sanctum');
+Route::post('gifts/{gift}', [GiftController::class, 'show'])->middleware('auth:sanctum');
 Route::put('gifts/{gift}', [GiftController::class, 'update'])->middleware('auth:sanctum');
 Route::delete('gifts/{gift}', [GiftController::class, 'destroy'])->middleware('auth:sanctum');
 
@@ -167,6 +171,7 @@ Route::delete('gifts/{gift}', [GiftController::class, 'destroy'])->middleware('a
 Route::get('wishboard', [BoardController::class, 'index'])->middleware('auth:sanctum');
 Route::post('board', [BoardController::class, 'store'])->middleware('auth:sanctum');
 Route::get('board/{board}', [BoardController::class, 'show'])->middleware('auth:sanctum');
+Route::post('board/{board}/allow', [BoardController::class, 'allow'])->middleware('auth:sanctum');
 Route::put('board/{board}', [BoardController::class, 'update'])->middleware('auth:sanctum');
 Route::delete('board/{board}', [BoardController::class, 'destroy'])->middleware('auth:sanctum');
 

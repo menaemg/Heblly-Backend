@@ -7,6 +7,7 @@ use App\Traits\ImageFile;
 use App\Traits\DiffForHumans;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
+use Illuminate\Support\Facades\File;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Builder;
@@ -44,12 +45,14 @@ class Post extends Model
         'main_image',
         'images',
         'status',
+        'action',
         'location',
         'privacy',
         'user_id',
         'access_list',
         'tags',
         'from_id',
+        'for_id',
         'type',
         'created_at',
         'updated_at',
@@ -67,14 +70,8 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
-    // public function getRouteKeyName()
-    // {
-    //     return 'slug';
-    // }
-
     public function setMainImageAttribute($value)
     {
-
         if (is_file($value)) {
             $image = $this->uploadImage($value, 'posts');
             if ($image) {

@@ -3,8 +3,6 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
 class PostLikeNotification extends Notification
@@ -50,6 +48,7 @@ class PostLikeNotification extends Notification
             'message' => $this->fromUser->username . ' like your post',
             'image' =>   $this->fromUser->profile ? $this->fromUser->profile->avatar_url : null,
             'username' => $this->fromUser->username,
+            'post_image' => $this->post->main_image,
             'action' => [
                 'url' => url('/api/posts/' . $this->post->id),
                 'text' => 'Show Post'

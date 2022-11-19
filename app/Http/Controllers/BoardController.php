@@ -22,7 +22,7 @@ class BoardController extends Controller
     {
         $user = auth()->user();
 
-        $gift = $user->posts()->where('type', 'board')->with('tags')->get();
+        $gift = $user->posts()->where('type', 'board')->where('action', 'approved')->with('tags')->get();
 
         return jsonResponse(true, "Board list retrieved successfully", GiftResource::collection($gift));
     }
@@ -42,11 +42,28 @@ class BoardController extends Controller
             return jsonResponse(false, "you are not friend with this user", null, 403);
         }
 
-        $board = $friend->posts()->create($request->validated() + ['type' => 'board'] + ['from_id' => $user->id]);
+        $board = $friend->posts()->create($request->validated() + ['type' => 'board'] + ['from_id' => $user->id] + ['action' => 'pending']);
 
         $friend->notify(new BoardNotification($user, $board));
 
         return jsonResponse(true, "Added to board friend", new GiftResource($board));
+    }
+
+    public function allow(Post $board)
+    {
+        $user = auth()->user();
+
+        $board = $user->posts()->where('id', $board->id)->where('type', 'board')->with('tags')->first();
+
+        if (!$board) {
+            return jsonResponse(false, "Board not found");
+        }
+
+        $board->update([
+            'action' => 'approved'
+        ]);
+
+        return jsonResponse(true, "Board approved successfully", new GiftResource($board));
     }
 
     /**

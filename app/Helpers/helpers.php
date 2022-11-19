@@ -5,11 +5,13 @@
  *
  * @return jsonResponse()
  */
-if (! function_exists('jsonResponse')) {
+if (!function_exists('jsonResponse')) {
     function jsonResponse($status, $message, $data = null, $code = null)
     {
-        function removeNull($value) {
-            return !is_null($value);
+        if (!function_exists('removeNull')) {
+            function removeNull($value) {
+                return !is_null($value);
+            }
         }
 
         if($status) {

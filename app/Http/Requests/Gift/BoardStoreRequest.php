@@ -25,7 +25,7 @@ class GiftStoreRequest extends BaseFormRequest
     {
         return [
             'title' => 'required|string',
-            'main_image' => 'required|image',
+            'main_image' => 'required|image|max:2048',
             'location' => 'string',
             'tags' => 'array',
             'tags.*' => 'string',
