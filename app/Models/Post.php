@@ -111,6 +111,11 @@ class Post extends Model
         }
     }
 
+    public function reserved()
+    {
+        return $this->hasOne(Reserve::class);
+    }
+
     public function from_friend()
     {
         return $this->belongsTo(User::class, 'from_id')->select('id', 'username');

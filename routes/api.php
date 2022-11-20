@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\WishlistController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Api\GratitudeController;
 use App\Http\Controllers\Api\WishboardController;
+use App\Http\Controllers\ReserveController;
 
 /*
 |--------------------------------------------------------------------------
@@ -217,5 +218,9 @@ Route::get('post/{post}/likes-count', [LikeController::class, 'postLikesCount'])
 Route::get('post/{post}/is-liked', [LikeController::class, 'hasLiked'])->middleware('auth:sanctum');
 Route::get('post/{post}/likers', [LikeController::class, 'postLikers'])->middleware('auth:sanctum');
 Route::get('user/likes-count', [LikeController::class, 'userLikesCount'])->middleware('auth:sanctum');
+
+
+Route::post('wish/{post}/reserve', [ReserveController::class, 'reserve'])->middleware('auth:sanctum');
+Route::delete('wish/{post}/reserve', [ReserveController::class, 'cancel'])->middleware('auth:sanctum');
 
 

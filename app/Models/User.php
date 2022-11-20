@@ -146,6 +146,11 @@ class User extends Authenticatable implements Commentator
         return false;
     }
 
+    public function reserves()
+    {
+        return $this->hasMany(Reserve::class);
+    }
+
 
 
     public function helps()
