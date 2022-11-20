@@ -26,7 +26,7 @@ class ReserveController extends Controller
             if ($post->reserved->user_id == auth()->id()) {
                 return jsonResponse(false, 'You already reserved this wish');
             }
-            return jsonResponse(false, 'Gift already reserved');
+            return jsonResponse(false, 'you late, someone already has reserved this wish');
         }
 
         if (!$post->type == 'wish' || !$post->type == 'board') {

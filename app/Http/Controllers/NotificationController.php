@@ -2,20 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use Termwind\Components\Dd;
 use Illuminate\Http\Request;
 use App\Notifications\GiftNotification;
+use App\Notifications\ReserveNotification;
 use App\Http\Resources\NotificationResource;
-use App\Notifications\GiftApproveNotification;
 use App\Notifications\GratitudeNotification;
-use Termwind\Components\Dd;
+use App\Notifications\GiftApproveNotification;
 
 class NotificationController extends Controller
 {
+    protected $giftlist = [GiftNotification::class , GratitudeNotification::class, GiftApproveNotification::class, ReserveNotification::class];
     public function index()
     {
         $user = auth()->user();
 
-        $notifications = $user->notifications()->whereNotIn('type', [GiftNotification::class , GratitudeNotification::class, GiftApproveNotification::class])->get();
+        $notifications = $user->notifications()->whereNotIn('type', $this->giftlist)->get();
 
         $notifications = NotificationResource::collection($notifications);
 
@@ -25,7 +27,7 @@ class NotificationController extends Controller
             'data' => $notifications,
             'meta' => [
                 'notifications_count' => $notifications->count(),
-                'unread_notifications_count' => $user->unreadNotifications()->whereNotIn('type', [GiftNotification::class , GratitudeNotification::class, GiftApproveNotification::class])->count()
+                'unread_notifications_count' => $user->unreadNotifications()->whereNotIn('type', $this->giftlist)->count()
             ],
         ]);
 
@@ -36,7 +38,7 @@ class NotificationController extends Controller
     {
         $user = auth()->user();
 
-        $notifications = $user->notifications()->whereIn('type', [GiftNotification::class , GratitudeNotification::class, GiftApproveNotification::class])->get();
+        $notifications = $user->notifications()->whereIn('type', $this->giftlist)->get();
 
         $notifications = NotificationResource::collection($notifications);
 
@@ -46,7 +48,7 @@ class NotificationController extends Controller
             'data' => $notifications,
             'meta' => [
                 'notifications_count' => $notifications->count(),
-                'unread_notifications_count' => $user->unreadNotifications()->whereIn('type', [GiftNotification::class , GratitudeNotification::class, GiftApproveNotification::class])->count()
+                'unread_notifications_count' => $user->unreadNotifications()->whereIn('type', $this->giftlist)->count()
             ],
         ]);
 
