@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Notifications\ExtendNotification;
 use App\Notifications\ReserveNotification;
+use Termwind\Components\Dd;
 
 class ReserveController extends Controller
 {
@@ -57,7 +58,7 @@ class ReserveController extends Controller
         }
 
         $user_reserved = $user->reserves()->whereHas('post', function ($query) use ($post) {
-            $query->where('user_id', $post->user_id);
+            $query->where('user_id', $post->user_id)->where('status', 'pending');
         })->get()->count();
 
         if ($user_reserved) {
@@ -103,7 +104,7 @@ class ReserveController extends Controller
     }
 
 
-    public function granted(Post $post) {
+    public function granted(Post $post, Request $request) {
 
         if (!$post->reserved) {
             return jsonResponse(false, 'Gift not reserved yet');
@@ -117,9 +118,21 @@ class ReserveController extends Controller
             return jsonResponse(false, 'You already granted this gift');
         }
 
+        if ($request->notification_id) {
+            $notification = auth()->user()->notifications()->where('id',$request->notification_id)->first();
+            if ($notification) {
+                $notification->delete();
+            }
+        }
+
+
         $post->reserved->update([
             'status' => 'granted',
         ]);
+
+
+
+        auth()->user()->not;
 
         return jsonResponse(true, 'Gift granted successfully', $post);
     }

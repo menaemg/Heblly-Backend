@@ -55,7 +55,8 @@ class ReserveNotification extends Notification
             'action' => [
                 'url' => url('/api/reserve/' . $this->gift->id . '/granted'),
                 'text' => 'grant'
-            ]
+            ],
+            'type' => 'reserve'
         ];
     }
 }
