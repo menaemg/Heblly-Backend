@@ -45,7 +45,7 @@ class PostLikeNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'message' => $this->fromUser->username . ' like your post',
+            'message' => 'like your post',
             'image' =>   $this->fromUser->profile ? $this->fromUser->profile->avatar_url : null,
             'username' => $this->fromUser->username,
             'post_image' => $this->post->main_image,

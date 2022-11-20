@@ -45,7 +45,7 @@ class GiftNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'message' =>'it seems that your wish granted by ' . $this->fromUser->username,
+            'message' =>'it seems that your wish granted by',
             'image' =>   $this->fromUser->profile ? $this->fromUser->profile->avatar_url : null,
             'user_id' => $this->fromUser->id,
             'username' => $this->fromUser->username,

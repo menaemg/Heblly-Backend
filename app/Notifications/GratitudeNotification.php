@@ -45,7 +45,7 @@ class GratitudeNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'message' => $this->fromUser->username . ' gratitude you',
+            'message' => 'gratitude you',
             'image' =>   $this->fromUser->profile ? $this->fromUser->profile->avatar_url : null,
             'username' => $this->fromUser->username,
             'post_image' => $this->gratitude->main_image,

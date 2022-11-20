@@ -61,6 +61,7 @@ class BlockController extends Controller
         $type = $request->type ?? 'all';
 
         $block = $auth_user->blocklist()->where('block_user_id', $user->id)->where('type', $type)->first();
+
         if (!$block) {
             return jsonResponse(false, 'User not Blocked yet');
         }

@@ -140,6 +140,8 @@ Route::post('help/report', [HelpController::class, 'storeRequest'])->middleware(
 
 // Picks
 Route::apiResource('picks', PickController::class)->middleware('auth:sanctum');
+Route::get('picks/user/{user}', [PickController::class, 'anotherUser'])->middleware('auth:sanctum');
+
 
 // Gratitude
 Route::get('gratitudes', [App\Http\Controllers\GratitudeController::class, 'index'])->middleware('auth:sanctum');
@@ -152,6 +154,7 @@ Route::delete('gratitudes/{gratitude}', [App\Http\Controllers\GratitudeControlle
 // Wish List
 Route::post('wishlist', [PostWishController::class, 'store'])->middleware('auth:sanctum');
 Route::get('wishlist', [PostWishController::class, 'index'])->middleware('auth:sanctum');
+Route::get('wishlist/{user}', [PostWishController::class, 'anotherUser'])->middleware('auth:sanctum');
 Route::get('wishlist/{wish}', [PostWishController::class, 'show'])->middleware('auth:sanctum');
 Route::put('wishlist/{wish}', [PostWishController::class, 'update'])->middleware('auth:sanctum');
 Route::delete('wishlist/{wish}', [PostWishController::class, 'destroy'])->middleware('auth:sanctum');
@@ -169,6 +172,7 @@ Route::delete('gifts/{gift}', [GiftController::class, 'destroy'])->middleware('a
 
 // Board
 Route::get('wishboard', [BoardController::class, 'index'])->middleware('auth:sanctum');
+Route::get('wishboard/user/{user}', [BoardController::class, 'anotherUser'])->middleware('auth:sanctum');
 Route::post('board', [BoardController::class, 'store'])->middleware('auth:sanctum');
 Route::get('board/{board}', [BoardController::class, 'show'])->middleware('auth:sanctum');
 Route::post('board/{board}/allow', [BoardController::class, 'allow'])->middleware('auth:sanctum');

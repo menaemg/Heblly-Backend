@@ -6,9 +6,11 @@ use App\Models\Post;
 use App\Models\Wishlist;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\WishlistRequest;
 use App\Http\Resources\GratitudeResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Requests\Gratitude\StoreGratitudeRequest;
+use Termwind\Components\Dd;
 
 class WishlistController extends Controller
 {
@@ -26,16 +28,19 @@ class WishlistController extends Controller
         return jsonResponse(true, 'Wishlist retrieved successfully', $wishlist);
     }
 
-    public function store(Post $post)
+    public function store(Post $post, WishlistRequest $request)
     {
         $user = auth()->user();
         $wishlist = $user->wishlist()->where('post_id', $post->id)->first();
+
         if ($wishlist) {
-            return \jsonResponse(false, 'Post already in wishlist' , $post, 400);
+            return \jsonResponse(false, 'Post already in wishlist' ,  $post);
         }
-        $user->wishlist()->create([
-            'post_id' => $post->id
-        ]);
+
+        $wishlist = $user->wishlist()->create($request->validated() + ['post_id' => $post->id]);
+
+
+
         return \jsonResponse(true, 'Post added to wishlist', $post);
     }
 

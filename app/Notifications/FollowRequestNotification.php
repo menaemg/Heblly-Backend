@@ -41,7 +41,7 @@ class FollowRequestNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'message' => $this->fromUser->username . ' wants to follow you',
+            'message' => 'wants to follow you',
             'image' =>   $this->fromUser->profile ? $this->fromUser->profile->avatar_url : null,
             'username' => $this->fromUser->username,
             'action' => [

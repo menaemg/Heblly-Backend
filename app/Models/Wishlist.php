@@ -13,7 +13,13 @@ class Wishlist extends Model
     protected $fillable = [
         'user_id',
         'post_id',
-        'gratitude_id'
+        'gratitude_id',
+        'privacy',
+        'access_list',
+    ];
+
+    public $casts = [
+        'access_list' => 'array',
     ];
 
     public function user()

@@ -201,7 +201,6 @@ class FollowController extends Controller
 
     public function users(Request $request)
     {
-        // dd($request->has('search'), $request->search);
         $users = User::when($request->has('search') && $request->search, function ($q) use($request) {
             $q->where('username', 'like', '%' . $request->search . '%');
         })->where('id', '!=', Auth::id())

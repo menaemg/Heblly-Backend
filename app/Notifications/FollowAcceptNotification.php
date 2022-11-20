@@ -43,7 +43,7 @@ class FollowAcceptNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'message' => $this->fromUser->username . ' accept your follow request',
+            'message' =>  'accept your follow request',
             'image' =>   $this->fromUser->profile ? $this->fromUser->profile->avatar_url : null,
             'username' => $this->fromUser->username,
             'action' => [

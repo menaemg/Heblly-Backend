@@ -27,6 +27,23 @@ class BoardController extends Controller
         return jsonResponse(true, "Board list retrieved successfully", GiftResource::collection($gift));
     }
 
+    public function anotherUser(User $user)
+    {
+        if ($user->privacy == 'private') {
+            return jsonResponse(false, "User privacy is set to private");
+        }
+
+        if ($user->privacy == 'friends') {
+            if (!$friend->isFollowing($user) && !$friend->isFollowedBy($user)) {
+                return jsonResponse(false, "you not friend with this user", null, 403);
+            }
+        }
+
+        $gift = $user->posts()->where('type', 'board')->where('action', 'approved')->where('privacy', 'public')->with('tags')->get();
+
+        return jsonResponse(true, "Another User Board list retrieved successfully", GiftResource::collection($gift));
+    }
+
     /**
      * Store a newly created resource in storage.
      *

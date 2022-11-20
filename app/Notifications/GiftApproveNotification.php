@@ -45,7 +45,7 @@ class GiftApproveNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'message' => $this->fromUser->username . ' has been informed that you received a gift',
+            'message' =>  'has been informed that you received a gift',
             'image' =>   $this->fromUser->profile ? $this->fromUser->profile->avatar_url : null,
             'user_id' => $this->fromUser->id,
             'username' => $this->fromUser->username,

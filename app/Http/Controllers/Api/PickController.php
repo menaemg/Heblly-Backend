@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PickResource;
@@ -23,6 +24,23 @@ class PickController extends Controller
 
 
         return jsonResponse(true, "User Picks", PickResource::collection($picks));
+    }
+
+    public function anotherUser(User $user)
+    {
+        if ($user->privacy == 'private') {
+            return jsonResponse(false, "User privacy is set to private");
+        }
+
+        if ($user->privacy == 'friends') {
+            if (!$friend->isFollowing($user) && !$friend->isFollowedBy($user)) {
+                return jsonResponse(false, "you not friend with this user", null, 403);
+            }
+        }
+
+        $picks = $user->posts->where('type', 'pick')->where('privacy', 'public');
+
+        return jsonResponse(true, "Another User Picks", PickResource::collection($picks));
     }
 
     /**

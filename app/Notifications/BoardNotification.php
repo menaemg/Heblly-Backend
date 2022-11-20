@@ -47,7 +47,7 @@ class BoardNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'message' => $this->fromUser->username . ' is requesting to post this in your board',
+            'message' => 'is requesting to post this in your board',
             'image' =>   $this->fromUser->profile ? $this->fromUser->profile->avatar_url : null,
             'post_id' => $this->board->id,
             'post_image' => $this->board->main_image,
