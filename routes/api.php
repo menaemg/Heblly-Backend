@@ -220,6 +220,7 @@ Route::get('post/{post}/likers', [LikeController::class, 'postLikers'])->middlew
 Route::get('user/likes-count', [LikeController::class, 'userLikesCount'])->middleware('auth:sanctum');
 
 
+Route::get('wish/reserves', [ReserveController::class, 'index'])->middleware('auth:sanctum');
 Route::post('wish/{post}/reserve', [ReserveController::class, 'reserve'])->middleware('auth:sanctum');
 Route::delete('wish/{post}/reserve', [ReserveController::class, 'cancel'])->middleware('auth:sanctum');
 

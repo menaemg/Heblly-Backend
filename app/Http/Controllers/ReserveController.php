@@ -10,7 +10,7 @@ class ReserveController extends Controller
 {
     public function index()
     {
-        $reserves = auth()->user()->reserves()->with('post')->get();
+        $reserves = auth()->user()->reserves()->with('post')->get()->pluck('post');
         return jsonResponse(true, 'Reserves retrieved successfully', $reserves);
     }
 
@@ -41,6 +41,14 @@ class ReserveController extends Controller
             return jsonResponse(false, 'You can not reserve more than 3 gifts, grant or cancel one of your reserves first');
         }
 
+        $user_reserved = $user->reserves()->whereHas('post', function ($query) use ($post) {
+            $query->where('user_id', $post->user_id);
+        })->get()->count();
+
+        if ($user_reserved) {
+            return jsonResponse(false, 'You already reserved a gift for this user, please grant it first');
+        }
+
         $user->reserves()->create([
             'post_id' => $post->id,
         ]);
@@ -52,6 +60,11 @@ class ReserveController extends Controller
 
     public function cancel(Post $post)
     {
+        // dd($post->reserved);
+        if (!$post->reserved) {
+            return jsonResponse(false, 'Gift not reserved yet');
+        }
+
         if ($post->reserved->user_id != auth()->id()) {
             return jsonResponse(false, 'You can not cancel this reserve');
         }
