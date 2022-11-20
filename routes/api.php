@@ -223,6 +223,9 @@ Route::get('user/likes-count', [LikeController::class, 'userLikesCount'])->middl
 Route::get('wish/reserves', [ReserveController::class, 'index'])->middleware('auth:sanctum');
 Route::post('reserve/{post}/granted', [ReserveController::class, 'granted'])->middleware('auth:sanctum');
 Route::post('wish/{post}/reserve', [ReserveController::class, 'reserve'])->middleware('auth:sanctum');
-Route::delete('wish/{post}/reserve', [ReserveController::class, 'release'])->middleware('auth:sanctum');
+Route::post('wish/{post}/release', [ReserveController::class, 'release'])->middleware('auth:sanctum');
+
+
+Route::get('test-notification', [ReserveController::class, 'testNotification']);
 
 

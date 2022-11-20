@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
+use App\Notifications\ExtendNotification;
 use App\Notifications\ReserveNotification;
 
 class ReserveController extends Controller
@@ -69,6 +72,36 @@ class ReserveController extends Controller
 
         return jsonResponse(true, 'Gift reserved successfully', $post);
     }
+
+    public function extend(Post $post)
+    {
+        if (!$post->reserved) {
+            return jsonResponse(false, 'Gift not reserved yet');
+        }
+
+        if ($post->reserved->user_id != auth()->id() || $post->reserved->status == 'released') {
+            return jsonResponse(false, 'You can not extended this reserve');
+        }
+
+        if ($post->reserved->status == 'extended') {
+            return jsonResponse(false, 'You already extended this gift');
+        }
+
+        if (!Carbon::parse($post->reserved->created_at)->addDays(14)->isPast()) {
+            return jsonResponse(false, 'You can not extended this reserve');
+        }
+
+        $post->reserved->update([
+            'status' => 'extended',
+        ]);
+    }
+
+    public function testNotification() {
+        $post = Post::find(19);
+        $user = User::find(2);
+        $user->notify(new ExtendNotification($user, $post));
+    }
+
 
     public function granted(Post $post) {
 
