@@ -10,8 +10,8 @@ class ReserveController extends Controller
 {
     public function index()
     {
-        $reserves = auth()->user()->reserves()->with('post')->get()->pluck('post');
-        return jsonResponse(true, 'Reserves retrieved successfully', $reserves);
+        $reserves = auth()->user()->reserves()->where('status', 'pending')->with('post')->get()->pluck('post');
+        return jsonResponse(true, 'Active Reserves retrieved successfully', $reserves);
     }
 
     public function reserve(Post $post)
@@ -24,9 +24,21 @@ class ReserveController extends Controller
 
         if ($post->reserved) {
             if ($post->reserved->user_id == auth()->id()) {
+
+                if ($post->reserved->status == 'granted') {
+                    return jsonResponse(false, 'You have already granted this wish');
+                }
+
+                if ($post->reserved->status == 'released') {
+                    return jsonResponse(false, 'You can\'t reserve this wish again');
+                }
+
                 return jsonResponse(false, 'You already reserved this wish');
             }
-            return jsonResponse(false, 'you late, someone already has reserved this wish');
+
+            if (!$post->reserved->status == 'released') {
+                return jsonResponse(false, 'you late, someone already has reserved this wish');
+            }
         }
 
         if (!$post->type == 'wish' || !$post->type == 'board') {
@@ -58,19 +70,45 @@ class ReserveController extends Controller
         return jsonResponse(true, 'Gift reserved successfully', $post);
     }
 
-    public function cancel(Post $post)
-    {
-        // dd($post->reserved);
+    public function granted(Post $post) {
+
         if (!$post->reserved) {
             return jsonResponse(false, 'Gift not reserved yet');
         }
 
         if ($post->reserved->user_id != auth()->id()) {
-            return jsonResponse(false, 'You can not cancel this reserve');
+            return jsonResponse(false, 'You can not granted this reserve');
         }
 
-        $post->reserved->delete();
+        if ($post->reserved->status == 'granted') {
+            return jsonResponse(false, 'You already granted this gift');
+        }
 
-        return jsonResponse(true, 'Reserve canceled successfully');
+        $post->reserved->update([
+            'status' => 'granted',
+        ]);
+
+        return jsonResponse(true, 'Gift granted successfully', $post);
+    }
+
+    public function release(Post $post)
+    {
+        if (!$post->reserved) {
+            return jsonResponse(false, 'Gift not reserved yet');
+        }
+
+        if ($post->reserved->user_id != auth()->id()) {
+            return jsonResponse(false, 'You can not released this reserve');
+        }
+
+        if ($post->reserved->status == 'released') {
+            return jsonResponse(false, 'You already released this gift');
+        }
+
+        $post->reserved->update([
+            'status' => 'released',
+        ]);
+
+        return jsonResponse(true, 'Reserve released successfully');
     }
 }

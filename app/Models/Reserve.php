@@ -12,6 +12,7 @@ class Reserve extends Model
     protected $fillable = [
         'user_id',
         'post_id',
+        'status',
     ];
 
     public function user()

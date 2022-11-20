@@ -53,7 +53,7 @@ class ReserveNotification extends Notification
             'post_image' => $this->gift->main_image,
             'username' => $this->fromUser->username,
             'action' => [
-                'url' => url('/api/gifts'),
+                'url' => url('/api/reserve/' . $this->gift->id . '/granted'),
                 'text' => 'grant'
             ]
         ];
