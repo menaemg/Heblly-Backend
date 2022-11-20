@@ -7,12 +7,19 @@ use Illuminate\Http\Request;
 use App\Notifications\GiftNotification;
 use App\Notifications\ReserveNotification;
 use App\Http\Resources\NotificationResource;
+use App\Notifications\ExtendNotification;
 use App\Notifications\GratitudeNotification;
 use App\Notifications\GiftApproveNotification;
 
 class NotificationController extends Controller
 {
-    protected $giftlist = [GiftNotification::class , GratitudeNotification::class, GiftApproveNotification::class, ReserveNotification::class];
+    protected $giftlist = [
+                GiftNotification::class,
+                GratitudeNotification::class,
+                GiftApproveNotification::class,
+                ReserveNotification::class,
+                ExtendNotification::class
+            ];
     public function index()
     {
         $user = auth()->user();
