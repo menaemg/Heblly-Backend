@@ -105,7 +105,9 @@ class Post extends Model
         $value = json_decode($value);
         if ($value && is_array($value) && !empty($value)) {
             foreach ($value as $image) {
-                $images[] = Storage::disk('s3')->url($image);
+                if ($image) {
+                    $images[] = Storage::disk('s3')->url($image);
+                }
             }
             return $images ?? [];
         }
@@ -124,6 +126,19 @@ class Post extends Model
     public function for_friend()
     {
         return $this->belongsTo(User::class, 'for_id')->select('id', 'username');
+    }
+
+    public function getIsWishListAttribute()
+    {
+        $authUser = auth('sanctum')->check() ? auth('sanctum')->user() : null;
+
+        if ($authUser) {
+            $wishList = $authUser->wishList()->where('post_id', $this->id)->first();
+
+            return $wishList ? true : false;
+        }
+
+        return false;
     }
 
     public function scopeFilter(Builder $builder, $request)

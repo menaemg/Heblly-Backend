@@ -35,6 +35,7 @@ use Termwind\Components\Dd;
                 ],
                 'images' => $this->images,
                 'tags' => $this->tags,
+                'isWishList' => $this->is_wish_list,
                 'created_at' => $this->created_at,
                 'updated_at' => $this->updated_at,
             ];

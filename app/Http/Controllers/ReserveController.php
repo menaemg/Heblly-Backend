@@ -8,8 +8,6 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Notifications\ExtendNotification;
 use App\Notifications\ReserveNotification;
-use Termwind\Components\Dd;
-
 class ReserveController extends Controller
 {
     public function index()
@@ -94,6 +92,7 @@ class ReserveController extends Controller
 
         $post->reserved->update([
             'status' => 'extended',
+            'extended_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
     }
 
@@ -125,12 +124,9 @@ class ReserveController extends Controller
             }
         }
 
-
         $post->reserved->update([
             'status' => 'granted',
         ]);
-
-
 
         auth()->user()->not;
 

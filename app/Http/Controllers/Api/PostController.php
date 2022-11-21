@@ -10,7 +10,6 @@ use App\Http\Resources\PostResource;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Post\StorePostRequest;
 use App\Http\Requests\Post\UpdatePostRequest;
-use Termwind\Components\Dd;
 
 class PostController extends Controller
 {
