@@ -18,7 +18,7 @@ class SettingController extends Controller
             return jsonResponse(true, "Notification Status", ['status' => true]);
         }
 
-        return jsonResponse(true, "Notification Status", ['status' => $profile->notification_status]);
+        return jsonResponse(true, "Notification Status", ['status' => (boolean) $profile->notification_status]);
     }
 
     public function updateNotification(Request $request) {
@@ -35,7 +35,7 @@ class SettingController extends Controller
                     'notification_status' => $request->status
                 ]
             );
-            return jsonResponse(true, "Notification Status Update", ['status' => (int)$request->status]);
+            return jsonResponse(true, "Notification Status Update", ['status' => (boolean)$request->status]);
         }
 
         $user->profile()->update(
@@ -44,7 +44,7 @@ class SettingController extends Controller
             ]
         );
 
-        return jsonResponse(true, "Notification Status Updated", ['status' => (int)$request->status]);
+        return jsonResponse(true, "Notification Status Updated", ['status' => (boolean)$request->status]);
     }
 
     public function privacyStatus() {
