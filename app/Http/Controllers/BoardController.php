@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Api\WishboardController;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -10,6 +11,7 @@ use App\Notifications\BoardNotification;
 use App\Http\Resources\Gift\GiftResource;
 use App\Http\Requests\Gift\GiftStoreRequest;
 use App\Http\Requests\Gift\GiftUpdateRequest;
+use App\Http\Requests\WishboardStoreRequest;
 
 class BoardController extends Controller
 {
@@ -50,20 +52,30 @@ class BoardController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(GiftStoreRequest $request)
+    public function store(WishboardStoreRequest $request)
     {
         $user = auth()->user();
-        $friend = User::findOrFail($request->for_id);
 
-        if (!$friend->isFollowing($user) && !$friend->isFollowedBy($user)) {
-            return jsonResponse(false, "you are not friend with this user", null, 403);
+        $friends = User::findOrFail($request->for_id);
+
+
+        foreach ($friends as $friend) {
+            if (!$friend->isFollowing($user) && !$friend->isFollowedBy($user)) {
+                return jsonResponse(false, "you are not friend with this user username: $friend->username", null, 403);
+            }
         }
 
-        $board = $friend->posts()->create($request->validated() + ['type' => 'board'] + ['from_id' => $user->id] + ['action' => 'pending']);
+        foreach ($friends as $friend) {
+            if (!$friend->isFollowing($user) && !$friend->isFollowedBy($user)) {
+                return jsonResponse(false, "you are not friend with this user username: $friend->username", null, 403);
+            }
 
-        $friend->notify(new BoardNotification($user, $board));
+            $board = $friend->posts()->create($request->safe()->except(['for_id']) + ['type' => 'board'] + ['from_id' => $user->id] + ['action' => 'pending']+ ['for_id' => null]);
 
-        return jsonResponse(true, "Added to board friend", new GiftResource($board));
+            $friend->notify(new BoardNotification($user, $board));
+        }
+
+        return jsonResponse(true, "Added to selected friends board");
     }
 
     public function allow(Post $board)
