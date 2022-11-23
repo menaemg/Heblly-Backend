@@ -22,26 +22,20 @@ trait ImageFile
 
         $filename =  date('Y-m-d-') . uniqid() . '.' . $image->getClientOriginalExtension();
 
-        // $image = Image::make($image);
+        $image = Image::make($image)->resize(null, 1000, function ($constraint) {
+            $constraint->aspectRatio();
+        })->stream()->detach();
 
-        // $image->resize(800, null, function ($constraint) {
-        //     $constraint->aspectRatio();
-        // });
+        $store = Storage::disk('s3')->put(
+            $path . '/' . $filename,
+            $image
+        );
 
-        // $resource = $image->stream()->detach();
-
-        // $store = Storage::disk('s3')->put(
-        //     $path . '/' . $filename,
-        //     $resource
-        // );
-
-        $filename = $image->storeAs($path , $filename, 's3');
-
-        if (!$filename) {
+        if (!$store) {
             return false;
         }
 
-        return $filename;
+        return $path .'/'.  $filename;
     }
 
     public function deleteImage($image)
