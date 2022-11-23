@@ -20,6 +20,14 @@ class PostWishResource extends JsonResource
             'body' => $this->body,
             'location' => $this->location,
             'main_image' => $this->main_image,
+            'user' => [
+                'id' => $this->user->id,
+                'username' => $this->user->username,
+                'name' => $this->user->profile ? $this->user->profile->full_name : $this->user->username,
+                'avatar' => $this->user->profile ? $this->user->profile->avatar_url : null,
+                'bio' => $this->user->profile ? $this->user->profile->bio : null,
+                'location' => $this->user->profile ? $this->user->profile->location : null,
+            ],
             'tags' => $this->tags ? $this->tags->map(function ($tag) {
                 return $tag->name;
             }) : [],

@@ -219,7 +219,7 @@ Route::get('post/{post}/is-liked', [LikeController::class, 'hasLiked'])->middlew
 Route::get('post/{post}/likers', [LikeController::class, 'postLikers'])->middleware('auth:sanctum');
 Route::get('user/likes-count', [LikeController::class, 'userLikesCount'])->middleware('auth:sanctum');
 
-
+// Reserve
 Route::get('wish/reserves', [ReserveController::class, 'index'])->middleware('auth:sanctum');
 Route::post('reserve/{post}/granted', [ReserveController::class, 'granted'])->middleware('auth:sanctum');
 Route::post('wish/{post}/reserve', [ReserveController::class, 'reserve'])->middleware('auth:sanctum');

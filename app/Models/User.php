@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\DeviceKey;
 use App\Scopes\NotBlockedScope;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Hash;
@@ -151,6 +152,10 @@ class User extends Authenticatable implements Commentator
         return $this->hasMany(Reserve::class);
     }
 
+    public function deviceKeys()
+    {
+        return $this->hasMany(DeviceKey::class);
+    }
 
 
     public function helps()

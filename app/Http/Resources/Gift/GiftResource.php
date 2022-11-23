@@ -20,6 +20,14 @@ class GiftResource extends JsonResource
             'title' => $this->title,
             'for' => $this->for_friend,
             'body' => $this->body,
+            'user' => [
+                'id' => $this->user->id,
+                'username' => $this->user->username,
+                'name' => $this->user->profile ? $this->user->profile->full_name : $this->user->username,
+                'avatar' => $this->user->profile ? $this->user->profile->avatar_url : null,
+                'bio' => $this->user->profile ? $this->user->profile->bio : null,
+                'location' => $this->user->profile ? $this->user->profile->location : null,
+            ],
             'from' => $this->from_friend ? [
                 'id' => $this->from_friend->id,
                 'name' => $this->from_friend->name,
