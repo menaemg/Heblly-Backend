@@ -107,6 +107,17 @@ class User extends Authenticatable implements Commentator
         return $this->hasMany(Wishboard::class);
     }
 
+    public function getFriendsIdsAttribute()
+    {
+        $followings = $this->approvedFollowings->load('followable:id,username')->pluck('followable.id');
+
+        $followers = $this->approvedFollowers->pluck('id');
+
+        $friends = $followers->merge($followings);
+
+        return $friends->toArray();
+    }
+
     public function blocklist()
     {
         return $this->hasMany(Block::class);
@@ -131,8 +142,6 @@ class User extends Authenticatable implements Commentator
         return $this->blocklist()->where('type', 'all')->pluck('block_user_id')->unique('block_user_id')
                             ->concat($this->blockedBy()->where('type', 'all')->pluck('user_id')->unique('block_user_id'));
     }
-
-
 
     public function isBlocked($user)
     {
