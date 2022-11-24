@@ -203,7 +203,7 @@ class FollowController extends Controller
 
     public function users(Request $request)
     {
-        $users = User::whereIn('id', auth()->user()->friends_ids)->when($request->has('search') && $request->search, function ($q) use($request) {
+        $users = User::whereNotIn('id', auth()->user()->friends_ids)->when($request->has('search') && $request->search, function ($q) use($request) {
             $q->where('username', 'like', '%' . $request->search . '%');
         })->where('id', '!=', Auth::id())
         ->doesntHave('profile')->OrWhereHas('profile', function ($q) {
