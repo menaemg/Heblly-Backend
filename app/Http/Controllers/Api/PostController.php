@@ -105,7 +105,7 @@ class PostController extends Controller
         ->when($request->has('search') && $request->search, function ($q) use($request) {
             $q->where('title', 'like', '%' . $request->search . '%');
         })
-        ->with('tags')->latest()->paginate($per_page);
+        ->with('tags' , 'user.profile')->latest()->paginate($per_page);
 
         return jsonResponse(true, 'Posts retrieved successfully', PostResource::collection($posts)->response()->getData());
     }

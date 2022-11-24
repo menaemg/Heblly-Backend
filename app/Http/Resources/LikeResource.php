@@ -19,6 +19,9 @@ class LikeResource extends JsonResource
             'username' => $this->username,
             'name' => $this->profile ? $this->profile->name : null,
             'avatar' => $this->profile ? $this->profile->avatar_url : null,
+            'cover' => $this->user->profile ? $this->user->profile->cover_url : null,
+            'followers_count' => $this->user->followers()->count(),
+            'is_private' => $this->user->profile && $this->user->profile->privacy == 'private' ? true :false,
         ];
     }
 }

@@ -188,6 +188,8 @@ class FollowController extends Controller
                 'id' => $follower->id,
                 'username' => $follower->username,
                 'avatar'   => $follower->profile->avatar_url ?? null,
+                'cover' => $follower->profile->cover_url ?? null,
+                'followers_count' => $follower->followers()->count(),
             ];
         });
 
@@ -217,6 +219,8 @@ class FollowController extends Controller
                 'id' => $user->id,
                 'username' => $user->username,
                 'avatar'   => $user->profile->avatar_url ?? null,
+                'cover'   => $user->profile->cover_url ?? null,
+                'followers_count' => $user->followers()->count(),
             ];
         });
 
