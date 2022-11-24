@@ -97,15 +97,17 @@ class PostController extends Controller
     {
         $user = $request->user('sanctum');
 
+        $per_page = $request->per_page && \is_numeric($request->per_page) ? $request->per_page : 10;
+
         $posts = Post::where('privacy', 'public')->when($user, function($q, $user) {
             $q->whereNot('user_id', $user->id);
         })
         ->when($request->has('search') && $request->search, function ($q) use($request) {
             $q->where('title', 'like', '%' . $request->search . '%');
         })
-        ->with('tags')->latest()->get();
+        ->with('tags')->latest()->paginate($per_page);
 
-        return jsonResponse(true, 'Posts retrieved successfully', PostResource::collection($posts));
+        return jsonResponse(true, 'Posts retrieved successfully', PostResource::collection($posts)->response()->getData());
     }
 
     public  function friendsPosts()
