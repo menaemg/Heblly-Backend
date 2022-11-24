@@ -110,13 +110,15 @@ class PostController extends Controller
         return jsonResponse(true, 'Posts retrieved successfully', PostResource::collection($posts)->response()->getData());
     }
 
-    public  function friendsPosts()
+    public  function friendsPosts(Request $request)
     {
         $friends = Auth::user()->approvedFollowers()->pluck('user_id');
         $friends = Auth::user()->approvedFollowings()->pluck('user_id')->merge($friends);
 
-        $posts = Post::whereIn('user_id', $friends)->with('tags')->latest()->get();
+        $per_page = $request->per_page && \is_numeric($request->per_page) ? $request->per_page : 13;
 
-        return jsonResponse(true, 'Posts retrieved successfully', PostResource::collection($posts));
+        $posts = Post::whereIn('user_id', $friends)->with('tags')->latest()->paginate($per_page);
+
+        return jsonResponse(true, 'Posts retrieved successfully', PostResource::collection($posts)->response()->getData());
     }
 }
