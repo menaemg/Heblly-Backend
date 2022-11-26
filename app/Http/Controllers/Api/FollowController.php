@@ -221,6 +221,7 @@ class FollowController extends Controller
                 'avatar'   => $user->profile->avatar_url ?? null,
                 'cover'   => $user->profile->cover_url ?? null,
                 'followers_count' => $user->followers()->count(),
+                'follow_request' => auth()->user()->hasRequestedToFollow($user),
             ];
         });
 
