@@ -141,6 +141,11 @@ class Post extends Model
         return false;
     }
 
+    public function report()
+    {
+        return $this->morphOne(Report::class, 'reportable');
+    }
+
     public function scopeFilter(Builder $builder, $request)
     {
         $filter = $request->query('filter');

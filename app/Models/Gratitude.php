@@ -109,4 +109,9 @@ class Gratitude extends Model
             return $images ?? [];
         }
     }
+
+    public function report()
+    {
+        return $this->morphOne(Report::class, 'reportable');
+    }
 }

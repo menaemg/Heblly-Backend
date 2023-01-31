@@ -18,6 +18,7 @@ use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\WishlistController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Api\GratitudeController;
+use App\Http\Controllers\Api\ReportController;
 use App\Http\Controllers\Api\WishboardController;
 use App\Http\Controllers\ReserveController;
 
@@ -226,6 +227,8 @@ Route::post('wish/{post}/reserve', [ReserveController::class, 'reserve'])->middl
 Route::post('wish/{post}/release', [ReserveController::class, 'release'])->middleware('auth:sanctum');
 Route::post('reserve/{post}/extend', [ReserveController::class, 'extend'])->middleware('auth:sanctum');
 
+// Api
+Route::post('report/{post}', [ReportController::class, 'report'])->middleware('auth:sanctum');
 
 Route::get('test-notification', [ReserveController::class, 'testNotification']);
 
