@@ -66,15 +66,19 @@ class AuthController extends Controller
         return jsonResponse(true, $message, $data);
     }
 
-    public function logout(): \Illuminate\Http\JsonResponse
+    public function logout(Request $request): \Illuminate\Http\JsonResponse
     {
         $user = Auth::guard('sanctum')->user();
+
+        $token = $request->bearerToken();
 
         $user->currentAccessToken()->delete(); // delete current token
 
         $message = 'User Logout Successfully';
 
-        return jsonResponse(true, $message);
+        return jsonResponse(true, $message, [
+            'token' => $token
+        ]);
     }
 
     public function forgetPassword(Request $request)
