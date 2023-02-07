@@ -3,8 +3,8 @@
 namespace App\Http\Resources;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Storage;
 
 class CommentResource extends JsonResource
 {
@@ -26,8 +26,8 @@ class CommentResource extends JsonResource
                 'avatar' => $avatar,
             ],
             'commentator_profile' => $this->commentator->profile,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'created_at' => Carbon::parse($this->created_at)->format('Y-m-d'),
+            'updated_at' => Carbon::parse($this->updated_at)->format('Y-m-d'),
         ];
     }
 }
