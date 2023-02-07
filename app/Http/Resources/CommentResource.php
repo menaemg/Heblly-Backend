@@ -26,8 +26,8 @@ class CommentResource extends JsonResource
                 'avatar' => $avatar,
             ],
             'commentator_profile' => $this->commentator->profile,
-            'created_at' => Carbon::parse($this->created_at)->format('Y-m-d'),
-            'updated_at' => Carbon::parse($this->updated_at)->format('Y-m-d'),
+            'created_at' => Carbon::parse($this->created_at)->diffForHumans(),
+            'updated_at' => Carbon::parse($this->updated_at)->diffForHumans(),
         ];
     }
 }
