@@ -26,7 +26,16 @@ class BoardController extends Controller
 
         $gift = $user->posts()->where('type', 'board')->where('action', 'approved')->with('tags')->get();
 
-        return jsonResponse(true, "Board list retrieved successfully", GiftResource::collection($gift));
+        return jsonResponse(true, "Wish Board list retrieved successfully", GiftResource::collection($gift));
+    }
+
+    public function pending()
+    {
+        $user = auth()->user();
+
+        $gift = $user->posts()->where('type', 'board')->where('action', 'pending')->with('tags')->get();
+
+        return jsonResponse(true, "Pending Wish Board list retrieved successfully", GiftResource::collection($gift));
     }
 
     public function anotherUser(User $user)
@@ -35,11 +44,15 @@ class BoardController extends Controller
             return jsonResponse(false, "User privacy is set to private");
         }
 
-        if ($user->privacy == 'friends') {
-            if (!$friend->isFollowing($user) && !$friend->isFollowedBy($user)) {
-                return jsonResponse(false, "you not friend with this user", null, 403);
-            }
-        }
+//        if ($user->privacy == 'friends') {
+//            if (!$friend->isFollowing($user) && !$friend->isFollowedBy($user)) {
+//                return jsonResponse(false, "you not friend with this user", null, 403);
+//            }
+//        }        if ($user->privacy == 'friends') {
+//            if (!$friend->isFollowing($user) && !$friend->isFollowedBy($user)) {
+//                return jsonResponse(false, "you not friend with this user", null, 403);
+//            }
+//        }
 
         $gift = $user->posts()->where('type', 'board')->where('action', 'approved')->where('privacy', 'public')->with('tags')->get();
 

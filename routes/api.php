@@ -174,6 +174,7 @@ Route::delete('gifts/{gift}', [GiftController::class, 'destroy'])->middleware('a
 
 // Board
 Route::get('wishboard', [BoardController::class, 'index'])->middleware('auth:sanctum');
+Route::get('wishboard/pending', [BoardController::class, 'pending'])->middleware('auth:sanctum');
 Route::get('wishboard/user/{user}', [BoardController::class, 'anotherUser'])->middleware('auth:sanctum');
 Route::post('board', [BoardController::class, 'store'])->middleware('auth:sanctum');
 Route::get('board/{board}', [BoardController::class, 'show'])->middleware('auth:sanctum');
