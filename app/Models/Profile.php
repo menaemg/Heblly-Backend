@@ -25,6 +25,8 @@ class Profile extends Model
         'zip',
         'local',
         'privacy',
+        'website',
+        'birthday'
     ];
 
     public function user()
