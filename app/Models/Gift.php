@@ -84,7 +84,7 @@ class Gift extends Model
 
     public function getMainImageAttribute($image)
     {
-        return $image ? Storage::disk('s3')->url($image) : null;
+        return $image ? Storage::disk('public')->url($image) : null;
     }
 
     public function setImagesAttribute($value)
@@ -104,7 +104,7 @@ class Gift extends Model
         $value = json_decode($value);
         if ($value && is_array($value) && !empty($value)) {
             foreach ($value as $image) {
-                $images[] = Storage::disk('s3')->url($image);
+                $images[] = Storage::disk('public')->url($image);
             }
             return $images ?? [];
         }

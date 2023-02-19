@@ -85,7 +85,7 @@ class Post extends Model
 
     public function getMainImageAttribute($value)
     {
-        return $value ? Storage::disk('s3')->url($value) : null;
+        return $value ? Storage::disk('public')->url($value) : null;
     }
 
     public function setImagesAttribute($value)
@@ -106,7 +106,7 @@ class Post extends Model
         if ($value && is_array($value) && !empty($value)) {
             foreach ($value as $image) {
                 if ($image) {
-                    $images[] = Storage::disk('s3')->url($image);
+                    $images[] = Storage::disk('public')->url($image);
                 }
             }
             return $images ?? [];

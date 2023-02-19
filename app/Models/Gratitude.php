@@ -84,7 +84,7 @@ class Gratitude extends Model
 
     public function getMainImageAttribute($value)
     {
-        return $value ? Storage::disk('s3')->url($value) : null;
+        return $value ? Storage::disk('public')->url($value) : null;
     }
 
     public function setImagesAttribute($value)
@@ -104,7 +104,7 @@ class Gratitude extends Model
         $value = json_decode($value);
         if ($value && is_array($value) && !empty($value)) {
             foreach ($value as $image) {
-                $images[] = Storage::disk('s3')->url($image);
+                $images[] = Storage::disk('public')->url($image);
             }
             return $images ?? [];
         }

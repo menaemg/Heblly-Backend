@@ -5,7 +5,7 @@ namespace App\Http\Requests\Gift;
 use App\Http\Requests\BaseFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
-class GiftUpdateRequest extends BaseFormRequest
+class BoardUpdateRequest extends BaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

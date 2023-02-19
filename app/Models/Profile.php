@@ -36,11 +36,11 @@ class Profile extends Model
 
     public function getAvatarUrlAttribute()
     {
-        return $this->avatar ? Storage::disk('s3')->url($this->avatar) : null;
+        return $this->avatar ? Storage::disk('public')->url($this->avatar) : null;
     }
     public function getCoverUrlAttribute()
     {
-        return $this->cover ? Storage::disk('s3')->url($this->cover) : null;
+        return $this->cover ? Storage::disk('public')->url($this->cover) : null;
     }
 
     public function getFullNameAttribute($value)

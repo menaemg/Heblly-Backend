@@ -22,11 +22,11 @@ trait ImageFile
 
         $filename =  date('Y-m-d-') . uniqid() . '.' . $image->getClientOriginalExtension();
 
-        $image = Image::make($image)->resize(null, 1000, function ($constraint) {
+        $image = Image::make($image)->resize(null, 1024, function ($constraint) {
             $constraint->aspectRatio();
         })->stream()->detach();
 
-        $store = Storage::disk('s3')->put(
+        $store = Storage::disk('public')->put(
             $path . '/' . $filename,
             $image
         );
@@ -44,7 +44,7 @@ trait ImageFile
             return false;
         }
 
-        $deleteImage = Storage::disk('s3')->delete($image);
+        $deleteImage = Storage::disk('public')->delete($image);
 
         if ((!$deleteImage)) {
             return false;

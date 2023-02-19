@@ -4,7 +4,7 @@ namespace App\Http\Requests\Gift;
 
 use App\Http\Requests\BaseFormRequest;
 
-class GiftStoreRequest extends BaseFormRequest
+class BoardStoreRequest extends BaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
