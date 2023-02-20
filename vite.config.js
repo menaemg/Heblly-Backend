@@ -9,7 +9,7 @@ export default defineConfig({
                 'resources/css/app.css',
                 'resources/js/app.js',
             ],
-            valetTls: 'heblly-backend.test/',
+            valetTls: 'api.heblly.com/',
             refresh: true,
         }),
         vue({

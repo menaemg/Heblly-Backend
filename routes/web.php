@@ -16,9 +16,9 @@ use App\Http\Controllers\Dashboard\Auth\AuthenticatedSessionController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/', function () {
+    return view('welcome');
+});
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
@@ -56,9 +56,9 @@ Route::delete('logout', [AuthenticatedSessionController::class, 'destroy'])
 
 // Dashboard
 
-// Route::get('/', [DashboardController::class, 'index'])
-//     ->name('dashboard')
-//     ->middleware('auth:admin');
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->name('dashboard')
+    ->middleware('auth:admin');
 
 // Users
 
