@@ -32,7 +32,9 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        // return redirect(RouteServiceProvider::HOME);
+        // return Inertia::render('Dashboard/Index');
+        return redirect()->route('dashboard');
     }
 
     /**
@@ -48,6 +50,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/login');
+        // return Inertia::render('Auth/Login');
+        return redirect()->route('login');
     }
 }
