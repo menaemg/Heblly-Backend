@@ -19,21 +19,22 @@
     "dependencies": {
         "@inertiajs/progress": "^0.2.7",
         "@inertiajs/vue3": "^1.0.0",
-        "@vue/compiler-sfc": "^3.2.47",
-        "@vue/shared": "^3.2.47",
-        "nprogress": "^0.2.0",
-        "uuid": "^9.0.0",
-        "vue": "^3.2.47",
         "@popperjs/core": "^2.11.0",
+        "@vue/compiler-sfc": "^3.2.47",
         "@vue/server-renderer": "^3.2.27",
+        "@vue/shared": "^3.2.47",
         "autoprefixer": "^10.4.0",
         "eslint": "^8.4.1",
         "eslint-plugin-vue": "^8.2.0",
         "laravel-mix": "^6.0.41",
         "lodash": "^4.17.21",
+        "nprogress": "^0.2.0",
+        "or": "^0.2.0",
         "postcss-import": "^12.0.1",
         "postcss-nesting": "^7.0.1",
         "prettier": "^2.5.1",
-        "prettier-plugin-tailwind": "^2.2.12"
+        "prettier-plugin-tailwind": "^2.2.12",
+        "uuid": "^9.0.0",
+        "vue": "^3.2.47"
     }
 }
