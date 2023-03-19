@@ -7,7 +7,7 @@
       </search-filter>
       <Link class="btn-indigo" href="/users/create">
         <span>Create</span>
-        <span class="hidden md:inline">&nbsp;Organization</span>
+        <span class="hidden md:inline">&nbsp;User</span>
       </Link>
     </div>
     <div class="bg-white rounded-md shadow overflow-x-auto">
@@ -21,7 +21,6 @@
             <th class="pb-4 pt-6 px-6">Posts</th>
             <th class="pb-4 pt-6 px-6">Followings</th>
             <th class="pb-4 pt-6 px-6">Followers</th>
-
           </tr>
         </thead>
         <tbody>
@@ -77,7 +76,8 @@
       </table>
     </div>
     <pagination class="mt-6" :links="users.links" />
-  </div></template>
+  </div>
+</template>
 
 <script>
 import { Head, Link } from '@inertiajs/vue3'

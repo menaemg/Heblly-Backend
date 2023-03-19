@@ -4,8 +4,10 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\DeviceKey;
+use App\Auth\AdminUserProvider;
 use App\Scopes\NotBlockedScope;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Overtrue\LaravelLike\Traits\Liker;
 use Illuminate\Notifications\Notifiable;
@@ -39,6 +41,7 @@ class User extends Authenticatable implements Commentator
         'username',
         'email',
         'password',
+        'type',
     ];
 
     public function getAvatarAttribute()
@@ -67,7 +70,9 @@ class User extends Authenticatable implements Commentator
 
     public function setPasswordAttribute($value)
     {
-        $this->attributes['password'] = Hash::make($value);
+        if ($value != null) {
+            $this->attributes['password'] = Hash::make($value);
+        }
     }
 
     public function sendPasswordResetNotification($token)
@@ -210,6 +215,15 @@ class User extends Authenticatable implements Commentator
         $authUser = auth('sanctum')->check() ? auth('sanctum')->user() : null;
 
         static::addGlobalScope(new NotBlockedScope($authUser));
+
+
+        Auth::provider('admin', function ($app, array $config) {
+            return new AdminUserProvider($app['hash'], $config['model']);
+        });
+
+        Auth::extend('admin', function ($app, $name, array $config) {
+            return new AdminUserProvider($app['hash'], $config['model']);
+        });
     }
 
 

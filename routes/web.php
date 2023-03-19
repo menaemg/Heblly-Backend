@@ -16,9 +16,9 @@ use App\Http\Controllers\Dashboard\Auth\AuthenticatedSessionController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
@@ -43,25 +43,45 @@ Route::get('/', function () {
 
 // Auth
 
-Route::get('login', [AuthenticatedSessionController::class, 'create'])
+Route::get('/login', [AuthenticatedSessionController::class, 'create'])
     ->name('login')
     ->middleware('guest');
 
-Route::post('login', [AuthenticatedSessionController::class, 'store'])
+Route::post('/login', [AuthenticatedSessionController::class, 'store'])
     ->name('login.store')
     ->middleware('guest');
 
-Route::delete('logout', [AuthenticatedSessionController::class, 'destroy'])
+Route::delete('/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->name('logout');
 
-// Dashboard
+Route::group(['middleware' => ['auth', 'admin']], function () {
 
-Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->name('dashboard')
-    ->middleware('auth:admin');
+    // Dashboard
+    Route::get('/', [DashboardController::class, 'index'])
+        ->name('dashboard');
+
+    // Users
+    Route::get('users', [UserController::class, 'index'])
+        ->name('users');
+
+    Route::get('users/create', [UserController::class, 'create'])
+        ->name('users.create');
+
+    Route::post('users', [UserController::class, 'store'])
+        ->name('users.store', 'admin');
+
+    Route::get('users/{user}/edit', [UserController::class, 'edit'])
+        ->name('users.edit');
+
+    Route::put('users/{user}', [UserController::class, 'update'])
+        ->name('users.update');
+
+    Route::delete('users/{user}', [UserController::class, 'destroy'])
+        ->name('users.destroy');
+
+});
 
 // Users
-
 // Route::get('users', [UsersController::class, 'index'])
 //     ->name('users')
 //     ->middleware('auth');
@@ -92,25 +112,9 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
 
 // Organizations
 
-Route::get('users', [UserController::class, 'index'])
-    ->name('users')
-    ->middleware('auth:admin');
-
-Route::get('users/{user}/edit', [UserController::class, 'edit'])
-    ->name('users.edit')
-    ->middleware('auth:admin');
-
-Route::put('users/{user}', [UserController::class, 'update'])
-    ->name('users.update')
-    ->middleware('auth:admin');
-
-Route::delete('users/{user}', [UserController::class, 'destroy'])
-    ->name('users.destroy')
-    ->middleware('auth:admin');
-
 // Route::get('organizations', [OrganizationsController::class, 'index'])
 //     ->name('organizations')
-//     ->middleware('auth:admin');
+//     ->middleware('auth');
 
 // Route::get('organizations/create', [OrganizationsController::class, 'create'])
 //     ->name('organizations.create')

@@ -70,15 +70,27 @@ class Handler extends ExceptionHandler
             }
         });
 
-        $this->renderable(function (Throwable $e, $request) {
-            if ($request->is('api/*')) {
-                return response()->json([
-                'status' => false,
-                'message' => 'Something went wrong.',
-                'error' => $e->getMessage(),
-            ],
-                500);
-            }
-        });
+        if (config('app.env') == 'local') {
+            $this->renderable(function (Throwable $e, $request) {
+                if ($request->is('api/*')) {
+                    return response()->json([
+                    'status' => false,
+                    'message' => 'Something went wrong.',
+                ],
+                    500);
+                }
+            });
+        } else {
+            $this->renderable(function (Throwable $e, $request) {
+                if ($request->is('api/*')) {
+                    return response()->json([
+                    'status' => false,
+                    'message' => 'Something went wrong.',
+                    'error' => $e->getMessage(),
+                ],
+                    500);
+                }
+            });
+        }
     }
 }

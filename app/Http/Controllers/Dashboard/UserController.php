@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Models\User;
 use Inertia\Inertia;
-use App\Models\Organization;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Redirect;
+use App\Http\Requests\Dashboard\Profile\StoreProfileRequest;
+use App\Http\Requests\Dashboard\Profile\UpdateProfileRequest;
 
 class UserController extends Controller
 {
@@ -41,22 +41,28 @@ class UserController extends Controller
         return Inertia::render('Users/Create');
     }
 
-    public function store()
+    public function store(StoreProfileRequest $request)
     {
-        Auth::user()->account->organizations()->create(
-            Request::validate([
-                'name' => ['required', 'max:100'],
-                'email' => ['nullable', 'max:50', 'email'],
-                'phone' => ['nullable', 'max:50'],
-                'address' => ['nullable', 'max:150'],
-                'city' => ['nullable', 'max:50'],
-                'region' => ['nullable', 'max:50'],
-                'country' => ['nullable', 'max:2'],
-                'postal_code' => ['nullable', 'max:25'],
-            ])
-        );
+        $userRequest = $request->safe()->only(['username', 'email', 'password','type']);
+        $profileRequest = $request->safe()->except(['username', 'email', 'password', 'type', 'avatar_file', 'cover_file']);
 
-        return Redirect::route('users')->with('success', 'Organization created.');
+        $user = User::create($userRequest);
+
+        if (!empty($profileRequest)) {
+
+            if($request->has('avatar_file') && \is_file($request->file('avatar_file'))){
+                $profileRequest['avatar'] = $this->uploadImage($request->file('avatar_file') , 'avatars');
+            }
+
+            if($request->has('cover_file') && \is_file($request->file('cover_file'))){
+                $profileRequest['cover'] = $this->uploadImage($request->file('cover_file'), 'covers');
+
+            }
+
+            $user->profile()->create($profileRequest);
+        }
+
+        return Redirect::route('users')->with('success', 'User created.');
     }
 
     public function edit(User $user)
@@ -83,34 +89,46 @@ class UserController extends Controller
                 'zip' => $user->profile->zip ?? null,
                 'local' => $user->profile->local ?? null,
                 'privacy' => $user->profile->privacy ?? null,
+                'type' => $user->type,
             ],
         ]);
     }
 
-    public function update(User $user)
+    public function update(User $user, UpdateProfileRequest $request)
     {
-        $user->update(
-            array_filter(Request::validate([
-                'username' => 'string|alpha_dash|max:255|unique:users,username,' . $user->username . ',username',
-                'email' => 'string|email|max:255|unique:users,email,' . $user->email . ',email',
-                'name' => 'string|max:255',
-                'bio' => 'string|max:255',
-                'gender' => 'boolean',
-                'phone' => 'string|max:255',
-                'website' => 'string|max:255',
-                'birthday' => 'date',
-                'avatar' => 'image|max:2000',
-                'cover' => 'image|max:2000',
-                'address' => 'string|max:255',
-                'city' => 'string|max:255',
-                'state' => 'string|max:255',
-                'country' => 'string|max:3',
-                'zip' => 'string|max:255',
-                'local' => 'string|max:3',
-                'privacy' => 'in:public,private',
-                'password' => 'nullable|string|max:255|min:4',
-            ])
-        ));
+        $userRequest = $request->safe()->only(['username', 'email', 'password', 'type']);
+        $profileRequest = $request->safe()->except(['username', 'email', 'password', 'type', 'avatar_file', 'cover_file']);
+
+        if (!empty($userRequest)) {
+            $user->update($userRequest);
+        }
+
+        if (!empty($profileRequest)) {
+
+            if($request->has('avatar_file') && \is_file($request->file('avatar_file'))){
+                $profileRequest['avatar'] = $this->uploadImage($request->file('avatar_file') , 'avatars');
+
+                if($user->profile && $user->profile->avatar && $profileRequest['avatar']){
+                    $this->deleteImage($user->profile->avatar , 'avatars');
+                }
+
+            }
+
+            if($request->has('cover_file') && \is_file($request->file('cover_file'))){
+                $profileRequest['cover'] = $this->uploadImage($request->file('cover_file'), 'covers');
+
+                if($user->profile->cover && $profileRequest['cover']){
+                    $this->deleteImage($user->profile->cover, 'covers');
+                }
+            }
+
+            if($user->profile){
+                $user->profile()->update($profileRequest);
+            }else{
+                $user->profile()->create($profileRequest);
+            }
+
+        }
 
         return Redirect::back()->with('success', 'User updated.');
     }

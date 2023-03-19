@@ -6,32 +6,59 @@
       <span class="text-indigo-400 font-medium">/</span>
       {{ form.username }}
     </h1>
+    <div
+    class="bg-white shadow-xl rounded-lg text-gray-900 mb-5 pb-1">
+        <div class="rounded-t-lg h-32 overflow-hidden">
+            <img v-if="user.cover != null" class="object-cover object-top w-full" :src='user.cover' alt='Cover'>
+            <img v-else class="object-cover object-top w-full" src="/cover.png" alt='Cover'>
+        </div>
+        <div class="mx-auto w-32 h-32 relative -mt-16 border-4 border-white rounded-full overflow-hidden">
+            <img v-if="user.avatar != null" class="object-cover object-center h-32" :src='user.avatar' alt='Avatar'>
+            <img v-else src="/user.png" class="object-cover object-center h-32" alt='Avatar'/>
+        </div>
+    </div>
     <trashed-message v-if="user.deleted_at" class="mb-6" @restore="restore"> This user has been deleted. </trashed-message>
     <div class="max-w-3xl bg-white rounded-md shadow overflow-hidden">
       <form @submit.prevent="update">
         <div class="flex flex-wrap -mb-8 -mr-6 p-8">
+            <text-input type="file" @input="form.avatar_file = $event.target.files[0]"  :error="form.errors.avatar" class="pb-8 pr-6 w-full lg:w-1/2" label="Avatar" />
+
+            <text-input type="file" @input="form.cover_file = $event.target.files[0]"  :error="form.errors.cover" class="pb-8 pr-6 w-full lg:w-1/2" label="Cover" />
+
           <text-input v-model="form.username" :error="form.errors.username" class="pb-8 pr-6 w-full lg:w-1/2" label="Username" />
-          <text-input v-model="form.password" type="password" :error="form.errors.password" class="pb-8 pr-6 w-full lg:w-1/2" label="Password" />
-        </div>
-        <div class="flex flex-wrap -mb-8 -mr-6 p-8">
-            <text-input v-model="form.email" :error="form.errors.email" class="pb-8 pr-6 w-full lg:w-1/2" label="Email" />
+          <text-input v-model="form.email" :error="form.errors.email" class="pb-8 pr-6 w-full lg:w-1/2" label="Email" />
+
+            <text-input v-model="form.password" type="password" :error="form.errors.password" class="pb-8 pr-6 w-full lg:w-1/2" label="Password" />
+            <text-input v-model="form.password_confirmation" type="password" :error="form.errors.password" class="pb-8 pr-6 w-full lg:w-1/2" label="Password Confirmation" />
+
             <text-input v-model="form.bio" :error="form.errors.bio" class="pb-8 pr-6 w-full lg:w-1/2" label="Bio" />
+            <select-input v-model="form.gender" :error="form.errors.gender" class="pb-8 pr-6 w-full lg:w-1/2" label="Gender" >
+            <option :class="{'selected': form.gender == 1}" value="1">Male</option>
+            <option :class="{'selected': form.gender == 0}" value="0">Female</option>
+            </select-input>
+
+
+
+          <text-input v-model="form.phone" :error="form.errors.phone" class="pb-8 pr-6 w-full lg:w-1/2" label="Phone" />
+          <text-input v-model="form.website" :error="form.errors.website" class="pb-8 pr-6 w-full lg:w-1/2" label="Website" />
+
+          <text-input v-model="birthday" type="date"  :error="form.errors.birthday" class="pb-8 pr-6 w-full lg:w-1/2" label="Birthday" />
+          <text-input v-model="form.city" :error="form.errors.city" class="pb-8 pr-6 w-full lg:w-1/2" label="City" />
+
+          <text-input v-model="form.address" :error="form.errors.address" class="pb-8 pr-6 w-full" label="Address" />
+
+          <select-input v-model="form.type" :error="form.errors.gender" class="pb-8 pr-6 w-full lg:w-1/2" label="Type" >
+                <option value="user">User</option>
+                <option :class="{'selected': isAdmin}" value="admin">Admin</option>
+          </select-input>
+
         </div>
+
         <div class="flex items-center px-8 py-4 bg-gray-50 border-t border-gray-100">
           <button v-if="!user.deleted_at" class="text-red-600 hover:underline" tabindex="-1" type="button" @click="destroy">Delete User</button>
           <loading-button :loading="form.processing" class="btn-indigo ml-auto" type="submit">Update User</loading-button>
         </div>
       </form>
-    </div>
-    <h2 class="mt-12 text-2xl font-bold">Contacts</h2>
-    <div class="mt-6 bg-white rounded shadow overflow-x-auto">
-      <table class="w-full whitespace-nowrap">
-        <tr class="text-left font-bold">
-          <th class="pb-4 pt-6 px-6">Name</th>
-          <th class="pb-4 pt-6 px-6">City</th>
-          <th class="pb-4 pt-6 px-6" colspan="2">Phone</th>
-        </tr>
-      </table>
     </div>
   </div>
 </template>
@@ -44,6 +71,10 @@ import TextInput from '@/Shared/TextInput.vue'
 import SelectInput from '@/Shared/SelectInput.vue'
 import LoadingButton from '@/Shared/LoadingButton.vue'
 import TrashedMessage from '@/Shared/TrashedMessage.vue'
+// import { VueDatePicker } from '@mathieustan/vue-datepicker';
+// import '@mathieustan/vue-datepicker/dist/vue-datepicker.min.css';
+
+import moment from 'moment'
 
 export default {
   components: {
@@ -62,31 +93,44 @@ export default {
   remember: 'form',
   data() {
     return {
-      form: this.$inertia.form({
-        username: this.user.username,
-        email: this.user.email,
-        password:'',
-        bio: this.user.bio,
-        gender: this.user.gender,
-        phone: this.user.phone,
-        website: this.user.website,
-        birthday: this.user.birthday,
-        avatar: this.user.avatar,
-        cover: this.user.cover,
-        address: this.user.address,
-        city: this.user.city,
-        country: this.user.country,
-        zip: this.user.zip,
-        local: this.user.local,
-        privacy: this.user.zip,
-        zip: this.user.zip,
-        zip: this.user.zip,
-      }),
+        isAdmin: this.user.type === 'admin' ? true : false,
+        form: this.$inertia.form({
+            username: this.user.username,
+            email: this.user.email,
+            password:'',
+            password_confirmation:'',
+            bio: this.user.bio,
+            type: this.user.type,
+            gender: this.user.gender == "male" ? 1 : (this.user.gender == "female") ? 0 : null,
+            phone: this.user.phone,
+            website: this.user.website,
+            birthday: this.user.birthday ? new Date(this.user.birthday).toISOString().substr(0, 10): null,
+            avatar_file: null,
+            cover_file: null,
+            address: this.user.address,
+            city: this.user.city,
+            // country: this.user.country,
+            // zip: this.user.zip,
+            // local: this.user.local,
+            // privacy: this.user.zip,
+            // zip: this.user.zip,
+            // zip: this.user.zip,
+        }),
     }
+  },
+  computed: {
+    birthday: {
+        get() {
+            return this.form.birthday;
+        },
+        set(newValue) {
+            this.form.birthday = new Date(newValue).toISOString().substr(0, 10);
+        },
+    },
   },
   methods: {
     update() {
-      this.form.put(`/users/${this.user.id}`)
+      this.form.post(`/users/${this.user.id}?_method=put`)
     },
     destroy() {
       if (confirm('Are you sure you want to delete this user?')) {

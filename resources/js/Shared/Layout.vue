@@ -20,13 +20,13 @@
             </dropdown>
           </div>
           <div class="md:text-md flex items-center justify-between p-4 w-full text-sm bg-white border-b md:px-12 md:py-0">
-            <div class="mr-4 mt-1">{{ auth.user.first_name }}</div>
+            <div class="mr-4 mt-1">Heblly Dashboard</div>
             <dropdown class="mt-1" placement="bottom-end">
               <template #default>
                 <div class="group flex items-center cursor-pointer select-none">
                   <div class="mr-1 text-gray-700 group-hover:text-indigo-600 focus:text-indigo-600 whitespace-nowrap">
-                    <span>{{ auth.user.first_name }}</span>
-                    <span class="hidden md:inline">&nbsp;{{ auth.user.last_name }}</span>
+                    <span>{{ auth.user.username }}</span>
+                    <!-- <span class="hidden md:inline">&nbsp;{{ auth.user.last_name }}</span> -->
                   </div>
                   <icon class="w-5 h-5 fill-gray-700 group-hover:fill-indigo-600 focus:fill-indigo-600" name="cheveron-down" />
                 </div>
@@ -43,7 +43,7 @@
         </div>
         <div class="md:flex md:flex-grow md:overflow-hidden">
           <main-menu class="hidden flex-shrink-0 p-12 w-56 bg-indigo-800 overflow-y-auto md:block" />
-          <div class="px-4 py-8 md:flex-1 md:p-12 md:overflow-y-auto" scroll-region>
+          <div class="px-4 py-8 md:flex-1 md:p-12 md:overflow-y-auto bg-gray-100" scroll-region>
             <flash-messages />
             <slot />
           </div>
