@@ -19,7 +19,6 @@
     "dependencies": {
         "@inertiajs/progress": "^0.2.7",
         "@inertiajs/vue3": "^1.0.0",
-        "@mathieustan/vue-datepicker": "^0.2.11",
         "@popperjs/core": "^2.11.0",
         "@vue/compiler-sfc": "^3.2.47",
         "@vue/server-renderer": "^3.2.27",
