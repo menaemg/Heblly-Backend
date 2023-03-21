@@ -76,6 +76,10 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::put('users/{user}', [UserController::class, 'update'])
         ->name('users.update');
 
+    Route::delete('users/{user}/disable', [UserController::class, 'disableUser']);
+
+    Route::put('users/{user}/active', [UserController::class, 'activeUser']);
+
     Route::delete('users/{user}', [UserController::class, 'destroy'])
         ->name('users.destroy');
 

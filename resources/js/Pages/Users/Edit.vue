@@ -56,6 +56,8 @@
 
         <div class="flex items-center px-8 py-4 bg-gray-50 border-t border-gray-100">
           <button v-if="!user.deleted_at" class="text-red-600 hover:underline" tabindex="-1" type="button" @click="destroy">Delete User</button>
+          <button v-if="user.status  == 'active'" class="text-red-600 hover:underline ml-4" tabindex="-1" type="button" @click="disable">Disable User</button>
+          <button v-if="user.status  == 'disable'" class="text-green-600 hover:underline ml-4" tabindex="-1" type="button" @click="active">Active User</button>
           <loading-button :loading="form.processing" class="btn-indigo ml-auto" type="submit">Update User</loading-button>
         </div>
       </form>
@@ -114,7 +116,7 @@ export default {
             // local: this.user.local,
             // privacy: this.user.zip,
             // zip: this.user.zip,
-            // zip: this.user.zip,
+            status: this.user.status,
         }),
     }
   },
@@ -135,6 +137,16 @@ export default {
     destroy() {
       if (confirm('Are you sure you want to delete this user?')) {
         this.$inertia.delete(`/users/${this.user.id}`)
+      }
+    },
+    disable() {
+      if (confirm('Are you sure you want to disable this user?')) {
+        this.$inertia.delete(`/users/${this.user.id}/disable`)
+      }
+    },
+    active() {
+      if (confirm('Are you sure you want to active this user?')) {
+        this.$inertia.put(`/users/${this.user.id}/active`)
       }
     },
     restore() {

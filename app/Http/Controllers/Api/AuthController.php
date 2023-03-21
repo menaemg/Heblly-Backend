@@ -43,6 +43,7 @@ class AuthController extends Controller
     public function login(AuthRequest $request)
     {
         $user = User::where('email', $request->post('email'))
+                    ->where('status', 'active')
                     ->orWhere('username', $request->post('email'))
                     ->first();
 

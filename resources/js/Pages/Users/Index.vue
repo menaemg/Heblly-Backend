@@ -13,7 +13,7 @@
     <div class="bg-white rounded-md shadow overflow-x-auto">
       <table class="w-full whitespace-nowrap">
         <thead>
-          <tr class="text-left font-bold">
+          <tr class="bg-red text-left font-bold">
             <th class="pb-4 pt-6 px-6">#ID</th>
             <th class="pb-4 pt-6 px-6">Avatar</th>
             <th class="pb-4 pt-6 px-6">Username</th>
@@ -24,7 +24,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="users in users.data" :key="users.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
+          <tr v-for="users in users.data" :key="users.id" class="hover:bg-gray-100 focus-within:bg-gray-100" :class="{'bg-red-400': users.status  == 'disable'}">
             <td class="border-t">
               <Link class="flex items-center px-6 py-4 focus:text-indigo-500" :href="`/users/${users.id}/edit`">
                 {{ users.id }}

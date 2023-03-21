@@ -31,6 +31,7 @@ class UserController extends Controller
                     'posts_count' => $user->posts_count ?? 0,
                     'followings_count' => $user->followings_count ?? 0,
                     'followers_count' => $user->followables_count ?? 0,
+                    'status' => $user->status,
                     // 'deleted_at' => $organization->deleted_at,
                 ]),
         ]);
@@ -90,6 +91,7 @@ class UserController extends Controller
                 'local' => $user->profile->local ?? null,
                 'privacy' => $user->profile->privacy ?? null,
                 'type' => $user->type,
+                'status' => $user->status,
             ],
         ]);
     }
@@ -132,6 +134,28 @@ class UserController extends Controller
 
         return Redirect::back()->with('success', 'User updated.');
     }
+
+
+    public function disableUser(User $user)
+    {
+        $user->update([
+            'status' => 'disable',
+        ]);
+
+        $user->tokens()->delete();
+
+        return Redirect::back()->with('success', 'User disabled.');
+    }
+
+    public function activeUser(User $user)
+    {
+        $user->update([
+            'status' => 'active',
+        ]);
+
+        return Redirect::back()->with('success', 'User Activated.');
+    }
+
 
     public function destroy(User $user)
     {

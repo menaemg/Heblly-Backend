@@ -42,6 +42,7 @@ class User extends Authenticatable implements Commentator
         'email',
         'password',
         'type',
+        'status',
     ];
 
     public function getAvatarAttribute()
