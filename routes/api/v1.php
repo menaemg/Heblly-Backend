@@ -157,7 +157,7 @@ Route::delete('gratitudes/{gratitude}', [App\Http\Controllers\GratitudeControlle
 Route::post('wishlist', [PostWishController::class, 'store'])->middleware('auth:sanctum');
 Route::get('wishlist', [PostWishController::class, 'index'])->middleware('auth:sanctum');
 Route::get('wishlist/{user}', [PostWishController::class, 'anotherUser'])->middleware('auth:sanctum');
-Route::get('wishlist/{wish}', [PostWishController::class, 'show'])->middleware('auth:sanctum');
+Route::get('wishlist/show/{wish}', [PostWishController::class, 'show'])->middleware('auth:sanctum');
 Route::put('wishlist/{wish}', [PostWishController::class, 'update'])->middleware('auth:sanctum');
 Route::delete('wishlist/{wish}', [PostWishController::class, 'destroy'])->middleware('auth:sanctum');
 
