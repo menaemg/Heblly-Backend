@@ -94,6 +94,8 @@ class ReserveController extends Controller
             'status' => 'extended',
             'extended_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
+
+        return jsonResponse(true, 'Gift extended successfully');
     }
 
     public function testNotification() {
