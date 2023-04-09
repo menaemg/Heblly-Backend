@@ -43,7 +43,7 @@ class ReserveController extends Controller
             }
         }
 
-        if (!$post->type == 'wish' || !$post->type == 'board') {
+        if (!$post->type == 'wish' || $post->action == "approved" || !$post->type == 'board') {
             return jsonResponse(false, 'Gift not available');
         }
 
