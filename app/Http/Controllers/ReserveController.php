@@ -51,7 +51,7 @@ class ReserveController extends Controller
             return jsonResponse(false, "You Need to Follow User First", null, 403);
         }
 
-        if ($user->reserves->count() >= 3) {
+        if ($user->reserves()->where('status', 'pending')->with('post')->count() >= 3) {
             return jsonResponse(false, 'You can not reserve more than 3 gifts, grant or cancel one of your reserves first');
         }
 
