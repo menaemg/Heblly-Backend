@@ -1,11 +1,11 @@
 <template>
     <div>
       <Head title="Picks" />
-      <h1 class="mb-8 text-3xl font-bold">Picks</h1>
-      <div class="flex items-center justify-between mb-6">
-        <search-filter v-model="form.search" class="mr-4 w-full max-w-md" @reset="reset">
-        </search-filter>
-      </div>
+      <h1 class="mb-4 text-2xl font-bold">Picks</h1>
+      <div class="flex items-center justify-between mb-3">
+      <search-filter v-model="form.search" class="mr-4 w-full max-w-md" @reset="reset">
+      </search-filter>
+    </div>
       <div class="bg-white rounded-md shadow overflow-x-auto">
         <table class="w-full whitespace-nowrap border-collapse border border-slate-500 ">
           <thead>

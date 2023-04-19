@@ -1,7 +1,7 @@
 <template>
   <div>
     <Head title="Create Organization" />
-    <h1 class="mb-8 text-3xl font-bold">
+    <h1 class="mb-4 text-2xl font-bold">
       <Link class="text-indigo-400 hover:text-indigo-600" href="/organizations">Organizations</Link>
       <span class="text-indigo-400 font-medium">/</span> Create
     </h1>

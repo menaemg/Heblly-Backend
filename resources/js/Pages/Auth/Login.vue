@@ -6,7 +6,7 @@
             <Logo class="block mx-auto max-w-xs fill-white" width="150"/>
             <form class="mt-8 bg-white rounded-lg shadow-xl overflow-hidden" @submit.prevent="login">
                 <div class="px-10 py-12">
-                    <h1 class="text-center text-3xl font-bold">Welcome Back!</h1>
+                    <h1 class="text-center text-2xl font-bold">Welcome Back!</h1>
                     <div class="mt-6 mx-auto w-24 border-b-2" />
                     <text-input v-model="form.email" :error="form.errors.email" class="mt-10" label="Email" type="email"
                         autofocus autocapitalize="off" />

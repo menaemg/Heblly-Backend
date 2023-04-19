@@ -1,8 +1,8 @@
 <template>
   <div>
     <Head title="Gifts" />
-    <h1 class="mb-8 text-3xl font-bold">Gift</h1>
-    <div class="flex items-center justify-between mb-6">
+    <h4 class="mb-4 text-2xl font-bold">Gifts</h4>
+    <div class="flex items-center justify-between mb-3">
       <search-filter v-model="form.search" class="mr-4 w-full max-w-md" @reset="reset">
       </search-filter>
     </div>
