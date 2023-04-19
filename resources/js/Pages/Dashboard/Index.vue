@@ -28,9 +28,9 @@
                 </div>
             </Link>
 
-            <Link class="flex items-center px-6 py-4 focus:text-indigo-500" href="/users/">
+            <Link class="flex items-center px-6 py-4 focus:text-indigo-500" href="/gifts/">
                 <div class="metric-card bg-green-300  hover:bg-green-400 border border-gray-200 dark:border-gray-800 rounded-lg p-4 max-w-72 w-full">
-                    <div class="flex items-center text-gray-900 dark:text-gray-100 ">Gifts
+                    <div class="flex items-center text-gray-900 dark:text-gray-100">Gifts
                     </div>
                 <p class="mt-2 text-2xl font-bold spacing-sm text-black dark:text-white" >{{ counts.gifts }}</p>
                 </div>
