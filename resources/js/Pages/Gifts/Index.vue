@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Head title="Gift" />
+    <Head title="Gifts" />
     <h1 class="mb-8 text-3xl font-bold">Gift</h1>
     <div class="flex items-center justify-between mb-6">
       <search-filter v-model="form.search" class="mr-4 w-full max-w-md" @reset="reset">
@@ -80,10 +80,10 @@
             <td class="border ml-2 text-center">
                 {{ gifts.likes }}
             </td>
-            <td class="border ml-2 text center">
+            <td class="border ml-2 text-center">
                 {{ gifts.comments }}
             </td>
-            <td class="border ml-2 text center">
+            <td class="border ml-2 text-center">
                 <button class="text-red-600 hover:underline" tabindex="-1" type="button" @click="destroy(gifts.id)">Delete Gift</button>
             </td>
           </tr>

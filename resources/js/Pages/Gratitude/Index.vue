@@ -80,10 +80,10 @@
             <td class="border ml-2 text-center">
                 {{ gratitude.likes }}
             </td>
-            <td class="border ml-2 text center">
+            <td class="border ml-2 text-center">
                 {{ gratitude.comments }}
             </td>
-            <td class="border ml-2 text center">
+            <td class="border ml-2 text-center">
                 <button class="text-red-600 hover:underline" tabindex="-1" type="button" @click="destroy(gratitude.id)">Delete Gratitude</button>
             </td>
           </tr>

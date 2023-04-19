@@ -91,27 +91,21 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
         ->name('users.create');
 
     // Picks
-    Route::get('picks', [PickController::class, 'index'])
-        ->name('picks.index');
+    Route::get('picks', [PickController::class, 'index']);
 
-    Route::delete('picks/{pick}', [PickController::class, 'destroy'])
-        ->name('picks.destroy');
+    Route::delete('picks/{pick}', [PickController::class, 'destroy']);
 
 
     // Picks
-    Route::get('gratitude', [GratitudeController::class, 'index'])
-    ->name('gratitude.index');
+    Route::get('gratitude', [GratitudeController::class, 'index']);
 
-    Route::delete('gratitude/{pick}', [GratitudeController::class, 'destroy'])
-        ->name('gratitude.destroy');
+    Route::delete('gratitude/{pick}', [GratitudeController::class, 'destroy']);
 
 
     // Gifts
-    Route::get('gifts', [GiftController::class, 'index'])
-    ->name('gifts.index');
+    Route::get('gifts', [GiftController::class, 'index']);
 
-    Route::delete('gifts/{gift}', [GiftController::class, 'destroy'])
-        ->name('gifts.destroy');
+    Route::delete('gifts/{gift}', [GiftController::class, 'destroy']);
 
 });
 

@@ -1,7 +1,7 @@
 <template>
     <div>
-      <Head title="Pick" />
-      <h1 class="mb-8 text-3xl font-bold">Pick</h1>
+      <Head title="Picks" />
+      <h1 class="mb-8 text-3xl font-bold">Picks</h1>
       <div class="flex items-center justify-between mb-6">
         <search-filter v-model="form.search" class="mr-4 w-full max-w-md" @reset="reset">
         </search-filter>
@@ -14,7 +14,6 @@
               <th class="border pb-4 pt-6 px-3">Image</th>
               <th class="border pb-4 pt-6 px-3">Title</th>
               <th class="border pb-4 pt-6 px-3">Username</th>
-              <th class="border pb-4 pt-6 px-3">Pick to</th>
               <th class="border pb-4 pt-6 px-3">Location</th>
               <th class="border pb-4 pt-6 px-3">Tags</th>
               <th class="border pb-4 pt-6 px-3">Date</th>
@@ -73,10 +72,10 @@
               <td class="border ml-2 text-center">
                   {{ picks.likes }}
               </td>
-              <td class="border ml-2 text center">
+              <td class="border ml-2 text-center">
                   {{ picks.comments }}
               </td>
-              <td class="border ml-2 text center">
+              <td class="border ml-2 text-center">
                   <button class="text-red-600 hover:underline" tabindex="-1" type="button" @click="destroy(picks.id)">Delete Pick</button>
               </td>
             </tr>
