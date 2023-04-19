@@ -3,7 +3,7 @@
     <Head title="Login" />
     <div class="flex items-center justify-center p-6 min-h-screen bg-indigo-800">
         <div class="w-full max-w-md">
-            <Logo class="block mx-auto w-full max-w-xs fill-white" height="50" />
+            <Logo class="block mx-auto max-w-xs fill-white" width="150"/>
             <form class="mt-8 bg-white rounded-lg shadow-xl overflow-hidden" @submit.prevent="login">
                 <div class="px-10 py-12">
                     <h1 class="text-center text-3xl font-bold">Welcome Back!</h1>

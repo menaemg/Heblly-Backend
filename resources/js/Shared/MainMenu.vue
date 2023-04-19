@@ -13,17 +13,29 @@
       </Link>
     </div>
     <div class="mb-4">
-      <Link class="group flex items-center py-3" href="/contacts">
-        <icon name="users" class="mr-2 w-4 h-4" :class="isUrl('contacts') ? 'fill-white' : 'fill-indigo-400 group-hover:fill-white'" />
-        <div :class="isUrl('contacts') ? 'text-white' : 'text-indigo-300 group-hover:text-white'">Contacts</div>
+      <Link class="group flex items-center py-3" href="/picks">
+        <icon name="users" class="mr-2 w-4 h-4" :class="isUrl('picks') ? 'fill-white' : 'fill-indigo-400 group-hover:fill-white'" />
+        <div :class="isUrl('picks') ? 'text-white' : 'text-indigo-300 group-hover:text-white'">Picks</div>
       </Link>
     </div>
     <div class="mb-4">
+      <Link class="group flex items-center py-3" href="/gifts">
+        <icon name="users" class="mr-2 w-4 h-4" :class="isUrl('gifts') ? 'fill-white' : 'fill-indigo-400 group-hover:fill-white'" />
+        <div :class="isUrl('gifts') ? 'text-white' : 'text-indigo-300 group-hover:text-white'">Gifts</div>
+      </Link>
+    </div>
+    <div class="mb-4">
+      <Link class="group flex items-center py-3" href="/gratitude">
+        <icon name="users" class="mr-2 w-4 h-4" :class="isUrl('gratitude') ? 'fill-white' : 'fill-indigo-400 group-hover:fill-white'" />
+        <div :class="isUrl('gratitude') ? 'text-white' : 'text-indigo-300 group-hover:text-white'">Gratitude</div>
+      </Link>
+    </div>
+    <!-- <div class="mb-4">
       <Link class="group flex items-center py-3" href="/reports">
         <icon name="printer" class="mr-2 w-4 h-4" :class="isUrl('reports') ? 'fill-white' : 'fill-indigo-400 group-hover:fill-white'" />
         <div :class="isUrl('reports') ? 'text-white' : 'text-indigo-300 group-hover:text-white'">Reports</div>
       </Link>
-    </div>
+    </div> -->
   </div>
 </template>
 

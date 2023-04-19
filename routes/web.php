@@ -1,8 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Dashboard\GiftController;
+use App\Http\Controllers\Dashboard\PickController;
 use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Dashboard\GratitudeController;
 use App\Http\Controllers\Dashboard\Auth\AuthenticatedSessionController;
 
 /*
@@ -82,6 +85,33 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
 
     Route::delete('users/{user}', [UserController::class, 'destroy'])
         ->name('users.destroy');
+
+
+    Route::get('users/create', [UserController::class, 'create'])
+        ->name('users.create');
+
+    // Picks
+    Route::get('picks', [PickController::class, 'index'])
+        ->name('picks.index');
+
+    Route::delete('picks/{pick}', [PickController::class, 'destroy'])
+        ->name('picks.destroy');
+
+
+    // Picks
+    Route::get('gratitude', [GratitudeController::class, 'index'])
+    ->name('gratitude.index');
+
+    Route::delete('gratitude/{pick}', [GratitudeController::class, 'destroy'])
+        ->name('gratitude.destroy');
+
+
+    // Gifts
+    Route::get('gifts', [GiftController::class, 'index'])
+    ->name('gifts.index');
+
+    Route::delete('gifts/{gift}', [GiftController::class, 'destroy'])
+        ->name('gifts.destroy');
 
 });
 

@@ -21,10 +21,13 @@
             <th class="pb-4 pt-6 px-6">Posts</th>
             <th class="pb-4 pt-6 px-6">Followings</th>
             <th class="pb-4 pt-6 px-6">Followers</th>
+            <th class="pb-4 pt-6 px-6">Actions</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="users in users.data" :key="users.id" class="hover:bg-gray-100 focus-within:bg-gray-100" :class="{'bg-red-400': users.status  == 'disable'}">
+          <tr v-for="users in users.data" :key="users.id" class="focus-within:bg-gray-100" :class="[
+            users.status  == 'disable' ? 'bg-red-300 hover:bg-red-400' : 'hover:bg-gray-200 bg-gray-100'
+          ]">
             <td class="border-t">
               <Link class="flex items-center px-6 py-4 focus:text-indigo-500" :href="`/users/${users.id}/edit`">
                 {{ users.id }}
@@ -32,11 +35,19 @@
               </Link>
             </td>
             <td class="border-t">
-              <Link class="flex items-center px-6 py-4" :href="`/users/${users.id}/edit`" tabindex="-1">
-                <img v-if="users.avatar !== null" :src=users.avatar width="50" height="50"/>
+                <img v-if="users.avatar !== null" class="cursor-pointer" :src=users.avatar width="50" height="50" @click="showAvatar(users.id)"/>
                 <img v-else src="user.png" width="50" height="50"/>
-              </Link>
             </td>
+
+
+            <div v-if="IsShowAvatar == users.id" class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex" @click="hideAvatar()">
+                <div class="relative w-auto my-6 mx-auto max-w-6xl">
+                    <div class="relative p-6 flex-auto">
+                        <img v-if="users.avatar !== null" :src=users.avatar width="800" height="400" />
+                    </div>
+                </div>
+            </div>
+
             <td class="border-t">
               <Link class="flex items-center px-6 py-4 focus:text-indigo-500" :href="`/users/${users.id}/edit`">
                 {{ users.name }}
@@ -64,9 +75,9 @@
               </Link>
             </td>
             <td class="w-px border-t">
-              <Link class="flex items-center px-4" :href="`/users/${users.id}/edit`" tabindex="-1">
-                <icon name="cheveron-right" class="block w-6 h-6 fill-gray-400" />
-              </Link>
+                <button v-if="!users.deleted_at" class="button text-red-600 hover:underline" tabindex="-1" type="button" @click="destroy(users.id)">Delete User</button>
+                <button v-if="users.status  == 'active'" class="text-red-600 hover:underline ml-4" tabindex="-1" type="button" @click="disable(users.id)">Disable User</button>
+                <button v-if="users.status  == 'disable'" class="text-green-600 hover:underline ml-4" tabindex="-1" type="button" @click="active(users.id)">Active User</button>
             </td>
           </tr>
           <tr v-if="users.data.length === 0">
@@ -104,6 +115,7 @@ export default {
   },
   data() {
     return {
+      IsShowAvatar: false,
       form: {
         search: this.filters.search,
         trashed: this.filters.trashed,
@@ -121,6 +133,27 @@ export default {
   methods: {
     reset() {
       this.form = mapValues(this.form, () => null)
+    },
+    showAvatar(id){
+      this.IsShowAvatar = id;
+    },
+    hideAvatar(id){
+      this.IsShowAvatar = false;
+    },
+    destroy(id) {
+      if (confirm('Are you sure you want to delete this user?')) {
+        this.$inertia.delete(`/users/${id}`)
+      }
+    },
+    disable(id) {
+      if (confirm('Are you sure you want to disable this user?')) {
+        this.$inertia.delete(`/users/${id}/disable`)
+      }
+    },
+    active(id) {
+      if (confirm('Are you sure you want to active this user?')) {
+        this.$inertia.put(`/users/${id}/active`)
+      }
     },
   },
 }

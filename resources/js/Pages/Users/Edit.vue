@@ -42,10 +42,11 @@
           <text-input v-model="form.phone" :error="form.errors.phone" class="pb-8 pr-6 w-full lg:w-1/2" label="Phone" />
           <text-input v-model="form.website" :error="form.errors.website" class="pb-8 pr-6 w-full lg:w-1/2" label="Website" />
 
-          <text-input v-model="birthday" type="date"  :error="form.errors.birthday" class="pb-8 pr-6 w-full lg:w-1/2" label="Birthday" />
-          <text-input v-model="form.city" :error="form.errors.city" class="pb-8 pr-6 w-full lg:w-1/2" label="City" />
+          <!-- <text-input v-model="birthday" type="date"  :error="form.errors.birthday" class="pb-8 pr-6 w-full lg:w-1/2" label="Birthday" /> -->
 
           <text-input v-model="form.address" :error="form.errors.address" class="pb-8 pr-6 w-full" label="Address" />
+
+          <text-input v-model="form.city" :error="form.errors.city" class="pb-8 pr-6 w-full lg:w-1/2" label="City" />
 
           <select-input v-model="form.type" :error="form.errors.gender" class="pb-8 pr-6 w-full lg:w-1/2" label="Type" >
                 <option value="user">User</option>
@@ -106,16 +107,11 @@ export default {
             gender: this.user.gender == "male" ? 1 : (this.user.gender == "female") ? 0 : null,
             phone: this.user.phone,
             website: this.user.website,
-            birthday: this.user.birthday ? new Date(this.user.birthday).toISOString().substr(0, 10): null,
+            // birthday: this.user.birthday ? new Date(this.user.birthday).toISOString().substr(0, 10): null,
             avatar_file: null,
             cover_file: null,
             address: this.user.address,
             city: this.user.city,
-            // country: this.user.country,
-            // zip: this.user.zip,
-            // local: this.user.local,
-            // privacy: this.user.zip,
-            // zip: this.user.zip,
             status: this.user.status,
         }),
     }

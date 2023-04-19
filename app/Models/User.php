@@ -218,13 +218,13 @@ class User extends Authenticatable implements Commentator
         static::addGlobalScope(new NotBlockedScope($authUser));
 
 
-        Auth::provider('admin', function ($app, array $config) {
-            return new AdminUserProvider($app['hash'], $config['model']);
-        });
+        // Auth::provider('admin', function ($app, array $config) {
+        //     return new AdminUserProvider($app['hash'], $config['model']);
+        // });
 
-        Auth::extend('admin', function ($app, $name, array $config) {
-            return new AdminUserProvider($app['hash'], $config['model']);
-        });
+        // Auth::extend('admin', function ($app, $name, array $config) {
+        //     return new AdminUserProvider($app['hash'], $config['model']);
+        // });
     }
 
 
