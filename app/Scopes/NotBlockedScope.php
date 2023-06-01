@@ -26,8 +26,10 @@ class NotBlockedScope implements Scope
     {
         // dd('yes');
         // dd(auth('sanctum')->user());
-        if (auth('sanctum')->check() && \auth()->user()->type != "admin" ) {
-            $builder->whereNotIn('users.id', optional($this->authUser->blockIds)->toArray());
+        if ($this->authUser) {
+            if ($this->authUser->type != "admin") {
+                $builder->whereNotIn('users.id', optional($this->authUser->blockIds)->toArray());
+            }
         }
 
     }
