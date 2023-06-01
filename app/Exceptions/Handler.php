@@ -76,6 +76,7 @@ class Handler extends ExceptionHandler
                     return response()->json([
                     'status' => false,
                     'message' => 'Something went wrong.',
+                    'errors' => $e->getMessage(),
                 ],
                     500);
                 }
@@ -86,7 +87,6 @@ class Handler extends ExceptionHandler
                     return response()->json([
                     'status' => false,
                     'message' => 'Something went wrong.',
-                    'errors' => $e->getMessage(),
                 ],
                     500);
                 }
