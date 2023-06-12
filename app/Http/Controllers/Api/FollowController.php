@@ -176,6 +176,7 @@ class FollowController extends Controller
 
             $followings = $followings->map(function ($following) {
                 if ($following){
+                    dd($following);
                     return [
                         'id' => $following->id,
                         'username' => $following->username,
