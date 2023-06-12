@@ -206,11 +206,11 @@ class FollowController extends Controller
             return $friend != null;
         });
 
-        dd($friends, $followings, $followers);
         $friends = $friends->filter(function ($friend) use ($request) {
             return false != stristr($friend['username'], $request->search);
         })->unique('id');
 
+        dd($friends, $followings, $followers);
         return jsonResponse(true, "Friends List", 'friends');
     }
 
