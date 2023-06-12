@@ -211,7 +211,7 @@ class FollowController extends Controller
         })->unique('id');
 
         // dd($friends, $followings, $followers);
-        return jsonResponse(true, "Friends List", $friends->toArray());
+        return jsonResponse(true, "Friends List", array_values($friends->toArray()));
     }
 
     public function users(Request $request)
