@@ -173,38 +173,37 @@ class FollowController extends Controller
     {
         $followings = Auth::user()->approvedFollowings->load('followable:id,username')->pluck('followable');
 
-        if (!empty($followings)) {
-            dd($followings);
+
             $followings = $followings->map(function ($following) {
-                return [
-                    'id' => $following->id,
-                    'username' => $following->username,
-                    'avatar'   => $following->profile->avatar_url ?? null,
-                ];
+                if ($following){
+                    return [
+                        'id' => $following->id,
+                        'username' => $following->username,
+                        'avatar'   => $following->profile->avatar_url ?? null,
+                    ];
+                }
             });
-        }
 
-        // $followers = Auth::user()->approvedFollowers;
+        $followers = Auth::user()->approvedFollowers;
 
-        // if ($followers) {
-        //     $followers = $followers->map(function ($follower) {
-        //         return [
-        //             'id' => $follower->id,
-        //             'username' => $follower->username,
-        //             'avatar'   => $follower->profile->avatar_url ?? null,
-        //             'cover' => $follower->profile->cover_url ?? null,
-        //             'followers_count' => $follower->followers()->count(),
-        //         ];
-        //     });
-        // }
 
-        // $friends = $followings->concat($followers);
+            $followers = $followers->map(function ($follower) {
+                if ($follower) {
+                    return [
+                        'id' => $follower->id,
+                        'username' => $follower->username,
+                        'avatar'   => $follower->profile->avatar_url ?? null,
+                        'cover' => $follower->profile->cover_url ?? null,
+                        'followers_count' => $follower->followers()->count(),
+                    ];
+                }
+            });
 
-        // if($friends){
-        //     $friends = $friends->filter(function ($friend) use ($request) {
-        //         return false != stristr($friend['username'], $request->search);
-        //     })->unique('id');
-        // }
+        $friends = $followings->concat($followers);
+
+        $friends = $friends->filter(function ($friend) use ($request) {
+            return false != stristr($friend['username'], $request->search);
+        })->unique('id');
 
         return jsonResponse(true, "Friends List", 'friends');
     }
