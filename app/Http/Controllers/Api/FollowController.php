@@ -172,7 +172,7 @@ class FollowController extends Controller
     public function friends(Request $request)
     {
         $followings = Auth::user()->approvedFollowings->load('followable:id,username')->pluck('followable');
-dd($followings);
+
         if ($followings) {
             $followings = $followings->map(function ($following) {
                 if ($following){
@@ -187,7 +187,7 @@ dd($followings);
 
         $followers = Auth::user()->approvedFollowers;
 
-        if ($followers) {
+
             $followers = $followers->map(function ($follower) {
                 if ($follower) {
                     return [
@@ -199,9 +199,12 @@ dd($followings);
                     ];
                 }
             });
-        }
 
         $friends = $followings->concat($followers);
+
+        $friends = $friends->filter(function ($friend) {
+            return $friend != null;
+        });
 
         dd($friends, $followings, $followers);
         $friends = $friends->filter(function ($friend) use ($request) {
