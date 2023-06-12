@@ -173,25 +173,29 @@ class FollowController extends Controller
     {
         $followings = Auth::user()->approvedFollowings->load('followable:id,username')->pluck('followable');
 
-        $followings = $followings->map(function ($following) {
-            return [
-                'id' => $following->id,
-                'username' => $following->username,
-                'avatar'   => $following->profile->avatar_url ?? null,
-            ];
-        });
+        if ($followings) {
+            $followings = $followings->map(function ($following) {
+                return [
+                    'id' => $following->id,
+                    'username' => $following->username,
+                    'avatar'   => $following->profile->avatar_url ?? null,
+                ];
+            });
+        }
 
         $followers = Auth::user()->approvedFollowers;
 
-        $followers = $followers->map(function ($follower) {
-            return [
-                'id' => $follower->id,
-                'username' => $follower->username,
-                'avatar'   => $follower->profile->avatar_url ?? null,
-                'cover' => $follower->profile->cover_url ?? null,
-                'followers_count' => $follower->followers()->count(),
-            ];
-        });
+        if ($followers) {
+            $followers = $followers->map(function ($follower) {
+                return [
+                    'id' => $follower->id,
+                    'username' => $follower->username,
+                    'avatar'   => $follower->profile->avatar_url ?? null,
+                    'cover' => $follower->profile->cover_url ?? null,
+                    'followers_count' => $follower->followers()->count(),
+                ];
+            });
+        }
 
         $friends = $followings->concat($followers);
         $friends = $friends->filter(function ($friend) use ($request) {
