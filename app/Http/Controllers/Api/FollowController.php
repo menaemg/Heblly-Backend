@@ -176,7 +176,6 @@ class FollowController extends Controller
 
             $followings = $followings->map(function ($following) {
                 if ($following){
-                    dd($following);
                     return [
                         'id' => $following->id,
                         'username' => $following->username,
@@ -202,6 +201,7 @@ class FollowController extends Controller
 
         $friends = $followings->concat($followers);
 
+        dd($friends);
         $friends = $friends->filter(function ($friend) use ($request) {
             return false != stristr($friend['username'], $request->search);
         })->unique('id');
