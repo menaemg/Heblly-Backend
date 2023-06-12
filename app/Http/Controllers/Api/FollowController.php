@@ -174,6 +174,7 @@ class FollowController extends Controller
         $followings = Auth::user()->approvedFollowings->load('followable:id,username')->pluck('followable');
 
         if ($followings) {
+            dd($followings);
             $followings = $followings->map(function ($following) {
                 return [
                     'id' => $following->id,
@@ -183,19 +184,19 @@ class FollowController extends Controller
             });
         }
 
-        $followers = Auth::user()->approvedFollowers;
+        // $followers = Auth::user()->approvedFollowers;
 
-        if ($followers) {
-            $followers = $followers->map(function ($follower) {
-                return [
-                    'id' => $follower->id,
-                    'username' => $follower->username,
-                    'avatar'   => $follower->profile->avatar_url ?? null,
-                    'cover' => $follower->profile->cover_url ?? null,
-                    'followers_count' => $follower->followers()->count(),
-                ];
-            });
-        }
+        // if ($followers) {
+        //     $followers = $followers->map(function ($follower) {
+        //         return [
+        //             'id' => $follower->id,
+        //             'username' => $follower->username,
+        //             'avatar'   => $follower->profile->avatar_url ?? null,
+        //             'cover' => $follower->profile->cover_url ?? null,
+        //             'followers_count' => $follower->followers()->count(),
+        //         ];
+        //     });
+        // }
 
         // $friends = $followings->concat($followers);
 
