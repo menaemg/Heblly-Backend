@@ -171,41 +171,41 @@ class FollowController extends Controller
 
     public function friends(Request $request)
     {
-        $followings = Auth::user()->approvedFollowings->load('followable:id,username')->pluck('followable');
+        // $followings = Auth::user()->approvedFollowings->load('followable:id,username')->pluck('followable');
 
-        if ($followings) {
-            $followings = $followings->map(function ($following) {
-                return [
-                    'id' => $following->id,
-                    'username' => $following->username,
-                    'avatar'   => $following->profile->avatar_url ?? null,
-                ];
-            });
-        }
+        // if ($followings) {
+        //     $followings = $followings->map(function ($following) {
+        //         return [
+        //             'id' => $following->id,
+        //             'username' => $following->username,
+        //             'avatar'   => $following->profile->avatar_url ?? null,
+        //         ];
+        //     });
+        // }
 
-        $followers = Auth::user()->approvedFollowers;
+        // $followers = Auth::user()->approvedFollowers;
 
-        if ($followers) {
-            $followers = $followers->map(function ($follower) {
-                return [
-                    'id' => $follower->id,
-                    'username' => $follower->username,
-                    'avatar'   => $follower->profile->avatar_url ?? null,
-                    'cover' => $follower->profile->cover_url ?? null,
-                    'followers_count' => $follower->followers()->count(),
-                ];
-            });
-        }
+        // if ($followers) {
+        //     $followers = $followers->map(function ($follower) {
+        //         return [
+        //             'id' => $follower->id,
+        //             'username' => $follower->username,
+        //             'avatar'   => $follower->profile->avatar_url ?? null,
+        //             'cover' => $follower->profile->cover_url ?? null,
+        //             'followers_count' => $follower->followers()->count(),
+        //         ];
+        //     });
+        // }
 
-        $friends = $followings->concat($followers);
+        // $friends = $followings->concat($followers);
 
-        if($friends){
-            $friends = $friends->filter(function ($friend) use ($request) {
-                return false != stristr($friend['username'], $request->search);
-            })->unique('id');
-        }
+        // if($friends){
+        //     $friends = $friends->filter(function ($friend) use ($request) {
+        //         return false != stristr($friend['username'], $request->search);
+        //     })->unique('id');
+        // }
 
-        return jsonResponse(true, "Friends List", $friends);
+        return jsonResponse(true, "Friends List", 'friends');
     }
 
     public function users(Request $request)
