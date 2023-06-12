@@ -173,7 +173,7 @@ class FollowController extends Controller
     {
         $followings = Auth::user()->approvedFollowings->load('followable:id,username')->pluck('followable');
 
-
+        if ($followings) {
             $followings = $followings->map(function ($following) {
                 if ($following){
                     return [
@@ -183,10 +183,11 @@ class FollowController extends Controller
                     ];
                 }
             });
+        }
 
         $followers = Auth::user()->approvedFollowers;
 
-
+        if ($followers) {
             $followers = $followers->map(function ($follower) {
                 if ($follower) {
                     return [
@@ -198,6 +199,7 @@ class FollowController extends Controller
                     ];
                 }
             });
+        }
 
         $friends = $followings->concat($followers);
 
