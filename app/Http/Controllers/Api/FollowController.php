@@ -173,7 +173,7 @@ class FollowController extends Controller
     {
         $followings = Auth::user()->approvedFollowings->load('followable:id,username')->pluck('followable');
 
-        if ($followings) {
+        if (!empty($followings)) {
             dd($followings);
             $followings = $followings->map(function ($following) {
                 return [
