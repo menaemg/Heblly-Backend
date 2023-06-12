@@ -201,7 +201,7 @@ class FollowController extends Controller
 
         $friends = $followings->concat($followers);
 
-        dd($friends);
+        dd($friends, $followings, $followers);
         $friends = $friends->filter(function ($friend) use ($request) {
             return false != stristr($friend['username'], $request->search);
         })->unique('id');
