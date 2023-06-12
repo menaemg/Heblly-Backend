@@ -70,7 +70,7 @@ class Handler extends ExceptionHandler
             }
         });
 
-        if (config('app.env') == 'local') {
+        // if (config('app.env') == 'local') {
             $this->renderable(function (Throwable $e, $request) {
                 if ($request->is('api/*')) {
                     return response()->json([
@@ -81,16 +81,16 @@ class Handler extends ExceptionHandler
                     500);
                 }
             });
-        } else {
-            $this->renderable(function (Throwable $e, $request) {
-                if ($request->is('api/*')) {
-                    return response()->json([
-                    'status' => false,
-                    'message' => 'Something went wrong.',
-                ],
-                    500);
-                }
-            });
-        }
+        // } else {
+        //     $this->renderable(function (Throwable $e, $request) {
+        //         if ($request->is('api/*')) {
+        //             return response()->json([
+        //             'status' => false,
+        //             'message' => 'Something went wrong.',
+        //         ],
+        //             500);
+        //         }
+        //     });
+        // }
     }
 }
