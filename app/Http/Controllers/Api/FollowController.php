@@ -187,7 +187,7 @@ class FollowController extends Controller
 
         $followers = Auth::user()->approvedFollowers;
 
-
+        dd($followers);
             $followers = $followers->map(function ($follower) {
                 if ($follower) {
                     return [
