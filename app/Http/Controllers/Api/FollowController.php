@@ -210,8 +210,8 @@ class FollowController extends Controller
             return false != stristr($friend['username'], $request->search);
         })->unique('id');
 
-        dd($friends, $followings, $followers);
-        return jsonResponse(true, "Friends List", 'friends');
+        // dd($friends, $followings, $followers);
+        return jsonResponse(true, "Friends List", $friends);
     }
 
     public function users(Request $request)
