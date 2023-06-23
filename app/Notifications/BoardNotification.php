@@ -53,7 +53,7 @@ class BoardNotification extends Notification
             'post_image' => $this->board->main_image,
             'username' => $this->fromUser->username,
             'action' => [
-                'url' => url('/api/boards/' . $this->board->id . '/allow'),
+                'url' => url('/api/v1/boards/' . $this->board->id . '/allow'),
                 'text' => 'Allow'
             ]
         ];

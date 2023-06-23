@@ -52,11 +52,11 @@ class GiftApproveNotification extends Notification
             'post_image' => $this->gift->main_image,
             'action' => [
                 'gratitude' => [
-                'url' => url('/api/gratitudes'),
+                'url' => url('/api/v1/gratitudes'),
                 'text' => 'Say Thank you'
                 ]
             ],
-            'show' => url('/api/gifts/' . $this->gift->id),
+            'show' => url('/api/v1/gifts/' . $this->gift->id),
             'type' => 'gift approved',
         ];
     }

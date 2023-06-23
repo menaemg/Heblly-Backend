@@ -50,7 +50,7 @@ class GratitudeNotification extends Notification
             'username' => $this->fromUser->username,
             'post_image' => $this->gratitude->main_image,
             'action' => [
-                'url' => url('/api/gratitudes/' . $this->gratitude->id),
+                'url' => url('/api/v1/gratitudes/' . $this->gratitude->id),
                 'text' => 'Show Gratitude'
             ]
         ];

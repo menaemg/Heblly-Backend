@@ -50,7 +50,7 @@ class PostLikeNotification extends Notification
             'username' => $this->fromUser->username,
             'post_image' => $this->post->main_image,
             'action' => [
-                'url' => url('/api/posts/' . $this->post->id),
+                'url' => url('/api/v1/posts/' . $this->post->id),
                 'text' => 'Show Post'
             ]
         ];

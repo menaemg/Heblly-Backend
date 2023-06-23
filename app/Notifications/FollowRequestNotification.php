@@ -45,7 +45,7 @@ class FollowRequestNotification extends Notification
             'image' =>   $this->fromUser->profile ? $this->fromUser->profile->avatar_url : null,
             'username' => $this->fromUser->username,
             'action' => [
-                'url' => url('/api/follow/accept/' . $this->fromUser->id),
+                'url' => url('/api/v1/follow/accept/' . $this->fromUser->id),
                 'text' => 'Accept Follow Request'
             ]
         ];

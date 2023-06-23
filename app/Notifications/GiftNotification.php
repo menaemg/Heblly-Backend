@@ -52,17 +52,17 @@ class GiftNotification extends Notification
             'post_image' => $this->gift->main_image,
             'action' => [
                 'yes' => [
-                    'url' => url('/api/gifts/' . $this->gift->id . '/approve'),
+                    'url' => url('/api/v1/gifts/' . $this->gift->id . '/approve'),
                     'text' => 'Yes'
                 ],
                 'ignore' => [
-                    'url' => url('/api/gifts/' . $this->gift->id . '/reject'),
+                    'url' => url('/api/v1/gifts/' . $this->gift->id . '/reject'),
                     'text' => 'Ignore'
                 ],
             ],
-            'show' => url('/api/gifts/' . $this->gift->id),
-            'approve' => url('/api/gifts/' . $this->gift->id . '/approve'),
-            'reject' => url('/api/gifts/' . $this->gift->id . '/reject'),
+            'show' => url('/api/v1/gifts/' . $this->gift->id),
+            'approve' => url('/api/v1/gifts/' . $this->gift->id . '/approve'),
+            'reject' => url('/api/v1/gifts/' . $this->gift->id . '/reject'),
             'type' => 'gift received',
         ];
     }

@@ -55,11 +55,11 @@ class ExtendNotification extends Notification
             'username' => $this->fromUser->username,
             'action' => [
                 'extend' => [
-                    'url' => url('/api/wish/' . $this->gift->id . '/extend'),
+                    'url' => url('/api/v1/wish/' . $this->gift->id . '/extend'),
                     'text' => 'extend',
                 ],
                 'release' => [
-                    'url' => url('/api/reserve/' . $this->gift->id . '/release'),
+                    'url' => url('/api/v1/reserve/' . $this->gift->id . '/release'),
                     'text' => 'release',
                 ]
             ]
