@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Gift;
 use App\Models\Post;
-use App\Models\Gratitude;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\api\report\ReportRequest;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\Api\Report\ReportRequest;
 
 class ReportController extends Controller
 {
