@@ -2,19 +2,15 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\DeviceKey;
-use App\Auth\AdminUserProvider;
 use App\Scopes\NotBlockedScope;
 use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Overtrue\LaravelLike\Traits\Liker;
 use Illuminate\Notifications\Notifiable;
 use Overtrue\LaravelFollow\Traits\Follower;
 use Overtrue\LaravelFollow\Traits\Followable;
 use BeyondCode\Comments\Contracts\Commentator;
-use App\Notifications\ResetPasswordNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -74,13 +70,6 @@ class User extends Authenticatable implements Commentator
         if ($value != null) {
             $this->attributes['password'] = Hash::make($value);
         }
-    }
-
-    public function sendPasswordResetNotification($token)
-    {
-        $url = config('client.url') . '/password/reset/' . Hash::make($token);
-
-        $this->notify(new ResetPasswordNotification($url));
     }
 
     public function needsToApproveFollowRequests()
@@ -206,6 +195,11 @@ class User extends Authenticatable implements Commentator
         //         $query->onlyTrashed();
         //     }
         });
+    }
+
+    public function reset_code()
+    {
+        return $this->hasOne(ResetCode::class);
     }
 
 
