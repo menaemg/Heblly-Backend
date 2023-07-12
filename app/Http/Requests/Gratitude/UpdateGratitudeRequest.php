@@ -25,15 +25,15 @@ class UpdateGratitudeRequest extends BaseFormRequest
     {
         return [
             'title' => 'string',
-            'body' => 'string',
+            'body' => 'nullable|string',
             'main_image' => 'image',
-            'images' => 'array',
+            'images' => 'nullable|array',
             'images.*' => 'image',
-            'tags' => 'array',
+            'tags' => 'nullable|array',
             'tags.*' => 'string|max:255',
-            'location' => 'string',
+            'location' => 'nullable|string',
             'privacy' => 'in:public,private',
-            'access_list' => 'array',
+            'access_list' => 'nullable|array',
             'access_list.*' => 'integer|exists:users,id',
             'gift_id' => 'nullable|integer|exists:gifts,id',
         ];

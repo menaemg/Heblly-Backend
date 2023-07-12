@@ -25,12 +25,12 @@ class UpdatePostRequest extends BaseFormRequest
     {
         return [
             'title' => 'string',
-            'body' => 'string',
+            'body' => 'nullable|string',
             'main_image' => 'image',
-            'images' => 'array',
+            'images' => 'nullable|array',
             'images.*' => 'image',
-            'location' => 'string',
-            'tags' => 'array',
+            'location' => 'nullable|string',
+            'tags' => 'nullable|array',
             'tags.*' => 'string|max:255',
             'privacy' => 'in:public,private',
         ];

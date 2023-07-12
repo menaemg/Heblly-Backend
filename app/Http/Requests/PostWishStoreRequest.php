@@ -24,16 +24,16 @@ class PostWishStoreRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string',
+            'title' => 'nullable|string',
             'main_image' => 'required|image',
-            'location' => 'string',
-            'tags' => 'array',
+            'location' => 'nullable|string',
+            'tags' => 'nullable|array',
             'tags.*' => 'string',
-            'body' => 'string',
-            'images' => 'array',
+            'body' => 'nullable|string',
+            'images' => 'nullable|array',
             'images.*' => 'image',
-            'privacy' => 'string|in:public,private',
-            'access_list' => 'array',
+            'privacy' => 'nullable|string|in:public,private',
+            'access_list' => 'nullable|array',
             'access_list.*' => 'exists:users,id',
         ];
     }

@@ -25,7 +25,7 @@ class WishlistRequest extends BaseFormRequest
     {
         return [
             'privacy' => 'in:private,public,friends',
-            'access_list' => 'array',
+            'access_list' => 'nullable|array',
             'access_list.*' => 'exists:users,id',
         ];
     }

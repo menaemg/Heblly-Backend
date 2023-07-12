@@ -24,10 +24,10 @@ class StorePickRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string',
-            'location' => 'string',
+            'title' => 'nullable|string',
+            'location' => 'nullable|string',
             'main_image' => 'required|image',
-            'tags' => 'array',
+            'tags' => 'nullable|array',
             'tags.*' => 'string',
         ];
     }

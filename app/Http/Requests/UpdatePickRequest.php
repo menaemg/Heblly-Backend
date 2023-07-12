@@ -25,9 +25,9 @@ class UpdatePickRequest extends FormRequest
     {
         return [
             'title' => 'string',
-            'location' => 'string',
+            'location' => 'nullable|string',
             'main_image' => 'image',
-            'tags' => 'array',
+            'tags' => 'nullable|array',
             'tags.*' => 'string',
         ];
     }

@@ -27,14 +27,14 @@ class PostWishUpdateRequest extends BaseFormRequest
         return [
             'title' => 'string',
             'main_image' => 'image',
-            'location' => 'string',
-            'tags' => 'array',
+            'location' => 'nullable|string',
+            'tags' => 'nullable|array',
             'tags.*' => 'string',
-            'body' => 'string',
-            'images' => 'array',
+            'body' => 'nullable|string',
+            'images' => 'nullable|array',
             'images.*' => 'image',
-            'privacy' => 'string|in:public,private',
-            'access_list' => 'array',
+            'privacy' => 'nullable|string|in:public,private',
+            'access_list' => 'nullable|array',
             'access_list.*' => 'exists:users,id',
         ];
     }

@@ -24,17 +24,17 @@ class StoreGiftRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string',
-            'body' => 'required|string',
+            'title' => 'nullable|string',
+            'body' => 'nullable|string',
             'gift_for' => 'required|exists:users,id',
             'main_image' => 'required|image',
-            'images' => 'array',
+            'images' => 'nullable|array',
             'images.*' => 'image',
-            'tags' => 'array',
+            'tags' => 'nullable|array',
             'tags.*' => 'string|max:255',
-            'location' => 'string',
+            'location' => 'nullable|string',
             'privacy' => 'in:public,private',
-            'access_list' => 'array',
+            'access_list' => 'nullable|array',
             'access_list.*' => 'integer|exists:users,id',
             'post_id' => 'nullable|integer|exists:posts,id',
         ];
