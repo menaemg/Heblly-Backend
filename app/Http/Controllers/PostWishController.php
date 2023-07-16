@@ -24,10 +24,11 @@ class PostWishController extends Controller
 
         $wishlist = $user->posts()->where('type', 'wish')->with('tags')->get();
 
-        dd($wishlist);
+        $wishlist2 =  $user->wishlist()->with('post', 'gratitude')->get()->pluck('post');
 
-        $wishlist = $user->wishlist()->with('post', 'gratitude')->get()->pluck('post')->concat($wishlist);
-
+        if ($wishlist2) {
+            $wishlist = $wishlist2->concat($wishlist);
+        }
 
         return jsonResponse(true, "Your Wish list retrieved successfully", PostWishResource::collection($wishlist));
     }
