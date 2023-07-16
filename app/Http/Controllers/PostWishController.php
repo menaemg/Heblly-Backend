@@ -26,6 +26,7 @@ class PostWishController extends Controller
 
         $wishlist2 =  optional($user->wishlist()->with('post', 'gratitude')->get())->pluck('post');
 
+        dd($wishlist2, $wishlist);
 
         if ($wishlist2) {
             $wishlist = $wishlist2->concat($wishlist);
