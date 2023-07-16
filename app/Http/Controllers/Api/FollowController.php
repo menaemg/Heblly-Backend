@@ -23,18 +23,17 @@ class FollowController extends Controller
         if ($followings) {
             $followings = $followings->load('followable:id,username')->pluck('followable');
             $followings = $followings->map(function ($user) {
-                return [
-                    'id' => $user->id,
-                    'username' => $user->username,
-                    'name' => $user->profile ? $user->profile->name : null,
-                    'avatar'   => $user->profile->avatar_url ?? null,
-                    'cover'   => $user->profile->cover_url ?? null,
-                    'follower_count' => $user->followers->count(),
-                ];
+                if ($user) {
+                    return [
+                        'id' => $user->id,
+                        'username' => $user->username,
+                        'name' => $user->profile ? $user->profile->name : null,
+                        'avatar'   => $user->profile->avatar_url ?? null,
+                        'cover'   => $user->profile->cover_url ?? null,
+                        'follower_count' => $user->followers->count(),
+                    ];
+                }
             });
-
-            dd($followings);
-
 
             $data = [
                 'followings_count' => $followings->count(),
