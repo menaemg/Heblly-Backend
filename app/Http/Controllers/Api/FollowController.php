@@ -13,7 +13,7 @@ class FollowController extends Controller
 {
     public function followings()
     {
-        $followings = Auth::user()->followings->load('followable:id,username')->pluck('followable');
+        $followings = Auth::user()->followings;
 
         $data = [
             'followings_count' => $followings->count(),
@@ -21,6 +21,7 @@ class FollowController extends Controller
         ];
 
         if ($followings) {
+            $following = $followings->load('followable:id,username')->pluck('followable');
             $followings = $followings->map(function ($user) {
                 return [
                     'id' => $user->id,
