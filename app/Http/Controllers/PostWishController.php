@@ -24,6 +24,8 @@ class PostWishController extends Controller
 
         $wishlist = $user->posts()->where('type', 'wish')->with('tags')->get();
 
+        dd($wishlist);
+
         $wishlist = $user->wishlist()->with('post', 'gratitude')->get()->pluck('post')->concat($wishlist);
 
 
