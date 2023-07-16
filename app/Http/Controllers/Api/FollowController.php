@@ -16,12 +16,12 @@ class FollowController extends Controller
         $followings = Auth::user()->followings;
 
         $data = [
-            'followings_count' => $followings->count(),
-            'followings' => $followings,
+            'followings_count' => 0,
+            'followings' => [],
         ];
 
         if ($followings) {
-            $following = $followings->load('followable:id,username')->pluck('followable');
+            $followings = $followings->load('followable:id,username')->pluck('followable');
             $followings = $followings->map(function ($user) {
                 return [
                     'id' => $user->id,
@@ -34,8 +34,8 @@ class FollowController extends Controller
             });
 
             $data = [
-                'followings_count' => 0,
-                'followings' => [],
+                'followings_count' => $followings->count(),
+                'followings' => $followings,
             ];
         }
 
