@@ -15,21 +15,28 @@ class FollowController extends Controller
     {
         $followings = Auth::user()->followings->load('followable:id,username')->pluck('followable');
 
-        $followings = $followings->map(function ($user) {
-            return [
-                'id' => $user->id,
-                'username' => $user->username,
-                'name' => $user->profile ? $user->profile->name : null,
-                'avatar'   => $user->profile->avatar_url ?? null,
-                'cover'   => $user->profile->cover_url ?? null,
-                'follower_count' => $user->followers->count(),
-            ];
-        });
-
         $data = [
             'followings_count' => $followings->count(),
             'followings' => $followings,
         ];
+
+        if ($followings) {
+            $followings = $followings->map(function ($user) {
+                return [
+                    'id' => $user->id,
+                    'username' => $user->username,
+                    'name' => $user->profile ? $user->profile->name : null,
+                    'avatar'   => $user->profile->avatar_url ?? null,
+                    'cover'   => $user->profile->cover_url ?? null,
+                    'follower_count' => $user->followers->count(),
+                ];
+            });
+
+            $data = [
+                'followings_count' => 0,
+                'followings' => [],
+            ];
+        }
 
         return jsonResponse(true, "Followings List", $data);
     }
