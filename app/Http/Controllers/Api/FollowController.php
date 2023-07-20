@@ -23,7 +23,7 @@ class FollowController extends Controller
         if ($followings) {
             $followings = $followings->load('followable:id,username')->pluck('followable');
             $followings = $followings->map(function ($user) {
-                if ($user) {
+                if ($user != null) {
                     return [
                         'id' => $user->id,
                         'username' => $user->username,
