@@ -33,6 +33,7 @@ class FollowController extends Controller
                         'follower_count' => $user->followers->count(),
                     ];
                 }
+                return false;
             });
 
             $data = [
