@@ -40,7 +40,7 @@ class FollowController extends Controller
 
             $data = [
                 'followings_count' => $followings->count(),
-                'followings' => $followings,
+                'followings' => array_values($followings->toArray()),
             ];
         }
 
