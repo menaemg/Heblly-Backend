@@ -33,8 +33,9 @@ class FollowController extends Controller
                         'follower_count' => $user->followers->count(),
                     ];
                 }
-                return false;
-            });
+            })->reject(function ($user) {
+                return $user == null;
+            });;
 
             $data = [
                 'followings_count' => $followings->count(),
